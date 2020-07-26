@@ -1,0 +1,14 @@
+[CPF]
+0001={"","TOTAL ACTIVOS","","    179.731.016"}
+0002={"","Menos:","","              0"}
+0003={"","ACTIVO DEPURADO","","    179.731.016"}
+0004={"","","",""}
+0005={"","MENOS PASIVO EXIGIBLE","",""}
+0006={"4300000","REMUNERACIONES POR PAGAR      ","              4",""}
+0007={"4310000","HONORARIOS POR PAGAR          ","         41.400",""}
+0008={"4400000","IMPUESTOS POR PAGAR           ","        230.499",""}
+0009={"4500000","OTROS ACREEDORES INMOBILIARIA ","      4.189.800","     -4.461.703"}
+0010={"","CAPITAL PROPIO AL 31 DICIEMBRE 2018","","    175.269.313"}
+0011={"","","",""}
+[Total]
+Registros=11.00

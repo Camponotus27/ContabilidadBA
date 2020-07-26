@@ -1,0 +1,11 @@
+[CPI]
+0001={"","TOTAL ACTIVOS","","              0"}
+0002={"","Menos:","","              0"}
+0003={"","ACTIVO DEPURADO","","              0"}
+0004={"","","",""}
+0005={"","MENOS PASIVO EXIGIBLE","","              0"}
+0006={"","CAPITAL PROPIO NEGATIVO AL 01 ENERO 2018","","              0"}
+0007={"","","",""}
+0008={"","Revalorizacion Capital Propio ","0,000","              0"}
+[Total]
+Registros=8.00
