@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Importador Contable BA", "Importador Contable BA\Importador Contable BA.csproj", "{F3182F82-FF03-4D81-8255-62844842689F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportadorContableBA", "Importador Contable BA\ImportadorContableBA.csproj", "{F3182F82-FF03-4D81-8255-62844842689F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestImportadorContableBA", "UnitTestImportadorContableBA\UnitTestImportadorContableBA.csproj", "{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F3182F82-FF03-4D81-8255-62844842689F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3182F82-FF03-4D81-8255-62844842689F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3182F82-FF03-4D81-8255-62844842689F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
