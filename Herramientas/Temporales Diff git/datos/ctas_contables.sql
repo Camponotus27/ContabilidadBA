@@ -1,0 +1,141 @@
+-- --------------------------------------------------------
+-- Host:                         170.239.85.146
+-- Versión del servidor:         10.3.18-MariaDB - MariaDB Server
+-- SO del servidor:              Linux
+-- HeidiSQL Versión:             10.3.0.5771
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Volcando estructura para tabla pitagoras_testing_3.ctas_contables
+CREATE TABLE IF NOT EXISTS `ctas_contables` (
+  `id_cta_contable` int(11) NOT NULL AUTO_INCREMENT,
+  `padre_cta_contable` int(11) DEFAULT NULL,
+  `cta_contable` int(11) DEFAULT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `habilitada` int(11) DEFAULT 0,
+  `imputable` int(11) DEFAULT 0,
+  `centro_costo` int(11) DEFAULT 0,
+  `conciliacion_bancaria` int(11) DEFAULT 0,
+  `capital_propio` int(11) DEFAULT 0,
+  `flu` int(11) DEFAULT 0,
+  `ifrs` int(11) DEFAULT 0,
+  `analisis` int(11) DEFAULT 0,
+  `form1847` int(11) DEFAULT 0,
+  `form29` int(11) DEFAULT 0,
+  PRIMARY KEY (`id_cta_contable`),
+  UNIQUE KEY `cta_contable` (`cta_contable`)
+) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla pitagoras_testing_3.ctas_contables: ~98 rows (aproximadamente)
+/*!40000 ALTER TABLE `ctas_contables` DISABLE KEYS */;
+REPLACE INTO `ctas_contables` (`id_cta_contable`, `padre_cta_contable`, `cta_contable`, `descripcion`, `habilitada`, `imputable`, `centro_costo`, `conciliacion_bancaria`, `capital_propio`, `flu`, `ifrs`, `analisis`, `form1847`, `form29`) VALUES
+	(1, 0, 10100, 'Activo Circulante', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(2, 10100, 10101, 'Caja', 1, 1, 0, 0, 0, 0, 1, 0, 0, 0),
+	(3, 10100, 10102, 'Fondo Fijo', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(4, 10100, 10103, 'Banco Santander', 1, 1, 0, 0, 1, 1, 0, 0, 0, 0),
+	(5, 10100, 10104, 'Banco BCI', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(6, 10100, 10105, 'Acreedores Varios', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(7, 10100, 10106, 'Acciones por suscribir', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(8, 10100, 10107, 'Dividendos Provisorios', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(9, 10100, 10108, 'Derecho de Llaves', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(10, 10100, 10109, 'Intereses por Amortizar', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(11, 10100, 10110, 'Garantia de arriendo', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(12, 0, 10200, 'Clientes', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(13, 10200, 10201, 'Clientes con Factura', 1, 1, 0, 0, 0, 0, 0, 1, 0, 0),
+	(14, 10200, 10202, 'Existencias', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(15, 10200, 10203, 'Clientes Boleta', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(16, 0, 10300, 'Cuentas por Cobrar', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(17, 10300, 10301, 'Anticipo personal', 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+	(18, 10300, 10302, 'Anticipo proveedores', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(19, 10300, 10303, 'Prestamos personal', 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+	(20, 10300, 10304, 'Cuenta corriente socio 1', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(21, 10300, 10305, 'Cuenta corriente socio 2', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(22, 10300, 10306, 'I.V.A. Credito', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(23, 10300, 10307, 'Pagos provisionales mensuales', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(24, 10300, 10308, 'Cheques por Cobrar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(25, 10300, 10309, 'Ventas Transbank Credito', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(26, 10300, 10340, 'Anticipo de Honorarios', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(27, 0, 10400, 'Activo Fijo', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(28, 10400, 10401, 'Muebles y Equipos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(29, 10400, 10402, 'Vehiculos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(30, 10400, 10403, 'Depreciacion Acumulada', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(31, 10400, 10404, 'Depreciacion A. Muebles y Equipos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(32, 10400, 10405, 'Depreciacion A. Vehiculos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(33, 0, 20100, 'Pasivo Circulante', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(34, 20100, 20101, 'Proveedores nacionales', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(35, 20100, 20102, 'Creditos Bancarios por Pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(36, 20100, 20103, 'Sueldos por pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(37, 20100, 20104, 'Honorarios por pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(38, 20100, 20105, 'IVA debito fiscal', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(39, 20100, 20106, 'P.P.M. por pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(40, 20100, 20107, 'Impto. Unico por pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(41, 20100, 20108, 'Imposiciones por pagar', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(42, 20100, 20109, 'Retencion Honorarios 2 categoria', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(43, 20100, 20110, 'Provision Impto. Renta', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(44, 20100, 20111, 'Dividendos ', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(45, 20100, 20112, 'T. de Credito Santander', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(46, 0, 20200, 'Patrimonio', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(47, 20200, 20201, 'Capital', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(48, 20200, 20202, 'Revalorizacion Capital Propio', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(49, 20200, 20203, 'Utilidades Acumuladas', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(50, 20200, 20204, 'Utilidad del Ejercicio', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(51, 0, 30100, 'Gastos Generales ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(52, 30100, 30101, 'Gastos Oficina', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(53, 30100, 30102, 'Correo', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(54, 30100, 30103, 'Movilización', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(55, 30100, 30104, 'Arriendos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(56, 30100, 30105, 'Articulos de Escritorio y Papeleria', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(57, 30100, 30106, 'Aseo y Cocina', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(58, 30100, 30107, 'Gastos de Representacion', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(59, 30100, 30108, 'Patente Comercial', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(60, 30100, 30109, 'Servicios Basicos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(61, 30100, 30110, 'Articulos de Computación y Tecnologia.', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(62, 30100, 30111, 'Mantención y Repararción', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(63, 30100, 30112, 'Gastos Comunes', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(64, 0, 30200, 'Remuneraciones y Honorarios', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(65, 30200, 30201, 'Remuneraciones', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(66, 30200, 30202, 'Asesoria Externa', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(67, 30200, 30203, 'Comisiones Transbank', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(68, 30200, 30204, 'Aseo Oficina', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(69, 30200, 30205, 'Comisiones por Ventas', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(70, 30200, 30206, 'Personal de Apoyo', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(71, 30200, 30207, 'Finiquitos Personal', 1, 1, 0, 1, 0, 0, 0, 1, 0, 0),
+	(72, 30200, 30208, 'Indeminaciones Finiquitos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(73, 0, 30300, 'Costo de Ventas', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(74, 30300, 30301, 'Servicios Equifax', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(75, 30300, 30302, 'Seguros Contratados', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(76, 30300, 30303, 'Gastos TAG Vehiculos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(77, 30300, 30304, 'Combustible', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(78, 30300, 30305, 'Costos de Ventas', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(79, 0, 30400, 'Gastos Financieros', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(80, 30400, 30401, 'Comisiones Bancarias', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(81, 30400, 30402, 'Intereses Pagados', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(82, 30400, 30403, 'Multas', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(83, 30400, 30404, 'Ajuste de Pesos', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(84, 30400, 30405, 'Impuesto Renta', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(85, 30400, 30406, 'Intereses año 2017', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(86, 0, 30500, 'Ajustes', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(87, 30500, 30501, 'Correccion Monetaria', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(88, 30500, 30502, 'Fluctuacion de Tipo de Cambio', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(89, 30500, 30503, 'Depreciacion', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(90, 30500, 30506, 'Servicios de Profesionales ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(91, 0, 40100, 'Ingresos Operacionales', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(92, 40100, 40101, 'Ingresos Ventas del Giro', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+	(93, 40100, 40102, 'Otros Ingresos', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(94, 40100, 40103, 'Comisiones', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(95, 40100, 40104, 'SERVICIOS PROFESIONALES', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(96, 10300, 10310, 'Ventas Transbank Debito', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(100, 30100, 30113, 'Sistemas de Alarma', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(102, 30300, 30306, 'Servicios de Terceros', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(103, 30200, 30209, 'Honorarios', 1, 1, 0, 0, 0, 0, 0, 1, 0, 0),
+	(319, 40100, 40105, 'temporal', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+/*!40000 ALTER TABLE `ctas_contables` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

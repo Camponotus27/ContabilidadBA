@@ -1,0 +1,207 @@
+﻿-- --------------------------------------------------------
+-- Host:                         170.239.85.146
+-- Versión del servidor:         10.3.18-MariaDB - MariaDB Server
+-- SO del servidor:              Linux
+-- HeidiSQL Versión:             10.2.0.5599
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Volcando estructura para función pitagoras_sebastian.FnIdDesdeCodigoMae_Paises
+DELIMITER //
+CREATE DEFINER=`pitagoras_user_remoto`@`%` FUNCTION `FnIdDesdeCodigoMae_Paises`(
+	`param_codigo` INT
+) RETURNS int(11)
+BEGIN
+  DECLARE id_var INT(11) DEFAULT (SELECT U.id FROM mae_paiss AS U WHERE U.cod_banco = param_codigo LIMIT 1);
+  
+  IF id_var IS NOT NULL THEN
+    RETURN id_var;
+  END IF;
+  
+  RETURN 0;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento pitagoras_sebastian.SpDeleteMae_Paises
+DELIMITER //
+CREATE DEFINER=`pitagoras_user_remoto`@`%` PROCEDURE `SpDeleteMae_Paises`(
+	IN `param_xml` TEXT,
+	IN `param_sesion` TEXT,
+	OUT `param_err` VARCHAR(500),
+	OUT `param_msj` TEXT
+)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+  BEGIN
+    DECLARE error_code CHAR(5) DEFAULT '00000';
+    DECLARE error_msg TEXT;
+    DECLARE nombre_procedimiento_var VARCHAR(200) DEFAULT 'SpDeleteMae_Paises';
+    
+    GET DIAGNOSTICS CONDITION 1
+      error_code = RETURNED_SQLSTATE, error_msg = MESSAGE_TEXT;
+    
+    SET param_err = FnErrDesdeCode(error_code, error_msg, nombre_procedimiento_var); 
+    
+    CALL SpInsertLog(nombre_procedimiento_var, CONCAT(error_code, ' - ', error_msg));
+  END;
+  
+  BEGIN
+  
+    DECLARE id_emp_var INT(11) DEFAULT FnSesionEmpresa(param_sesion);
+    DECLARE id_var INT(11);
+    DECLARE nombre_var INT(11);
+    DECLARE subfijo VARCHAR(20) DEFAULT 'DMae_Paises';
+    
+    SET id_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+    
+    IF id_var = 0 THEN
+      SET nombre_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+      SET id_var = FnIdDesdeCodigoMae_Paises(nombre_var);
+    END IF;
+    
+    DELETE U FROM mae_paiss AS U
+    WHERE
+      U.id = id_var;
+    
+    SET param_err = FnConstSuccess();
+    SET param_msj = '';
+  END;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento pitagoras_sebastian.SpInsertOrUpdateMae_Paises
+DELIMITER //
+CREATE DEFINER=`pitagoras_user_remoto`@`%` PROCEDURE `SpInsertOrUpdateMae_Paises`(
+	IN `param_xml` TEXT,
+	IN `param_sesion` TEXT,
+	OUT `param_err` VARCHAR(500),
+	OUT `param_msj` TEXT
+)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+  BEGIN
+    DECLARE error_code CHAR(5) DEFAULT '00000';
+    DECLARE error_msg TEXT;
+    DECLARE nombre_procedimiento_var VARCHAR(200) DEFAULT 'SpInsertOrUpdateMae_Paises';
+    
+    GET DIAGNOSTICS CONDITION 1
+      error_code = RETURNED_SQLSTATE, error_msg = MESSAGE_TEXT;
+      
+    SET param_err = FnErrDesdeCode(error_code, error_msg, nombre_procedimiento_var); 
+    
+    CALL SpInsertLog(nombre_procedimiento_var, CONCAT(error_code, ' - ', error_msg));
+  END;
+  
+  BEGIN
+  
+    DECLARE id_emp_var INT(11) DEFAULT FnSesionEmpresa(param_sesion);
+    DECLARE subfijo VARCHAR(20) DEFAULT 'DMae_Paises';
+    DECLARE id_var INT(11);
+    DECLARE cod_banco_var INT(11);
+    DECLARE nom_banco_var VARCHAR(30);
+    
+    SET id_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+    SET cod_banco_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+    SET nom_banco_var = FnStrXML(param_xml, CONCAT(subfijo, '/', 'Nom_banco'));
+    
+    CALL SpValidaInt(cod_banco_var, 'Debe tener un codigo banco distinto a 000');
+    
+    
+    -- se verifica si ya exise en la db
+    SET id_var = IFNULL((SELECT B.id FROM mae_paiss AS B WHERE B.id = id_var LIMIT 1), 0);
+    
+    -- si no tiene la id se busca
+    IF id_var = 0 THEN
+      IF cod_banco_var = 0  THEN
+        CALL SpErr('No tiene la id, ni el codigo para identificar el banco');
+      END IF;
+      SET id_var = FnIdDesdeCodigoMae_Paises(cod_banco_var);
+    END IF;
+    
+    IF id_var = 0 THEN
+      INSERT INTO mae_paiss (`cod_banco`, `nom_banco`)
+      VALUES (cod_banco_var, nom_banco_var);
+      
+      SET id_var = LAST_INSERT_ID();
+    ELSE
+      UPDATE mae_paiss AS B
+      SET 
+        B.cod_banco = cod_banco_var,
+        B.nom_banco = nom_banco_var
+      WHERE
+        B.id = id_var
+      LIMIT 1;
+    END IF;
+
+    
+    SET param_err = FnConstSuccess();
+    SET param_msj = '';
+    
+    CALL SpSelectMae_Paises(FnSetXML(param_xml, subfijo, 'Id', id_var) , param_sesion, param_err, param_msj);       
+  END;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento pitagoras_sebastian.SpSelectMae_Paises
+DELIMITER //
+CREATE DEFINER=`pitagoras_user_remoto`@`%` PROCEDURE `SpSelectMae_Paises`(
+	IN `param_xml` TEXT,
+	IN `param_sesion` TEXT,
+	OUT `param_err` TEXT,
+	OUT `param_msj` TEXT
+)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+  BEGIN
+    DECLARE error_code CHAR(5) DEFAULT '00000';
+    DECLARE error_msg TEXT;
+    DECLARE nombre_procedimiento_var VARCHAR(200) DEFAULT 'SpSelectMae_Paises';
+    
+    GET DIAGNOSTICS CONDITION 1
+      error_code = RETURNED_SQLSTATE, error_msg = MESSAGE_TEXT;
+      
+    SET param_err = FnErrDesdeCode(error_code, error_msg, nombre_procedimiento_var); 
+
+    CALL SpInsertLog(nombre_procedimiento_var, CONCAT(error_code, ' - ', error_msg));
+  END;
+  
+  BEGIN
+  
+    DECLARE id_emp_var INT(11) DEFAULT FnSesionEmpresa(param_sesion);
+    DECLARE id_var INT(11);
+    DECLARE nombre_var INT(11);
+    DECLARE subfijo VARCHAR(20) DEFAULT 'DMae_Paises';
+    
+    SET id_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+    
+    IF id_var = 0 THEN
+      SET nombre_var = FnIntXML(param_xml, CONCAT(subfijo, '/', 'Id'));
+      IF nombre_var = 0  THEN
+        CALL SpErr('No tiene la id, ni el codigo para identificar el banco');
+      END IF;
+      SET id_var = FnIdDesdeCodigoMae_Paises(nombre_var);
+    END IF;
+    
+    SELECT 
+      B.id,
+      B.cod_banco,
+      B.nom_banco
+    FROM mae_paiss AS B
+    WHERE
+      B.id = id_var
+    LIMIT 1; -- 0
+    
+    SET param_err = FnConstSuccess();
+    SET param_msj = '';
+  END;
+END//
+DELIMITER ;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,7 +5,13 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportadorContableBA", "Importador Contable BA\ImportadorContableBA.csproj", "{F3182F82-FF03-4D81-8255-62844842689F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestImportadorContableBA", "UnitTestImportadorContableBA\UnitTestImportadorContableBA.csproj", "{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestImportadorContableBA", "UnitTestImportadorContableBA\UnitTestImportadorContableBA.csproj", "{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Herramientas", "Herramientas\Herramientas.csproj", "{2BCF6DDD-71F4-411F-BFC8-569B86945E70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlesPersonalizados", "ControlesPersonalizados\ControlesPersonalizados.csproj", "{CDC97B93-09AD-4042-A78C-5978E491BD42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3EFBFE4-F6AA-4EB2-ADAF-BC99B1465D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCF6DDD-71F4-411F-BFC8-569B86945E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCF6DDD-71F4-411F-BFC8-569B86945E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCF6DDD-71F4-411F-BFC8-569B86945E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCF6DDD-71F4-411F-BFC8-569B86945E70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDC97B93-09AD-4042-A78C-5978E491BD42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDC97B93-09AD-4042-A78C-5978E491BD42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDC97B93-09AD-4042-A78C-5978E491BD42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDC97B93-09AD-4042-A78C-5978E491BD42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

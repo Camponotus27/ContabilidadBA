@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CDC97B93-09AD-4042-A78C-5978E491BD42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ControlesPersonalizados</RootNamespace>
+    <AssemblyName>ControlesPersonalizados</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HEFESTO.DTE.AUTENTICACION">
+      <HintPath>..\SII\HEFESTO.DTE.ENVIO.SETDTE\HEFESTO.DTE.AUTENTICACION\obj\Debug\HEFESTO.DTE.AUTENTICACION.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BindingNavigatorPitagoras.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BindingNavigatorPitagoras.Designer.cs">
+      <DependentUpon>BindingNavigatorPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckBoxPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CheckBoxPitagoras.Designer.cs">
+      <DependentUpon>CheckBoxPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComboBoxPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComboBoxPitagoras.Designer.cs">
+      <DependentUpon>ComboBoxPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BackgroundWorkerPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackgroundWorkerPitagoras.Designer.cs">
+      <DependentUpon>BackgroundWorkerPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridViewTextBoxCellPitagoras.cs" />
+    <Compile Include="DataGridViewTextBoxCellPitagoras.Designer.cs">
+      <DependentUpon>DataGridViewTextBoxCellPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Date\DateTimeCell.cs" />
+    <Compile Include="Date\DateTimeEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Date\DateTimeGridColumn.cs" />
+    <Compile Include="EsperaAsyncAwait.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EsperaAsyncAwait.Designer.cs">
+      <DependentUpon>EsperaAsyncAwait.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Espesificos\CheckBoxBoolDBCell.cs" />
+    <Compile Include="Espesificos\CheckBoxBoolDBCell.Designer.cs">
+      <DependentUpon>CheckBoxBoolDBCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Espesificos\CheckBoxBoolDBEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Espesificos\CheckBoxBoolDBEditingControl.Designer.cs">
+      <DependentUpon>CheckBoxBoolDBEditingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Espesificos\CheckBoxBoolDBGridColumn.cs" />
+    <Compile Include="Espesificos\CheckBoxBoolDBGridColumn.Designer.cs">
+      <DependentUpon>CheckBoxBoolDBGridColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPitagoras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPitagoras.Designer.cs">
+      <DependentUpon>FormPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatePickerNulleablePitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DatePickerNulleablePitagoras.Designer.cs">
+      <DependentUpon>DatePickerNulleablePitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Date\TextDateTimeGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Date\TextDateTimeGrid.Designer.cs">
+      <DependentUpon>TextDateTimeGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Date\TextDateTimeEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Date\TextDateTimeCell.cs" />
+    <Compile Include="Date\PickerDateTimeCell.cs" />
+    <Compile Include="Date\PickerDateTimeEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Date\TextDateTimeGridColumn.cs" />
+    <Compile Include="Date\PickerDateTimeGridColumn.cs" />
+    <Compile Include="ButtonPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ButtonPitagoras.Designer.cs">
+      <DependentUpon>ButtonPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Message.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Message.Designer.cs">
+      <DependentUpon>Frm_Message.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GroupBoxPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GroupBoxPitagoras.Designer.cs">
+      <DependentUpon>GroupBoxPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LabelPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LabelPitagoras.Designer.cs">
+      <DependentUpon>LabelPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxPassPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBoxPassPitagoras.Designer.cs">
+      <DependentUpon>TextBoxPassPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Text\TextCell.cs" />
+    <Compile Include="Text\TextEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Text\TextGridColumn.cs" />
+    <Compile Include="Number\NumberCell.cs" />
+    <Compile Include="Number\NumberEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Number\NumberGridColumn.cs" />
+    <Compile Include="NumericTextBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NumericTextBox2.Designer.cs">
+      <DependentUpon>NumericTextBox2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NumericTextBox.Designer.cs">
+      <DependentUpon>NumericTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanelPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PanelPitagoras.Designer.cs">
+      <DependentUpon>PanelPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Parametros.cs" />
+    <Compile Include="PintureBoxEstadosPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PintureBoxEstadosPitagoras.Designer.cs">
+      <DependentUpon>PintureBoxEstadosPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GridPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GridPitagoras.Designer.cs">
+      <DependentUpon>GridPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CMSGridPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CMSGridPitagoras.Designer.cs">
+      <DependentUpon>CMSGridPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RutTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RutTextBox.Designer.cs">
+      <DependentUpon>RutTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxDatePitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBoxDatePitagoras.Designer.cs">
+      <DependentUpon>TextBoxDatePitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxNumeroPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBoxNumeroPitagoras.Designer.cs">
+      <DependentUpon>TextBoxNumeroPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBoxPitagoras.Designer.cs">
+      <DependentUpon>TextBoxPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxTextoPitagoras.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBoxTextoPitagoras.Designer.cs">
+      <DependentUpon>TextBoxTextoPitagoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConjuntoTextBoxPassPitagoras.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConjuntoTextBoxPassPitagoras.Designer.cs">
+      <DependentUpon>ConjuntoTextBoxPassPitagoras.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Herramientas\Herramientas.csproj">
+      <Project>{2BCF6DDD-71F4-411F-BFC8-569B86945E70}</Project>
+      <Name>Herramientas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generales\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BindingNavigatorPitagoras.resx">
+      <DependentUpon>BindingNavigatorPitagoras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConjuntoTextBoxPassPitagoras.resx">
+      <DependentUpon>ConjuntoTextBoxPassPitagoras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EsperaAsyncAwait.resx">
+      <DependentUpon>EsperaAsyncAwait.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPitagoras.resx">
+      <DependentUpon>FormPitagoras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Message.resx">
+      <DependentUpon>Frm_Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Maximizar-Minimizar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Maximizar-Minimizar-negro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Maximizar-MinimizarCeleste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Minimizar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Maximizar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cargando.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

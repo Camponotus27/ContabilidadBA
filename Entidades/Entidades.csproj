@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0D598D5D-A7EE-4F9E-82E8-360B7E9F9535}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Entidades</RootNamespace>
+    <AssemblyName>Entidades</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="wnvhtmltopdf">
+      <HintPath>..\dll\wnvhtmltopdf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClasesMenores\Clase_Combo.cs" />
+    <Compile Include="ClasesMenores\Clase_List.cs" />
+    <Compile Include="Clases_Eventos.cs" />
+    <Compile Include="DTE_Compra_Local.cs" />
+    <Compile Include="EAper_Caja_Movimientos.cs" />
+    <Compile Include="ECotizaciones.cs" />
+    <Compile Include="ECotizaciones_Detalle.cs" />
+    <Compile Include="EDetalle_Comun_Emision.cs" />
+    <Compile Include="EDetalle_Comun_Ingreso.cs" />
+    <Compile Include="EDetalle_Word_Press.cs" />
+    <Compile Include="EDicStringString.cs" />
+    <Compile Include="EDTE.cs" />
+    <Compile Include="EDTE_Compra.cs" />
+    <Compile Include="EDTE_Compra_Detalle.cs" />
+    <Compile Include="EDTE_Compra_Local.cs" />
+    <Compile Include="EDTE_Detalle.cs" />
+    <Compile Include="EDTE_Min.cs" />
+    <Compile Include="EDTE_Referencia.cs" />
+    <Compile Include="EDTE_Referencia_DTE.cs" />
+    <Compile Include="EDTE_Referencia_DTE_Base.cs" />
+    <Compile Include="EDTE_Referencia_DTE_Compra.cs" />
+    <Compile Include="EDTE_SII.cs" />
+    <Compile Include="EDTE_Transportista.cs" />
+    <Compile Include="EEmp_Word_Press.cs" />
+    <Compile Include="EMae_Aperturas_Caja.cs" />
+    <Compile Include="EMae_Clasificaciones_Importacion.cs" />
+    <Compile Include="EMae_Productos_DTE_Importacion.cs" />
+    <Compile Include="EOrden_Compra.cs" />
+    <Compile Include="EOrden_Compra_Detalle.cs" />
+    <Compile Include="EPath_Excel.cs" />
+    <Compile Include="EProducto_Kardex_Cod_Prov.cs" />
+    <Compile Include="ERel_Emp_Medios_De_Pagos.cs" />
+    <Compile Include="ERel_Emp_Medios_De_Pagos_Nompre_Des.cs" />
+    <Compile Include="EEmp_Contab_Ctas_Conts.cs" />
+    <Compile Include="EEmp_Contab_Ctas_Conts_Nom_Ctas.cs" />
+    <Compile Include="EEmp_Parametros.cs" />
+    <Compile Include="EEmp_SII.cs" />
+    <Compile Include="EEnt_Antecedentes_Comerciales.cs" />
+    <Compile Include="EEnt_Contactos.cs" />
+    <Compile Include="EGenerica.cs" />
+    <Compile Include="EMae_Accesos.cs" />
+    <Compile Include="EMae_Caf.cs" />
+    <Compile Include="EMae_Cajas_Equipo.cs" />
+    <Compile Include="EMae_Doc_Tributarios.cs" />
+    <Compile Include="EMae_Bodegas.cs" />
+    <Compile Include="EMae_Cajas.cs" />
+    <Compile Include="EMae_Comunas.cs" />
+    <Compile Include="EContab_Ctas_Conts.cs" />
+    <Compile Include="EMae_Ciudades.cs" />
+    <Compile Include="EMae_Comunas_Ciudad.cs" />
+    <Compile Include="EMae_Conceptos.cs" />
+    <Compile Include="EMae_Emails.cs" />
+    <Compile Include="EMae_Empresas.cs" />
+    <Compile Include="EMae_Empresas_Comuna_Ciudad.cs" />
+    <Compile Include="EMae_Entidades_Comuna_Ciudad.cs" />
+    <Compile Include="EMae_Equipos.cs" />
+    <Compile Include="EMae_Equipos_Cajas.cs" />
+    <Compile Include="EMae_Lista_Precios.cs" />
+    <Compile Include="EMae_Locales_Comuna_Lista_Precio.cs" />
+    <Compile Include="EMae_Locales_Direcciones_Comuna_Ciudad.cs" />
+    <Compile Include="EMae_Monedas.cs" />
+    <Compile Include="EMae_Medios_De_Pagos.cs" />
+    <Compile Include="EMae_Paises.cs" />
+    <Compile Include="EMae_Productos_DTE.cs" />
+    <Compile Include="EMae_Productos_DTE_Compra.cs" />
+    <Compile Include="EMae_Regiones.cs" />
+    <Compile Include="EMae_Locales.cs" />
+    <Compile Include="EMae_Roles.cs" />
+    <Compile Include="EMae_Usuarios.cs" />
+    <Compile Include="EMae_Ciudades_Region.cs" />
+    <Compile Include="EMae_Vendedores.cs" />
+    <Compile Include="ENota_Ventas.cs" />
+    <Compile Include="ENota_Ventas_Detalle.cs" />
+    <Compile Include="Ent_Direcciones_Despacho.cs" />
+    <Compile Include="Ent_Direcciones_Despacho_Comuna_Ciudad.cs" />
+    <Compile Include="EPath.cs" />
+    <Compile Include="ERel_Documento_Tributario_Tipo_Traslado_Equipo.cs" />
+    <Compile Include="ERel_Documento_Tributario_Tipo_Traslado_Equipo_CodDTE_TipoTraslado.cs" />
+    <Compile Include="ERel_Dte_Medios_De_Pagos.cs" />
+    <Compile Include="ERel_Productos_Cod_Prov.cs" />
+    <Compile Include="EMae_Bancos.cs" />
+    <Compile Include="EMae_Clasificaciones.cs" />
+    <Compile Include="EBco_Ctas_Ctes.cs" />
+    <Compile Include="EMae_Marcas.cs" />
+    <Compile Include="EMae_Productos.cs" />
+    <Compile Include="Entidad.cs" />
+    <Compile Include="EMae_Unidades.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="ERel_Bodega_Producto.cs" />
+    <Compile Include="ERel_Productos_Cod_Bar.cs" />
+    <Compile Include="ERel_Productos_Cod_Prov_Entidad.cs" />
+    <Compile Include="EMae_Entidades.cs" />
+    <Compile Include="Herramietas\EEmail.cs" />
+    <Compile Include="Herramietas\EPDF.cs" />
+    <Compile Include="Herramietas\Reportador.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sesion.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Herramientas\Herramientas.csproj">
+      <Project>{2BCF6DDD-71F4-411F-BFC8-569B86945E70}</Project>
+      <Name>Herramientas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
