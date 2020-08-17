@@ -14,6 +14,7 @@ namespace ControlesPersonalizados
     {
         bool is_load = false;
         string action_realizar = string.Empty;
+        string texto_terminado = "Completado";
 
         public bool IsLoad { get => is_load; set => is_load = value; }
 
@@ -28,32 +29,36 @@ namespace ControlesPersonalizados
             this.is_load = true;
             if (!string.IsNullOrEmpty(this.action_realizar))
             {
-                this.txtMensaje.Text = action_realizar + "...";
+                this.lbMensajeSuperior.Text = action_realizar + "...";
             }
             
         }
 
-        public void AñadirMensaje(string mensaje)
+        public void AñadirMensaje(string mensaje, bool salto_linea = true)
         {
             
             if (lbMensaje.InvokeRequired)
             {
                 lbMensaje.Invoke(new MethodInvoker(delegate
                 {
-                    if (this.lbMensaje.Text != string.Empty)
-                        mensaje = "\n" + mensaje;
+                    if (this.lbMensaje.Text != string.Empty && salto_linea)
+                        mensaje = "\r\n" + mensaje;
 
-                    this.lbMensaje.Text = this.lbMensaje.Text + mensaje;
-                    this.Refresh();
+                    if (!salto_linea)
+                        mensaje = " " + mensaje;
+
+                    this.lbMensaje.AppendText(mensaje);
                 }));
             }
             else
             {
-                if (this.lbMensaje.Text != string.Empty)
-                    mensaje = "\n" + mensaje;
+                if (this.lbMensaje.Text != string.Empty && salto_linea) 
+                    mensaje = "\r\n" + mensaje;
 
-                this.lbMensaje.Text = this.lbMensaje.Text + mensaje;
-                this.Refresh();
+                if (!salto_linea)
+                    mensaje = " " + mensaje;
+
+                this.lbMensaje.AppendText(mensaje);
             }
 
             
@@ -68,32 +73,7 @@ namespace ControlesPersonalizados
             }
         }
 
-        private void plMensaje_SizeChanged(object sender, EventArgs e)
-        {
-
-            HScrollProperties horizontal = this.plMensaje.HorizontalScroll;
-            if(horizontal != null)
-            {
-                horizontal.Visible = false;
-            }
-            
-            VScrollProperties vertical = this.plMensaje.VerticalScroll;
-
-            if(vertical == null)
-            {
-                //vertical = new VScrollProperties(this.plMensaje);
-            }
-            else
-            {
-                //vertical.Minimum = 0;
-                //vertical.Maximum = this.plMensaje.Size.Height;
-                //vertical.Visible = true;
-                //vertical.Value = vertical.Maximum;
-            }
-
-            
-        }
-
+        
         internal void InicializadorProgroso(int inicio, int final, string titulo)
         {
 
@@ -157,8 +137,40 @@ namespace ControlesPersonalizados
                     this.pbPrincipal.Refresh();
                 }
             }
+        }
+
+        private void btnVerRegistro_Click(object sender, EventArgs e)
+        {
+            EsperaAsyncAwaitVerRegistro i = new EsperaAsyncAwaitVerRegistro(this.lbMensaje.Text);
+            i.Show();
+        }
+
+        internal void Cargado()
+        {
+            this.lbMensajeSuperior.Text = this.texto_terminado;
+            this.pbCargando.Image = this.il.Images[0];
+
+
+            ButtonPitagoras btnAceptar = new ButtonPitagoras();
+            btnAceptar.Text = "Aceptar";
+            btnAceptar.Click += (sender, e) =>
+            {
+                this.Close();
+            };
 
            
+            this.flp.Controls.Add(btnAceptar);
+
+            btnAceptar.Location = new Point(this.flp.Size.Width - btnAceptar.Size.Width - 3 , btnAceptar.Location.Y);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Graphics g = e.Graphics;
+            
+            g.DrawRectangle(new Pen(Color.FromArgb(210, 210, 210), Parametros.anchoBorde), 0, 0, Width - 0, Height - 0);
         }
     }
 }

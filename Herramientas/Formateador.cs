@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Reflection;
+using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -388,9 +389,11 @@ namespace Herramientas
 
         public static int ToInt32(string stringNumero)
         {
+    
             if (string.IsNullOrEmpty(stringNumero))
                 return 0;
 
+            stringNumero = stringNumero.Trim();
             stringNumero = stringNumero.Replace(".", "");
 
             if (stringNumero == string.Empty || stringNumero == "" || stringNumero == null)
@@ -660,6 +663,21 @@ namespace Herramientas
             return check == last;
         }
 
+        public static T GetExcel<T>(Excel._Worksheet hoja, string indice_celda)
+        {
+            Excel.Range celda = hoja.Range[indice_celda, indice_celda];
+
+            if(typeof(T) == typeof(string))
+            {
+                return Formateador.ToString(celda.Value);
+            }else if (typeof(T) == typeof(int))
+            {
+                return (celda.Value == null) ? 0 : Formateador.ToInt32(celda.Value);
+            }
+
+            throw new Exception("La conversion espesificada no es configurada");
+        }
+
         public static object FechaDBtoGrid(object fecha_obj)
         {
             if (fecha_obj is null)
@@ -755,7 +773,7 @@ namespace Herramientas
             if (value == null)
                 return "";
             else
-                return value.ToString();
+                return value.ToString().Trim();
         }
 
         public static object getIntToGridComboString(object v)

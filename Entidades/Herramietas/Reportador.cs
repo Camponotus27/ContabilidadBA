@@ -10,8 +10,10 @@ namespace Entidades.Herramietas
     public class ReportandorEventArgs : EventArgs
     {
         string reporte;
+        bool salto_linea;
 
         public string Reporte { get => reporte; set => reporte = value; }
+        public bool Salto_linea { get => salto_linea; set => salto_linea = value; }
     }
 
     public class InicializarProgresoEventArgs : EventArgs
@@ -35,10 +37,11 @@ namespace Entidades.Herramietas
         /// Se envia una cadena de texto que es notificada al reportador y mostrada, es el reporte visible
         /// </summary>
         /// <param name="reporte"></param>
-        public void Reportar(string reporte)
+        public void Reportar(string reporte, bool salto_linea = true)
         {
             ReportandorEventArgs repArg = new ReportandorEventArgs();
             repArg.Reporte = reporte;
+            repArg.Salto_linea = salto_linea;
             this.OnReportador(repArg);
         }
 

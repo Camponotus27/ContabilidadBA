@@ -115,10 +115,11 @@ namespace Herramientas
 
 
         Exception Ex;
-        public void Error(Exception ex)
+        public Res Error(Exception ex)
         {
             this.Ex = ex;
             this.Error(Formateador.BuscarErrorSignificativo(ex));
+            return this;
         }
 
         /// <summary>

@@ -294,7 +294,7 @@ namespace Herramientas
 
         public static void Ex(string mensaje)
         {
-            //throw new Exception(mensaje);
+            throw new Exception(mensaje);
         }
 
         public static void MessajeBoxAviso(Res respuesta)

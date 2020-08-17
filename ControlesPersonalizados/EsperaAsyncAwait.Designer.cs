@@ -28,30 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EsperaAsyncAwait));
+            this.pbCargando = new System.Windows.Forms.PictureBox();
             this.plSuperior = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.plMensaje = new System.Windows.Forms.Panel();
+            this.flp = new System.Windows.Forms.FlowLayoutPanel();
+            this.lbMensajeSuperior = new ControlesPersonalizados.LabelPitagoras();
             this.plProgreso = new System.Windows.Forms.Panel();
-            this.pbPrincipal = new System.Windows.Forms.ProgressBar();
-            this.txtMensaje = new ControlesPersonalizados.LabelPitagoras();
             this.lbProgreso = new ControlesPersonalizados.LabelPitagoras();
-            this.lbMensaje = new ControlesPersonalizados.LabelPitagoras();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.plMensaje.SuspendLayout();
+            this.pbPrincipal = new System.Windows.Forms.ProgressBar();
+            this.lbMensaje = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnVerRegistro = new ControlesPersonalizados.ButtonPitagoras();
+            this.il = new System.Windows.Forms.ImageList(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pbCargando)).BeginInit();
+            this.flp.SuspendLayout();
             this.plProgreso.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // pbCargando
             // 
-            this.pictureBox1.Image = global::ControlesPersonalizados.Properties.Resources.cargando;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 176);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(500, 39);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.pbCargando.Image = global::ControlesPersonalizados.Properties.Resources.cargando;
+            this.pbCargando.Location = new System.Drawing.Point(3, 285);
+            this.pbCargando.Name = "pbCargando";
+            this.pbCargando.Size = new System.Drawing.Size(500, 39);
+            this.pbCargando.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbCargando.TabIndex = 3;
+            this.pbCargando.TabStop = false;
             // 
             // plSuperior
             // 
@@ -62,31 +66,31 @@
             this.plSuperior.Size = new System.Drawing.Size(555, 24);
             this.plSuperior.TabIndex = 4;
             // 
-            // flowLayoutPanel1
+            // flp
             // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.txtMensaje);
-            this.flowLayoutPanel1.Controls.Add(this.plProgreso);
-            this.flowLayoutPanel1.Controls.Add(this.plMensaje);
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox1);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(23, 43);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(510, 218);
-            this.flowLayoutPanel1.TabIndex = 6;
+            this.flp.AutoSize = true;
+            this.flp.Controls.Add(this.lbMensajeSuperior);
+            this.flp.Controls.Add(this.plProgreso);
+            this.flp.Controls.Add(this.lbMensaje);
+            this.flp.Controls.Add(this.panel1);
+            this.flp.Controls.Add(this.pbCargando);
+            this.flp.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flp.Location = new System.Drawing.Point(23, 43);
+            this.flp.Name = "flp";
+            this.flp.Size = new System.Drawing.Size(510, 327);
+            this.flp.TabIndex = 6;
             // 
-            // plMensaje
+            // lbMensajeSuperior
             // 
-            this.plMensaje.AutoScroll = true;
-            this.plMensaje.AutoSize = true;
-            this.plMensaje.Controls.Add(this.lbMensaje);
-            this.plMensaje.Location = new System.Drawing.Point(3, 104);
-            this.plMensaje.MaximumSize = new System.Drawing.Size(1000, 200);
-            this.plMensaje.MinimumSize = new System.Drawing.Size(500, 0);
-            this.plMensaje.Name = "plMensaje";
-            this.plMensaje.Size = new System.Drawing.Size(500, 66);
-            this.plMensaje.TabIndex = 6;
-            this.plMensaje.SizeChanged += new System.EventHandler(this.plMensaje_SizeChanged);
+            this.lbMensajeSuperior.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbMensajeSuperior.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMensajeSuperior.ForeColor = System.Drawing.Color.Black;
+            this.lbMensajeSuperior.Location = new System.Drawing.Point(3, 0);
+            this.lbMensajeSuperior.Name = "lbMensajeSuperior";
+            this.lbMensajeSuperior.Size = new System.Drawing.Size(500, 35);
+            this.lbMensajeSuperior.TabIndex = 2;
+            this.lbMensajeSuperior.Text = "Realizando la operacion...";
+            this.lbMensajeSuperior.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // plProgreso
             // 
@@ -97,25 +101,6 @@
             this.plProgreso.Size = new System.Drawing.Size(500, 60);
             this.plProgreso.TabIndex = 7;
             this.plProgreso.Visible = false;
-            // 
-            // pbPrincipal
-            // 
-            this.pbPrincipal.Location = new System.Drawing.Point(4, 3);
-            this.pbPrincipal.Name = "pbPrincipal";
-            this.pbPrincipal.Size = new System.Drawing.Size(455, 28);
-            this.pbPrincipal.TabIndex = 0;
-            // 
-            // txtMensaje
-            // 
-            this.txtMensaje.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtMensaje.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMensaje.ForeColor = System.Drawing.Color.Black;
-            this.txtMensaje.Location = new System.Drawing.Point(3, 0);
-            this.txtMensaje.Name = "txtMensaje";
-            this.txtMensaje.Size = new System.Drawing.Size(500, 35);
-            this.txtMensaje.TabIndex = 2;
-            this.txtMensaje.Text = "Realizando la operacion...";
-            this.txtMensaje.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // lbProgreso
             // 
@@ -128,17 +113,50 @@
             this.lbProgreso.Text = "-/-";
             this.lbProgreso.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
+            // pbPrincipal
+            // 
+            this.pbPrincipal.Location = new System.Drawing.Point(4, 3);
+            this.pbPrincipal.Name = "pbPrincipal";
+            this.pbPrincipal.Size = new System.Drawing.Size(455, 28);
+            this.pbPrincipal.TabIndex = 0;
+            // 
             // lbMensaje
             // 
-            this.lbMensaje.AutoSize = true;
-            this.lbMensaje.ForeColor = System.Drawing.Color.Black;
-            this.lbMensaje.Location = new System.Drawing.Point(1, 0);
-            this.lbMensaje.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.lbMensaje.MinimumSize = new System.Drawing.Size(490, 66);
+            this.lbMensaje.Location = new System.Drawing.Point(3, 104);
+            this.lbMensaje.MaximumSize = new System.Drawing.Size(500, 300);
+            this.lbMensaje.Multiline = true;
             this.lbMensaje.Name = "lbMensaje";
-            this.lbMensaje.Size = new System.Drawing.Size(490, 66);
-            this.lbMensaje.TabIndex = 5;
-            this.lbMensaje.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            this.lbMensaje.ReadOnly = true;
+            this.lbMensaje.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.lbMensaje.Size = new System.Drawing.Size(500, 140);
+            this.lbMensaje.TabIndex = 8;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnVerRegistro);
+            this.panel1.Location = new System.Drawing.Point(3, 250);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(500, 29);
+            this.panel1.TabIndex = 9;
+            // 
+            // btnVerRegistro
+            // 
+            this.btnVerRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnVerRegistro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.btnVerRegistro.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerRegistro.Location = new System.Drawing.Point(397, 3);
+            this.btnVerRegistro.Name = "btnVerRegistro";
+            this.btnVerRegistro.Size = new System.Drawing.Size(100, 23);
+            this.btnVerRegistro.TabIndex = 0;
+            this.btnVerRegistro.Text = "Ver Registro";
+            this.btnVerRegistro.UseVisualStyleBackColor = true;
+            this.btnVerRegistro.Click += new System.EventHandler(this.btnVerRegistro_Click);
+            // 
+            // il
+            // 
+            this.il.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il.ImageStream")));
+            this.il.TransparentColor = System.Drawing.Color.Transparent;
+            this.il.Images.SetKeyName(0, "check.png");
             // 
             // EsperaAsyncAwait
             // 
@@ -146,21 +164,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(555, 181);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(555, 349);
+            this.Controls.Add(this.flp);
             this.Controls.Add(this.plSuperior);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "EsperaAsyncAwait";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Cargando";
             this.Load += new System.EventHandler(this.EsperaAsyncAwait_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            this.plMensaje.ResumeLayout(false);
-            this.plMensaje.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCargando)).EndInit();
+            this.flp.ResumeLayout(false);
+            this.flp.PerformLayout();
             this.plProgreso.ResumeLayout(false);
             this.plProgreso.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,14 +185,16 @@
 
         #endregion
 
-        private LabelPitagoras txtMensaje;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private LabelPitagoras lbMensajeSuperior;
+        private System.Windows.Forms.PictureBox pbCargando;
         protected System.Windows.Forms.Panel plSuperior;
-        private LabelPitagoras lbMensaje;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Panel plMensaje;
+        private System.Windows.Forms.FlowLayoutPanel flp;
         private System.Windows.Forms.Panel plProgreso;
         private System.Windows.Forms.ProgressBar pbPrincipal;
         private LabelPitagoras lbProgreso;
+        private System.Windows.Forms.TextBox lbMensaje;
+        private System.Windows.Forms.Panel panel1;
+        private ButtonPitagoras btnVerRegistro;
+        private System.Windows.Forms.ImageList il;
     }
 }

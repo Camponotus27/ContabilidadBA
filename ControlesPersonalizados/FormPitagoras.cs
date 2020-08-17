@@ -152,48 +152,12 @@ namespace ControlesPersonalizados
         #endregion
 
         public bool TieneCambios = false;
-        public bool TieneCambiosEnLaDB = false;
-        public void NotificarCambiosEnLaDB()
-        {
-            this.TieneCambiosEnLaDB = true;
-        }
-
-        Color ColorlbTituloFormPitagoras;
+        
         public FormPitagoras()
         {
             InitializeComponent();
-            this.ColorlbTituloFormPitagoras = this.plInferior.BackColor;
             this.Flujo = new FlujoPantalla();
-
-            /*
-            // deprecate
-            Sesion.MiSesion.CambioSesion += (sender, e) =>
-            {
-                this.OnLoad(new EventArgs());
-            };*/
         }
-
-        #region Autentificacion
-
-        protected void ValidaRol(Res res)
-        {
-            if (!res.IsCorrecto)
-            {
-                this.CerrarConMensaje("No tienes permiso para acceder a esta pantalla");
-            }
-        }
-
-        private void ValidarAutenticacion()
-        {
-            if (this.valida_autenticacion && Sesion.MiSesion.NacioEnElLogin && !Sesion.MiSesion.EstaAutenticado)
-                this.CerrarConMensaje("No se estas autenticado");
-        } 
-
-        public void DesabilitarValidacionAutenticacion()
-        {
-            this.valida_autenticacion = false;
-        }
-        #endregion
 
         #region Espear Inicializacion Controles
 
@@ -362,15 +326,11 @@ namespace ControlesPersonalizados
 
         protected override void OnActivated(EventArgs e)
         {
-            if(this.frm_shown)
-                this.ValidarAutenticacion();
-
             base.OnActivated(e);
         }
 
         protected void SetText(string titulo)
         {
-            this.lbTituloFormPitagoras.Text = titulo;
             this.Text = titulo;
         }
 
@@ -378,49 +338,8 @@ namespace ControlesPersonalizados
 
         protected override void OnLoad(EventArgs e)
         {
-            this.ValidarAutenticacion();
-
-            if (this.IdentificarPantallaPorAmbiente && Sesion.MiSesion.getAmbiente() == Ambiente.CERTIFICACION)
-            {
-                this.lbTituloFormPitagoras.BackColor = Color.Red;
-                this.lbTituloFormPitagoras.Text = this.Text + " (CERTIFICACION)";
-            }
-            else
-            {
-                this.lbTituloFormPitagoras.BackColor = this.ColorlbTituloFormPitagoras;
-                this.lbTituloFormPitagoras.Text = this.Text;
-            }
-            
-
-
             base.OnLoad(e);
-            #region Si es que la pestaña se maximiza o no
-            if (!this.cerrar_con_mensaje)
-            {
-                if (this.Width < this.TamañaDesdeMaximinizaAlCargar)
-                {
-                    this.WindowState = FormWindowState.Normal;
-
-                    /// Desactivar el maximizar
-
-                    Point posicion_btn_maximizar = this.btnMaximizar.Location;
-
-                    this.Controls.Remove(this.btnMaximizar);
-                    this.Controls.Remove(this.btnNormal);
-
-                    this.btnMinimizar.Location = posicion_btn_maximizar;
-                }
-                else
-                    this.WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Minimized;
-            }
-            #endregion
-            this.ActualizarVisibiidadBotones();
-
-
+          
             
         }
 
@@ -439,109 +358,6 @@ namespace ControlesPersonalizados
 
             this.frm_shown = true;
         }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            Graphics g = e.Graphics;
-            g.DrawRectangle(new Pen(Color.White, Parametros.anchoBorde), 0, 0, Width - 0, Height - 0);
-
-            /*
-            var g = e.Graphics;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-            g.Clear(SystemColors.Control);
-            g.FillRectangle(DarkPrimaryBrushe, _statusBarBounds);
-            g.FillRectangle(PrimaryBrush, _actionBarBounds);
-
-            //Draw border
-            using (var borderPen = new Pen(DIVISOR_COLOR, 1))
-            {
-                g.DrawLine(borderPen, new Point(0, _actionBarBounds.Bottom), new Point(0, Height - 2));
-                g.DrawLine(borderPen, new Point(Width - 1, _actionBarBounds.Bottom), new Point(Width - 1, Height - 2));
-                g.DrawLine(borderPen, new Point(0, Height - 1), new Point(Width - 1, Height - 1));
-            }
-
-            // Determine whether or not we even should be drawing the buttons.
-            bool showMin = MinimizeBox && ControlBox;
-            bool showMax = MaximizeBox && ControlBox;
-            var hoverBrush = HOVER_BRUSH;
-            var downBrush = DOWN_BRUSH;
-
-            // When MaximizeButton == false, the minimize button will be painted in its place
-            if (_buttonState == ButtonState.MinOver && showMin)
-                g.FillRectangle(hoverBrush, showMax ? _minButtonBounds : _maxButtonBounds);
-
-            if (_buttonState == ButtonState.MinDown && showMin)
-                g.FillRectangle(downBrush, showMax ? _minButtonBounds : _maxButtonBounds);
-
-            if (_buttonState == ButtonState.MaxOver && showMax)
-                g.FillRectangle(hoverBrush, _maxButtonBounds);
-
-            if (_buttonState == ButtonState.MaxDown && showMax)
-                g.FillRectangle(downBrush, _maxButtonBounds);
-
-            if (_buttonState == ButtonState.XOver && ControlBox)
-                g.FillRectangle(hoverBrush, _xButtonBounds);
-
-            if (_buttonState == ButtonState.XDown && ControlBox)
-                g.FillRectangle(downBrush, _xButtonBounds);
-
-            using (var formButtonsPen = new Pen(ACTION_BAR_TEXT_SECONDARY, 2))
-            {
-                // Minimize button.
-                if (showMin)
-                {
-                    int x = showMax ? _minButtonBounds.X : _maxButtonBounds.X;
-                    int y = showMax ? _minButtonBounds.Y : _maxButtonBounds.Y;
-
-                    g.DrawLine(
-                        formButtonsPen,
-                        x + (int)(_minButtonBounds.Width * 0.33),
-                        y + (int)(_minButtonBounds.Height * 0.66),
-                        x + (int)(_minButtonBounds.Width * 0.66),
-                        y + (int)(_minButtonBounds.Height * 0.66)
-                   );
-                }
-
-                // Maximize button
-                if (showMax)
-                {
-                    g.DrawRectangle(
-                        formButtonsPen,
-                        _maxButtonBounds.X + (int)(_maxButtonBounds.Width * 0.33),
-                        _maxButtonBounds.Y + (int)(_maxButtonBounds.Height * 0.36),
-                        (int)(_maxButtonBounds.Width * 0.39),
-                        (int)(_maxButtonBounds.Height * 0.31)
-                   );
-                }
-
-                // Close button
-                if (ControlBox)
-                {
-                    g.DrawLine(
-                        formButtonsPen,
-                        _xButtonBounds.X + (int)(_xButtonBounds.Width * 0.33),
-                        _xButtonBounds.Y + (int)(_xButtonBounds.Height * 0.33),
-                        _xButtonBounds.X + (int)(_xButtonBounds.Width * 0.66),
-                        _xButtonBounds.Y + (int)(_xButtonBounds.Height * 0.66)
-                   );
-
-                    g.DrawLine(
-                        formButtonsPen,
-                        _xButtonBounds.X + (int)(_xButtonBounds.Width * 0.66),
-                        _xButtonBounds.Y + (int)(_xButtonBounds.Height * 0.33),
-                        _xButtonBounds.X + (int)(_xButtonBounds.Width * 0.33),
-                        _xButtonBounds.Y + (int)(_xButtonBounds.Height * 0.66));
-                }
-            }*/
-        }
-
-        #region Maximizar al cargar
-        private uint tamaña_desde_que_se_maximiniza_al_cargar = 900;
-        public uint TamañaDesdeMaximinizaAlCargar { get => tamaña_desde_que_se_maximiniza_al_cargar; set => tamaña_desde_que_se_maximiniza_al_cargar = value; } 
-        #endregion
 
         #region Mensajes y respuestas
         /// <summary>
@@ -617,120 +433,11 @@ namespace ControlesPersonalizados
         }
         #endregion
 
-        #region Manejo de estados, solo sirve para los mantenedores estandar
-        public enum FrmEstado
-        {
-            Inicial,
-            Cargado,
-            Creando,
-            Editando
-        }
-        public FrmEstado estado = FrmEstado.Inicial;
-        private List<Control> controles_llaves = new List<Control>();
-        public List<Control> Controles_llaves { get => controles_llaves; set => controles_llaves = value; }
-
-        [
-           TypeConverter(typeof(bool)),
-           Description("Indica si esta pantalla muestra una señal visual en caso de estar en modo de certificacion")
-        ]
-        public bool IdentificarPantallaPorAmbiente { get => identificarPantallaPorAmbiente; set => identificarPantallaPorAmbiente = value; }
-        public FrmEstado Estado { get => estado;}
-
-        bool valida_autenticacion = true;
-        public bool ValidaAutenticacion {
-            get
-            {
-                return valida_autenticacion;
-            }
-        }
-
-        public void SetEstado(FrmEstado estado)
-        {
-            this.estado = estado;
-        }
-
-        public void SetEstadoCreando()
-        {
-            this.estado = FrmEstado.Creando;
-            this.HabilitarLLaves(true);
-        }
-        public void SetEstadoEditando()
-        {
-            this.estado = FrmEstado.Editando;
-
-            this.HabilitarLLaves(false);
-        }
-        public void HabilitarLLaves(bool v)
-        {
-            foreach(Control ctl in this.Controles_llaves)
-            {
-                ctl.Enabled = v;
-            }
-        }
-        #endregion
-
-        #region Movel panel moviendo el mouse
-        public int xClick = 0, yClick = 0;
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left)
-            { xClick = e.X; yClick = e.Y; }
-            else
-            { this.Left = this.Left + (e.X - xClick); this.Top = this.Top + (e.Y - yClick); }
-        }
-        #endregion
-
-        #region BotoneraSuperior
-        Padding padding_menu_principal = new Padding(0, 0, 0, 27);
-        Padding PADDING_ZERO = new Padding(0, 0, 0, 0);
-        protected bool esMenuPrincipal = false;
-
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private void btnMaximizar_Click(object sender, EventArgs e)
-        {
-            if (esMenuPrincipal)
-                //this.Padding = padding_menu_principal;
-            this.WindowState = FormWindowState.Maximized;
-            this.ActualizarVisibiidadBotones();
-        }
-        private void btnNormal_Click(object sender, EventArgs e)
-        {
-            if (esMenuPrincipal)
-                //this.Padding = PADDING_ZERO;
-            this.WindowState = FormWindowState.Normal;
-            this.ActualizarVisibiidadBotones();
-        }
-        private void ActualizarVisibiidadBotones()
-        {
-            if (this.WindowState == FormWindowState.Maximized)
-            {
-                this.btnMaximizar.Visible = false;
-                this.btnNormal.Visible = true;
-            }
-            else if (this.WindowState == FormWindowState.Normal)
-            {
-                this.btnMaximizar.Visible = true;
-                this.btnNormal.Visible = false;
-            }
-        }
-        private void btnMinimizar_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-        #endregion
-
         #region Cierre Automatico al abrir
         protected bool cerrar_con_mensaje = false;
         protected string razon_cierre = string.Empty;
         protected bool frm_shown = false;
-        private void FormPitagoras_Load(object sender, EventArgs e)
-        {
-            this.ActualizarVisibiidadBotones();
-        }
-        public void CerrarConMensaje(string aviso = "")
+        public object CerrarConMensaje(string aviso = "")
         {
             this.cerrar_con_mensaje = true;
             this.razon_cierre = aviso;
@@ -741,6 +448,8 @@ namespace ControlesPersonalizados
                     this.Aviso(this.razon_cierre);
                 this.Close();
             }
+
+            return null;
         }
         #endregion
 
@@ -766,7 +475,7 @@ namespace ControlesPersonalizados
             bk.RunWorkerAsync();
         }
 
-        public async Task<Res> EjecutarAsyncAwait(Func<Res> p, string mensaje = "", Reportador rep = null)
+        public async Task<Res> EjecutarAsyncAwait(Func<Res> p, string mensaje = "", Reportador rep = null, bool cerrar_al_terminar = true)
         {
             this.Enabled = false;
 
@@ -779,7 +488,7 @@ namespace ControlesPersonalizados
                 rep.Reportando += (sender, e) =>
                 {
                     ReportandorEventArgs re = (ReportandorEventArgs)e;
-                    i.AñadirMensaje(re.Reporte);
+                    i.AñadirMensaje(re.Reporte, re.Salto_linea);
                 };
 
                 rep.InicializadorProgreso += (sender2, e2) =>
@@ -797,11 +506,23 @@ namespace ControlesPersonalizados
 
             Res res = await Task<Res>.Factory.StartNew(p);
 
-            i.Close();
+            if (cerrar_al_terminar)
+                i.Close();
+            else
+                i.Cargado();
+
             this.Enabled = true;
             this.Focus();
 
             return res;
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Graphics g = e.Graphics;
+            g.DrawRectangle(new Pen(Color.WhiteSmoke, Parametros.anchoBorde), 0, 0, Width - 0, Height - 0);
         }
 
         private async Task<Res> EjecutarAsyncAwait2(Func< Res> p, string mensaje)

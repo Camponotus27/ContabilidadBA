@@ -1,6 +1,6 @@
-﻿namespace ControlesPersonalizados
+﻿namespace CapaPresentacion.ControlesFrecuentes
 {
-    partial class FormPitagoras
+    partial class ComboAutoLlenado
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -28,18 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.pictureCargando = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureCargando)).BeginInit();
             this.SuspendLayout();
             // 
-            // FormPitagoras
+            // pictureCargando
             // 
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "FormPitagoras";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.pictureCargando.Image = global::CapaPresentacion.Properties.Resources.cargando_loading_029;
+            this.pictureCargando.Location = new System.Drawing.Point(0, 0);
+            this.pictureCargando.Name = "pictureCargando";
+            this.pictureCargando.Size = new System.Drawing.Size(10, 10);
+            this.pictureCargando.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureCargando.TabIndex = 0;
+            this.pictureCargando.TabStop = false;
+            ((System.ComponentModel.ISupportInitialize)(this.pictureCargando)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox pictureCargando;
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace ControlesPersonalizados
+﻿namespace CapaPresentacion.ControlesFrecuentes
 {
-    partial class FormPitagoras
+    partial class GridDetalleDTE
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -28,16 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // FormPitagoras
-            // 
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "FormPitagoras";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.ResumeLayout(false);
-
+            components = new System.ComponentModel.Container();
         }
 
         #endregion

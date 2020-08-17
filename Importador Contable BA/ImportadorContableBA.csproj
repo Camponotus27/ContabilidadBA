@@ -71,6 +71,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Entidades.EAnio.datasource" />
+    <None Include="Properties\DataSources\Entidades.EComprobante_Detalle.datasource" />
+    <None Include="Properties\DataSources\Entidades.EMes.datasource" />
     <None Include="Properties\DataSources\Entidades.EPath_Excel.datasource" />
     <None Include="Properties\DataSources\EPath_Excel.datasource" />
     <None Include="Properties\Settings.settings">

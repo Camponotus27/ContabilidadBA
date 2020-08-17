@@ -13,8 +13,12 @@ namespace Importador_Contable_BA
 {
     public class AppSettings
     {
+        string path_aplicacion_contable;
+        int rut_empresa;
         List<EPath_Excel> path_excel;
         public List<EPath_Excel> Path_excel { get => path_excel; set => path_excel = value; }
+        public string Path_aplicacion_contable { get => path_aplicacion_contable; set => path_aplicacion_contable = value; }
+        public int Rut_empresa { get => rut_empresa; set => rut_empresa = value; }
 
         private const string DEFAULT_FILENAME = "settings.xml";
 
@@ -51,6 +55,8 @@ namespace Importador_Contable_BA
         private void CargarSetingEnSiMismo(AppSettings setting)
         {
             this.Path_excel = setting.Path_excel;
+            this.Rut_empresa = setting.Rut_empresa;
+            this.Path_aplicacion_contable = setting.Path_aplicacion_contable;
         }
     }
 }

@@ -50,7 +50,10 @@
     <Compile Include="ClasesMenores\Clase_List.cs" />
     <Compile Include="Clases_Eventos.cs" />
     <Compile Include="DTE_Compra_Local.cs" />
+    <Compile Include="EAnio.cs" />
     <Compile Include="EAper_Caja_Movimientos.cs" />
+    <Compile Include="EComprobante.cs" />
+    <Compile Include="EComprobante_Detalle.cs" />
     <Compile Include="ECotizaciones.cs" />
     <Compile Include="ECotizaciones_Detalle.cs" />
     <Compile Include="EDetalle_Comun_Emision.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="EMae_Aperturas_Caja.cs" />
     <Compile Include="EMae_Clasificaciones_Importacion.cs" />
     <Compile Include="EMae_Productos_DTE_Importacion.cs" />
+    <Compile Include="EMes.cs" />
     <Compile Include="EOrden_Compra.cs" />
     <Compile Include="EOrden_Compra_Detalle.cs" />
     <Compile Include="EPath_Excel.cs" />

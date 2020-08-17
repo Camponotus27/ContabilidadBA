@@ -17,26 +17,88 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using Entidades;
+using Entidades.Herramietas;
+using System.Data.Odbc;
+using System.Data.OleDb;
 
 namespace Importador_Contable_BA
 {
-    public partial class Form1 : Form
+    public partial class Form1 : FormPitagoras
     {
-        #region Importacion funciones nativas
-        [DllImport("user32.dll")]
-        static extern IntPtr FindWindow(string windowClass, string windowName);
 
-        [DllImport("User32.dll")]
-        static extern int SetForegroundWindow(IntPtr point);
-        #endregion
-        
-        IntPtr handle;
+        string path_mov_sys = string.Empty;
+
+        private void SetPathMovSys(string path)
+        {
+            if (File.Exists(path))
+            {
+                this.path_mov_sys = path;
+                this.lpPathMovSys.Text = path;
+            }
+            else
+            {
+                this.lpPathMovSys.Text = "No se encontro";
+            }
+        }
 
         public Form1()
         {
             InitializeComponent();
 
             this.Setting = new AppSettings();
+
+            this.InicializarMeses();
+            this.InicializarAnio();
+        }
+
+        private void InicializarAnio()
+        {
+            int anio_inicio = 2000;
+
+            List<EAnio> lista_anios = new List<EAnio>();
+
+            int anio_actual = DateTime.Now.Year;
+
+
+            while (anio_actual >= anio_inicio)
+            {
+                lista_anios.Add(new EAnio(anio_actual));
+
+                anio_actual--;
+            }
+
+            this.bindingCmbAnio.DataSource = lista_anios;
+        }
+
+        private void InicializarMeses()
+        {
+            List<EMes> meses = new List<EMes>()
+            {
+                new EMes(){Id = 1, Nombre = "Enero"},
+                new EMes(){Id = 2, Nombre = "Febrero"},
+                new EMes(){Id = 3, Nombre = "Marzo"},
+                new EMes(){Id = 4, Nombre = "Abril"},
+                new EMes(){Id = 5, Nombre = "Mayo"},
+                new EMes(){Id = 6, Nombre = "Junio"},
+                new EMes(){Id = 7, Nombre = "Julio"},
+                new EMes(){Id = 8, Nombre = "Agosto"},
+                new EMes(){Id = 9, Nombre = "Septiembre"},
+                new EMes(){Id = 10, Nombre = "Octubre"},
+                new EMes(){Id = 11, Nombre = "Noviembre"},
+                new EMes(){Id = 12, Nombre = "Diciembre"},
+            };
+
+
+            this.bindingCmbMeses.DataSource = meses;
+
+            try
+            {
+                this.bindingCmbMeses.Position = DateTime.Now.Month - 1;
+            }catch(Exception ex)
+            {
+                this.Informacion("No se pudo selecionar el mes actual: " + ex.Message);
+            }
+            
         }
 
         AppSettings Setting;
@@ -47,11 +109,13 @@ namespace Importador_Contable_BA
             try
             {
                 this.Setting.Load();
-                this.Tabla.DataSource = this.Setting.Path_excel;
+
+                this.bindingExcel.DataSource = this.Setting.Path_excel;
+                this.txtRutEmpresa.Value = this.Setting.Rut_empresa;
 
             }catch(Exception ex)
             {
-                Interacciones.FinAPlicacionConAviso("Ocurrio un error en la carga de la configuracion" + Formateador.BuscarErrorSignificativo(ex));
+                this.CerrarConMensaje("Ocurrio un error en la carga de la configuracion" + Formateador.BuscarErrorSignificativo(ex));
                 return;
             }
 
@@ -70,264 +134,37 @@ namespace Importador_Contable_BA
             label.Text = label_aplicacion;
         }
 
-        #region Getter Propuedades
-        object GetPropiedad(string key)
-        {
-            SettingsPropertyCollection propiedades = Properties.Settings.Default.Properties;
-
-            if (propiedades == null)
-            {
-                return Interacciones.FinAPlicacionConAviso("Las propiedades estan nulas");
-            }
-
-            SettingsProperty propiedad = propiedades[key];
-
-            if (propiedad == null)
-            {
-                return Interacciones.FinAPlicacionConAviso("No se encontro la propiedad " + key);
-            }
-
-            return propiedad.DefaultValue;
-        }
-
-        void SetPropiedad(string key, object value)
-        {
-            SettingsPropertyCollection propiedades = Properties.Settings.Default.Properties;
-
-            if (propiedades == null)
-            {
-                Interacciones.FinAPlicacionConAviso("Las propiedades estan nulas");
-                return;
-            }
-
-            SettingsProperty propiedad = propiedades[key];
-
-            if (propiedad == null)
-            {
-                Interacciones.FinAPlicacionConAviso("No se encontro la propiedad " + key);
-                return;
-            }
-
-            if (propiedad.Name == key)
-            {
-                propiedad.DefaultValue = value;
-                Properties.Settings.Default.Save();
-                return;
-            }
-
-            Interacciones.FinAPlicacionConAviso("No se pudo asignar la propiedad " + key);
-        } 
-        #endregion
-
-        /// <summary>
-        /// Envia pulsaciones de teclado simuladas, trae la ventana al frente y las envia
-        /// </summary>
-        /// <param name="texto"></param>
-        private void Send(string texto)
-        {
-            if (handle == null)
-                this.BuscarAplicacionYTraerlaAlFrente();
-            else
-                this.TraerAlFrente();
-
-            SendKeys.SendWait(texto);
-        }
-
-        private void BuscarAplicacionYTraerlaAlFrente()
-        {
-            this.BuscarAplicacion();
-            this.TraerAlFrente();
-        }
-
-        private void TraerAlFrente()
-        {
-            SetForegroundWindow(handle);
-        }
-
-        private void BuscarAplicacion()
-        {
-            handle = FindWindow("ConsoleWindowClass", "asd");
-
-            if (handle == null)
-            {
-                Interacciones.MessajeBoxAviso("No se encontro la aplicacion Contable abierta, abrela para iniciar la operacion y situate en la creacion del comprobante, en la primera casilla");
-                return;
-            }
-        }
-
         private void btnAsignarAplicacion_Click(object sender, EventArgs e)
         {
-            
-        }
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Exe Files (.exe)|*.exe|All Files (*.*)|*.*";
 
-
-        #region Brujeria
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Excel.Application oXL;
-            Excel._Workbook oWB;
-            Excel._Worksheet oSheet;
-            Excel.Range oRng;
-
-            try
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //Start Excel and get Application object.
-                oXL = new Excel.Application();
-                oXL.Visible = true;
+                try
+                {
+                    string file = openFileDialog.FileName;
 
-                //Get a new workbook.
-                oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
-                oSheet = (Excel._Worksheet)oWB.ActiveSheet;
+                    if (string.IsNullOrEmpty(file))
+                    {
+                        this.Aviso("No se pudo obtener la path, viene vacia");
+                    }
+                    else
+                    {
+                        this.Setting.Path_aplicacion_contable = file;
+                        this.Setting.Save();
 
-                //Add table headers going cell by cell.
-                oSheet.Cells[1, 1] = "First Name";
-                oSheet.Cells[1, 2] = "Last Name";
-                oSheet.Cells[1, 3] = "Full Name";
-                oSheet.Cells[1, 4] = "Salary";
+                        this.Informacion("Se guardo la path correctamente");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Aviso("No se pudo obtener la imagen: " + ex.Message);
+                }
 
-                //Format A1:D1 as bold, vertical alignment = center.
-                oSheet.get_Range("A1", "D1").Font.Bold = true;
-                oSheet.get_Range("A1", "D1").VerticalAlignment =
-                Excel.XlVAlign.xlVAlignCenter;
-
-                // Create an array to multiple values at once.
-                string[,] saNames = new string[5, 2];
-
-                saNames[0, 0] = "John";
-                saNames[0, 1] = "Smith";
-                saNames[1, 0] = "Tom";
-                saNames[1, 1] = "Brown";
-                saNames[2, 0] = "Sue";
-                saNames[2, 1] = "Thomas";
-                saNames[3, 0] = "Jane";
-                saNames[3, 1] = "Jones";
-                saNames[4, 0] = "Adam";
-                saNames[4, 1] = "Johnson";
-
-                //Fill A2:B6 with an array of values (First and Last Names).
-                oSheet.get_Range("A2", "B6").Value2 = saNames;
-
-                //Fill C2:C6 with a relative formula (=A2 & " " & B2).
-                oRng = oSheet.get_Range("C2", "C6");
-                oRng.Formula = "=A2 & \" \" & B2";
-
-                //Fill D2:D6 with a formula(=RAND()*100000) and apply format.
-                oRng = oSheet.get_Range("D2", "D6");
-                oRng.Formula = "=RAND()*100000";
-                oRng.NumberFormat = "$0.00";
-
-                //AutoFit columns A:D.
-                oRng = oSheet.get_Range("A1", "D1");
-                oRng.EntireColumn.AutoFit();
-
-                //Manipulate a variable number of columns for Quarterly Sales Data.
-                DisplayQuarterlySales(oSheet);
-
-                //Make sure Excel is visible and give the user control
-                //of Microsoft Excel's lifetime.
-                oXL.Visible = true;
-                oXL.UserControl = true;
-            }
-            catch (Exception theException)
-            {
-                String errorMessage;
-                errorMessage = "Error: ";
-                errorMessage = String.Concat(errorMessage, theException.Message);
-                errorMessage = String.Concat(errorMessage, " Line: ");
-                errorMessage = String.Concat(errorMessage, theException.Source);
-
-                MessageBox.Show(errorMessage, "Error");
             }
         }
-
-        private void DisplayQuarterlySales(Excel._Worksheet oWS)
-        {
-            Excel._Workbook oWB;
-            Excel.Series oSeries;
-            Excel.Range oResizeRange;
-            Excel._Chart oChart;
-            String sMsg;
-            int iNumQtrs;
-
-            //Determine how many quarters to display data for.
-            for (iNumQtrs = 4; iNumQtrs >= 2; iNumQtrs--)
-            {
-                sMsg = "Enter sales data for ";
-                sMsg = String.Concat(sMsg, iNumQtrs);
-                sMsg = String.Concat(sMsg, " quarter(s)?");
-
-                DialogResult iRet = MessageBox.Show(sMsg, "Quarterly Sales?",
-                MessageBoxButtons.YesNo);
-                if (iRet == DialogResult.Yes)
-                    break;
-            }
-
-            sMsg = "Displaying data for ";
-            sMsg = String.Concat(sMsg, iNumQtrs);
-            sMsg = String.Concat(sMsg, " quarter(s).");
-
-            MessageBox.Show(sMsg, "Quarterly Sales");
-
-            //Starting at E1, fill headers for the number of columns selected.
-            oResizeRange = oWS.get_Range("E1", "E1").get_Resize(Missing.Value, iNumQtrs);
-            oResizeRange.Formula = "=\"Q\" & COLUMN()-4 & CHAR(10) & \"Sales\"";
-
-            //Change the Orientation and WrapText properties for the headers.
-            oResizeRange.Orientation = 38;
-            oResizeRange.WrapText = true;
-
-            //Fill the interior color of the headers.
-            oResizeRange.Interior.ColorIndex = 36;
-
-            //Fill the columns with a formula and apply a number format.
-            oResizeRange = oWS.get_Range("E2", "E6").get_Resize(Missing.Value, iNumQtrs);
-            oResizeRange.Formula = "=RAND()*100";
-            oResizeRange.NumberFormat = "$0.00";
-
-            //Apply borders to the Sales data and headers.
-            oResizeRange = oWS.get_Range("E1", "E6").get_Resize(Missing.Value, iNumQtrs);
-            oResizeRange.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-            //Add a Totals formula for the sales data and apply a border.
-            oResizeRange = oWS.get_Range("E8", "E8").get_Resize(Missing.Value, iNumQtrs);
-            oResizeRange.Formula = "=SUM(E2:E6)";
-            oResizeRange.Borders.get_Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle
-            = Excel.XlLineStyle.xlDouble;
-            oResizeRange.Borders.get_Item(Excel.XlBordersIndex.xlEdgeBottom).Weight
-            = Excel.XlBorderWeight.xlThick;
-
-            //Add a Chart for the selected data.
-            oWB = (Excel._Workbook)oWS.Parent;
-            oChart = (Excel._Chart)oWB.Charts.Add(Missing.Value, Missing.Value,
-            Missing.Value, Missing.Value);
-
-            //Use the ChartWizard to create a new chart from the selected data.
-            oResizeRange = oWS.get_Range("E2:E6", Missing.Value).get_Resize(
-            Missing.Value, iNumQtrs);
-            oChart.ChartWizard(oResizeRange, Excel.XlChartType.xl3DColumn, Missing.Value,
-            Excel.XlRowCol.xlColumns, Missing.Value, Missing.Value, Missing.Value,
-            Missing.Value, Missing.Value, Missing.Value, Missing.Value);
-            oSeries = (Excel.Series)oChart.SeriesCollection(1);
-            oSeries.XValues = oWS.get_Range("A2", "A6");
-            for (int iRet = 1; iRet <= iNumQtrs; iRet++)
-            {
-                oSeries = (Excel.Series)oChart.SeriesCollection(iRet);
-                String seriesName;
-                seriesName = "=\"Q";
-                seriesName = String.Concat(seriesName, iRet);
-                seriesName = String.Concat(seriesName, "\"");
-                oSeries.Name = seriesName;
-            }
-
-            oChart.Location(Excel.XlChartLocation.xlLocationAsObject, oWS.Name);
-
-            //Move the chart so as not to cover your data.
-            oResizeRange = (Excel.Range)oWS.Rows.get_Item(10, Missing.Value);
-            oWS.Shapes.Item("Chart 1").Top = (float)(double)oResizeRange.Top;
-            oResizeRange = (Excel.Range)oWS.Columns.get_Item(2, Missing.Value);
-            oWS.Shapes.Item("Chart 1").Left = (float)(double)oResizeRange.Left;
-        } 
-        #endregion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -357,7 +194,7 @@ namespace Importador_Contable_BA
                         }
                         else
                         {
-                            this.Tabla.Add(excel);
+                            this.bindingExcel.Add(excel);
                         }
                     }
 
@@ -367,7 +204,7 @@ namespace Importador_Contable_BA
                 }
                 catch (Exception ex)
                 {
-                    res.Error("No se pudo obtener la imagen: " + ex.Message);
+                    res.Error("No se pudo obtener las direcciones: " + ex.Message);
                 }
 
             }
@@ -375,7 +212,7 @@ namespace Importador_Contable_BA
 
         private bool YaEstaEnTabla(EPath_Excel excel)
         {
-            System.Collections.IList lista = this.Tabla.List;
+            System.Collections.IList lista = this.bindingExcel.List;
 
             if (lista.Count > 0)
             {
@@ -395,7 +232,7 @@ namespace Importador_Contable_BA
 
         private void GuardarTabla()
         {
-            System.Collections.IList lista = this.Tabla.List;
+            System.Collections.IList lista = this.bindingExcel.List;
 
             if (lista.Count > 0)
             {
@@ -413,58 +250,418 @@ namespace Importador_Contable_BA
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            this.Tabla.RemoveCurrent();
+            this.bindingExcel.RemoveCurrent();
 
             this.GuardarTabla();
         }
 
-        private void btnVerificarFormato_Click(object sender, EventArgs e)
+        private async void btnVerificarFormato_Click(object sender, EventArgs e)
         {
-            System.Collections.IList lista = this.Tabla.List;
-
-            if (lista.Count > 0)
+            if (string.IsNullOrEmpty(path_mov_sys))
             {
-                foreach (EPath_Excel path in lista)
+                this.Aviso("No se encontro el fichero MovSys");
+                return;
+            }
+
+
+            EMes e_mes = (EMes)this.bindingCmbMeses.Current;
+            EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
+
+            int numero_comprobante_inicial_prefijo = Formateador.ToInt32(this.lbPrefijoNComprobante.Text);
+
+            numero_comprobante_inicial_prefijo *= 1000;
+
+            int numero_comprobante_inicial = numero_comprobante_inicial_prefijo + this.txtNComprobante.ValueInt;
+
+            if(e_mes == null)
+            {
+                this.Aviso("No se detecto el mes");
+                return;
+            }
+
+            if (e_anio == null)
+            {
+                this.Aviso("No se detecto el año");
+                return;
+            }
+
+            if(numero_comprobante_inicial == 0)
+            {
+                this.Aviso("El numero de comprobante inicial es 0");
+                return;
+            }
+
+            Reportador rep = new Reportador();
+            Res res = await this.EjecutarAsyncAwait(() => { return this.ExtraerDatos(e_mes, e_anio, numero_comprobante_inicial, rep); }, "Cargando", rep, false);
+
+
+            this.dgvExcels.Refresh();
+
+            if (res.IsCorrecto)
+            {
+                if(res.Respuesta is List <EComprobante_Detalle>)
                 {
+                    this.ComprobantesContables.DataSource = res.Respuesta;
 
-                    string path_excel = path.Path_excel;
+                    this.grExtraerDatos.Enabled = false;
+                    this.grInsertarDatos.Enabled = true;
+                }
+                else
+                {
+                    res.Error("El tipo de dato en la respuesta no es valido");
+                }
 
-                    Excel.Application excel_Aplicacion = new Excel.Application();
-                    Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path_excel);
+                
+            }
 
-                    Excel.Sheets hojas = libro_excel.Sheets;
+            this.dgvComprobantes.Refresh();
+            this.dgvExcels.Refresh();
 
-                    foreach(Excel._Worksheet hoja in hojas)
+            this.Message(res);
+        }
+
+        private Res ExtraerDatos(EMes e_mes, EAnio e_anio, int numero_comprobante_inicial, Reportador rep)
+        {
+            Res res = new Res();
+
+            try
+            {
+                int mes = e_mes.Id;
+                int anio = e_anio.Id;
+
+                int fila = (anio - 2000) * 12 + 1 - 30 + mes - 1;
+
+                // obtencion de la fecha del comprobante, ultimo dia del mes
+                DateTime fechatemp = new DateTime(anio, mes, 1);
+                DateTime fecha_ultimo_dia_mes = new DateTime(fechatemp.Year, fechatemp.Month + 1, 1).AddDays(-1);
+
+                // nombre de mes para cada comprobante
+                string nombre_mes = e_mes.Nombre.ToUpper();
+
+                rep.Reportar("Iniciando estructura comprobantes");
+                EComprobante comprobante_gasto_comun = new EComprobante("GASTO COMUN " + nombre_mes, numero_comprobante_inicial, fecha_ultimo_dia_mes, 1600101, 9100101);
+                EComprobante comprobante_energia = new EComprobante("LUZ " + nombre_mes, numero_comprobante_inicial + 1, fecha_ultimo_dia_mes, 1600102, 9100103);
+                EComprobante comprobante_agua = new EComprobante("AGUA " + nombre_mes, numero_comprobante_inicial + 2, fecha_ultimo_dia_mes, 1600103, 9100102);
+                EComprobante comprobante_cargo_fijo_agua = new EComprobante("CARGO FIJO " + nombre_mes, numero_comprobante_inicial + 3, fecha_ultimo_dia_mes, 1600113, 9100108);
+                EComprobante comprobante_cuota_asoc = new EComprobante("CUOTA ASOCIACION " + nombre_mes, numero_comprobante_inicial + 4, fecha_ultimo_dia_mes, 1600110, 4500101);
+
+                // este no se dice pero aparece en el comprobante final
+                EComprobante comprobante_otros_ingresos = new EComprobante("OTROS INGRESOS " + nombre_mes, numero_comprobante_inicial + 5, fecha_ultimo_dia_mes, 1600112, 9100107);
+                EComprobante comprobante_multa_e_intereses = new EComprobante("MULTAS E INTERESES " + nombre_mes, numero_comprobante_inicial + 6, fecha_ultimo_dia_mes, 1600106, 9100104);
+                //EComprobante comprobante_salud = new EComprobante("SALUD " + nombre_mes);
+
+
+                System.Collections.IList lista = this.bindingExcel.List;
+
+                if (lista.Count > 0)
+                {
+                    foreach (EPath_Excel path in lista)
                     {
-                        Excel.Range celda_parcela = hoja.Range["B1", "B1"];
-                        Excel.Range celda_sector = hoja.Range["B2", "B2"];
-                        Excel.Range celda_propietario = hoja.Range["B3", "B3"];
 
-                        string valor_parcela = Formateador.ToString(celda_parcela.Value);
-                        string valor_sector = Formateador.ToString(celda_sector.Value);
-                        string valor_propietario = Formateador.ToString(celda_propietario.Value);
+                        string path_excel = path.Path_excel;
+
+                        rep.Reportar("Iniciando aplicacion Excel");
+                        Excel.Application excel_Aplicacion = new Excel.Application();
+                        excel_Aplicacion.Visible = false;
+
+                        
+                        Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path_excel);
+                        rep.Reportar("Abriendo documento " + libro_excel.Name);
+
+                        rep.Reportar("Iniciando hojas Excel");
+                        Excel.Sheets hojas = libro_excel.Sheets;
                         
 
-                        if (
-                            valor_parcela.Trim() == "PARCELA"
-                            && valor_sector.Trim() == "SECTOR"
-                            && valor_propietario.Trim() == "PROPIETARIO"
-                            )
+                        foreach (Excel._Worksheet hoja in hojas)
                         {
-                            path.Numero_hojas_validas++;
+
+                            rep.Reportar("Abriendo hoja " + hoja.Name);
+                            // en cabezado hoja
+                            string valor_parcela = Formateador.GetExcel<string>(hoja, "B1");
+                            string valor_sector = Formateador.GetExcel<string>(hoja, "B2");
+                            string valor_propietario = Formateador.GetExcel<string>(hoja, "B3");
+
+                            // valores hoja
+                            string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
+                            string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
+
+                            // aca se valida si la pagina es valida
+                            if (
+                                valor_parcela == "PARCELA"
+                                && valor_sector == "SECTOR"
+                                && valor_propietario == "PROPIETARIO"
+                                )
+                            {
+                                rep.Reportar("VALIDA", false);
+                                path.Numero_hojas_validas++;
+
+
+                                // 1 Q gastos comunes
+                                // 2 G Energia
+                                // 3 L Agua
+                                // 4 M Cargo fijo agua
+                                // 5 N Cuota asoc
+
+                                // 6 Otros Ingresos
+                                // 7 R multa e intereses
+
+                                int gasos_comunes = Formateador.GetExcel<int>(hoja, "Q" + fila);
+                                int energia = Formateador.GetExcel<int>(hoja, "G" + fila);
+                                int agua = Formateador.GetExcel<int>(hoja, "L" + fila);
+                                int cargo_fijo_agua = Formateador.GetExcel<int>(hoja, "M" + fila);
+                                int cuota_asoc = Formateador.GetExcel<int>(hoja, "N" + fila);
+                                int otros_ingresos = Formateador.GetExcel<int>(hoja, "O" + fila);
+                                int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
+
+                                string glosa = "P" + valor_parcela_value + valor_sector_value;
+                                string rut = "11.111.111-1";
+
+
+                                comprobante_gasto_comun.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        gasos_comunes
+                                    ));
+                                comprobante_energia.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        energia
+                                    ));
+                                comprobante_agua.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        agua
+                                    ));
+                                comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        cargo_fijo_agua
+                                    ));
+                                comprobante_cuota_asoc.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        cuota_asoc
+                                    ));
+
+                                comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        otros_ingresos
+                                    ));
+                                comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
+                                        rut,
+                                        glosa,
+                                        multa_e_intereses
+                                    ));
+
+                            }
+                            else
+                            {
+                                rep.Reportar("NO VALIDA", false);
+                            }
+
                         }
-                        
+
                     }
 
-                };
-            }
-            else
+                    // una vez encontrado los datos
+                    List<EComprobante_Detalle> detalles = new List<EComprobante_Detalle>();
+
+                    detalles.AddRange(comprobante_gasto_comun.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_energia.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_agua.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_cargo_fijo_agua.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_cuota_asoc.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_otros_ingresos.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_multa_e_intereses.ExtraerComprobantes());
+
+
+                    res.Correcto();
+                    res.Respuesta = detalles;
+
+                }
+                else
+                {
+                    return res.Error("No hay excel en la tabla para verificar");
+                }
+
+            }catch(Exception ex)
             {
-                Interacciones.MessajeBoxAviso("No hay excel en la tabla para verificar");
+                return res.Error(ex);
             }
 
+            return res;
+        }
 
+        private void comboBoxPitagoras1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxPitagoras1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
             
+        }
+
+        private void cmbMeses_PositionChanged(object sender, EventArgs e)
+        {
+            EMes mes = (EMes)this.bindingCmbMeses.Current;
+
+            if (mes != null)
+                this.lbPrefijoNComprobante.Text = mes.Id.ToString().PadLeft(2, '0') + mes.Id.ToString().PadLeft(2, '0');
+            else
+                this.lbPrefijoNComprobante.Text = "0000";
+
+        }
+
+        private async void btnInsertarDatos_Click(object sender, EventArgs e)
+        {
+            System.Collections.IList lista = this.ComprobantesContables.List;
+
+            if (lista.Count == 0 || !(lista is List<EComprobante_Detalle>))
+            {
+                this.Aviso("No se encontraron datos para impotar o no tienen el formato correcto");
+                return;
+            }
+
+            List<EComprobante_Detalle> lista_comprobantes = (List<EComprobante_Detalle>)lista;
+
+            Reportador rep = new Reportador();
+            Res res = await this.EjecutarAsyncAwait(() => { return this.InsertarDatos(lista_comprobantes, rep); }, "Insertando", rep, false);
+
+
+            this.dgvExcels.Refresh();
+
+            if (res.IsCorrecto)
+            {
+                this.grInsertarDatos.Enabled = false;
+                this.grExtraerDatos.Enabled = true;
+            }
+
+            this.Message(res);
+        }
+
+        private Res InsertarDatos(List<EComprobante_Detalle > detalle_a_insertar, Reportador rep)
+        {
+            Res res = new Res();
+
+            string nombre_carpeta = @"C:\Users\Seba\source\repos\Importador Contable BA\Datos Git\contajvh\A2020\75941710";
+            string nombre_db = @"MovSys";
+
+
+            rep.Reportar("Conectando con la base de datos");
+            OleDbConnection con = new OleDbConnection();
+            con.ConnectionString = @"Provider = Microsoft.Jet.OLEDB.4.0; Data Source = " + nombre_carpeta + "; Extended Properties = dBase IV; User ID=; Password=";
+            con.Open();
+
+            try
+            {
+                string consulta = "select * from " + nombre_db;
+
+                foreach (EComprobante_Detalle detalle in detalle_a_insertar)
+                {
+                    OleDbCommand oCmd = con.CreateCommand();
+                    // Insert the row
+                    oCmd.CommandText = "INSERT INTO " + nombre_db + " (A, FEC, NUM, GLO, C, D, LINEA, PTO1) VALUES " + "(" + detalle.SQLValues() + ");";
+
+                    int result = oCmd.ExecuteNonQuery();
+
+                    if (result == 1)
+                    {
+                        rep.Reportar("Se inserto correctamente el registro " + detalle.Glosa_Formateada);
+                    }
+                    else
+                    {
+                        return res.Error("No se pudo insertar la fila");
+                    }
+                }
+
+                // Read the table
+                //oCmd.CommandText = consulta;
+
+                //DataTable dt = new DataTable();
+                //dt.Load(oCmd.ExecuteReader());
+
+                //this.dgvTest.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                return res.Error(ex.Message);
+            }
+            finally
+            {
+                rep.Reportar("Se cierra la conexion con la base de datos");
+                con.Close();
+            }
+
+            res.Correcto();
+            return res;
+        }
+
+        private void lbPathAplicacion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDv_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void txtRutEmpresa_Leave(object sender, EventArgs e)
+        {
+            //this.txtRutEmpresa.Value = this.Setting.Rut_empresa;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSalvarRutEmpresa_Click(object sender, EventArgs e)
+        {
+            int rut_empresa = this.txtRutEmpresa.ValueInt;
+
+            if(rut_empresa == 0)
+            {
+                this.Aviso("Estas intentado guardar un rut vacio?");
+                return;
+            }
+
+            this.Setting.Rut_empresa = rut_empresa;
+            this.Setting.Save();
+
+            this.Informacion("Se ha salvado el rut");
+        }
+
+        private void cmbAnio2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
+
+            if(e_anio == null)
+            {
+                this.Aviso("Error interno no se pudo obtener el año desde el combo");
+                return;
+            }
+
+            int anio = e_anio.Id;
+            string path_aplicacion_contable = this.Setting.Path_aplicacion_contable;
+
+            if (string.IsNullOrEmpty(path_aplicacion_contable))
+            {
+                return;
+            }
+
+            if (!File.Exists(path_aplicacion_contable))
+            {
+                return;
+            }
+
+            string carpeta_aplicacion = Path.GetDirectoryName(path_aplicacion_contable);
+
+
+
+            //this.SetPathMovSys();
         }
     }
 }
