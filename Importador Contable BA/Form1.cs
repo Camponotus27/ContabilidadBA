@@ -37,8 +37,14 @@ namespace Importador_Contable_BA
             }
             else
             {
-                this.lpPathMovSys.Text = "No se encontro";
+                this.ErrorPathMovSys("No se encontro el MovSys en la direccion construida a partid de los datos ingresados");
             }
+        }
+
+        private void ErrorPathMovSys(string error)
+        {
+            this.path_mov_sys = string.Empty;
+            this.lpPathMovSys.Text = error;
         }
 
         public Form1()
@@ -112,8 +118,10 @@ namespace Importador_Contable_BA
 
                 this.bindingExcel.DataSource = this.Setting.Path_excel;
                 this.txtRutEmpresa.Value = this.Setting.Rut_empresa;
+                this.lbPathAplicacion.Text = this.Setting.Path_aplicacion_contable;
 
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 this.CerrarConMensaje("Ocurrio un error en la carga de la configuracion" + Formateador.BuscarErrorSignificativo(ex));
                 return;
@@ -136,23 +144,27 @@ namespace Importador_Contable_BA
 
         private void btnAsignarAplicacion_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "Exe Files (.exe)|*.exe|All Files (*.*)|*.*";
+           
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (!string.IsNullOrWhiteSpace(this.Setting.Path_aplicacion_contable))
+            {
+                fbd.SelectedPath = this.Setting.Path_aplicacion_contable;
+            }
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    string file = openFileDialog.FileName;
+                    string file = fbd.SelectedPath;
 
-                    if (string.IsNullOrEmpty(file))
+                    if (string.IsNullOrWhiteSpace(file))
                     {
                         this.Aviso("No se pudo obtener la path, viene vacia");
                     }
                     else
                     {
                         this.Setting.Path_aplicacion_contable = file;
+                        this.lbPathAplicacion.Text = file;
                         this.Setting.Save();
 
                         this.Informacion("Se guardo la path correctamente");
@@ -161,6 +173,10 @@ namespace Importador_Contable_BA
                 catch (Exception ex)
                 {
                     this.Aviso("No se pudo obtener la imagen: " + ex.Message);
+                }
+                finally
+                {
+                    fbd.Dispose();
                 }
 
             }
@@ -636,11 +652,20 @@ namespace Importador_Contable_BA
 
         private void cmbAnio2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int rut_empresa = this.txtRutEmpresa.ValueInt;
+
+            if(rut_empresa == 0)
+            {
+                this.ErrorPathMovSys("El Rut de Empresa esta vacio");
+                return;
+            }
+
+
             EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
 
             if(e_anio == null)
             {
-                this.Aviso("Error interno no se pudo obtener el año desde el combo");
+                this.ErrorPathMovSys("No se pudo obtener el año del combo año");
                 return;
             }
 
@@ -649,19 +674,17 @@ namespace Importador_Contable_BA
 
             if (string.IsNullOrEmpty(path_aplicacion_contable))
             {
+                this.ErrorPathMovSys("No se ha indicado el direcctorio de la aplicacion contable");
                 return;
             }
 
-            if (!File.Exists(path_aplicacion_contable))
+            if (!Directory.Exists(path_aplicacion_contable))
             {
+                this.ErrorPathMovSys("El direcctorio de la aplicacion contable indicado no existe");
                 return;
             }
 
-            string carpeta_aplicacion = Path.GetDirectoryName(path_aplicacion_contable);
-
-
-
-            //this.SetPathMovSys();
+            this.SetPathMovSys(Path.Combine(path_aplicacion_contable, "A" + anio.ToString(), rut_empresa.ToString(), "MovSys.dbf"));
         }
     }
 }
