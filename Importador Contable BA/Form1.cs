@@ -33,7 +33,7 @@ namespace Importador_Contable_BA
             if (File.Exists(path))
             {
                 this.path_mov_sys = path;
-                this.lpPathMovSys.Text = path;
+                this.txtPathMovSys.Text = path;
             }
             else
             {
@@ -44,7 +44,7 @@ namespace Importador_Contable_BA
         private void ErrorPathMovSys(string error)
         {
             this.path_mov_sys = string.Empty;
-            this.lpPathMovSys.Text = error;
+            this.txtPathMovSys.Text = error;
         }
 
         public Form1()
@@ -118,7 +118,10 @@ namespace Importador_Contable_BA
 
                 this.bindingExcel.DataSource = this.Setting.Path_excel;
                 this.txtRutEmpresa.Value = this.Setting.Rut_empresa;
-                this.lbPathAplicacion.Text = this.Setting.Path_aplicacion_contable;
+                this.txtPathAplicacion.Text = this.Setting.Path_aplicacion_contable;
+
+
+                this.CalcularPathMovSys();
 
             }
             catch(Exception ex)
@@ -164,7 +167,7 @@ namespace Importador_Contable_BA
                     else
                     {
                         this.Setting.Path_aplicacion_contable = file;
-                        this.lbPathAplicacion.Text = file;
+                        this.txtPathAplicacion.Text = file;
                         this.Setting.Save();
 
                         this.Informacion("Se guardo la path correctamente");
@@ -273,7 +276,14 @@ namespace Importador_Contable_BA
 
         private async void btnVerificarFormato_Click(object sender, EventArgs e)
         {
+            string path_mov_sys = this.path_mov_sys;
+
             if (string.IsNullOrEmpty(path_mov_sys))
+            {
+                this.Aviso("No esta signada la varialble de la direccion del fichero MovSys");
+                return;
+            }
+            else if(!File.Exists(path_mov_sys))
             {
                 this.Aviso("No se encontro el fichero MovSys");
                 return;
@@ -364,8 +374,9 @@ namespace Importador_Contable_BA
                 // este no se dice pero aparece en el comprobante final
                 EComprobante comprobante_otros_ingresos = new EComprobante("OTROS INGRESOS " + nombre_mes, numero_comprobante_inicial + 5, fecha_ultimo_dia_mes, 1600112, 9100107);
                 EComprobante comprobante_multa_e_intereses = new EComprobante("MULTAS E INTERESES " + nombre_mes, numero_comprobante_inicial + 6, fecha_ultimo_dia_mes, 1600106, 9100104);
-                //EComprobante comprobante_salud = new EComprobante("SALUD " + nombre_mes);
 
+
+                EComprobante comprobante_cobranza_judicial = new EComprobante("COBRANZA JUDICIAL " + nombre_mes, numero_comprobante_inicial + 7, fecha_ultimo_dia_mes, 1610101);
 
                 System.Collections.IList lista = this.bindingExcel.List;
 
@@ -373,15 +384,12 @@ namespace Importador_Contable_BA
                 {
                     foreach (EPath_Excel path in lista)
                     {
-
-                        string path_excel = path.Path_excel;
-
                         rep.Reportar("Iniciando aplicacion Excel");
                         Excel.Application excel_Aplicacion = new Excel.Application();
                         excel_Aplicacion.Visible = false;
 
                         
-                        Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path_excel);
+                        Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path.Path_excel);
                         rep.Reportar("Abriendo documento " + libro_excel.Name);
 
                         rep.Reportar("Iniciando hojas Excel");
@@ -401,12 +409,56 @@ namespace Importador_Contable_BA
                             string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
                             string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
 
+                            string rut = Formateador.GetExcel<string>(hoja, "A3");
+
+                            string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "F3");
+
+                            bool en_cobranza_judicial = valor_cobranza_judicial_value == "EN COBRANZA JUDICIAL";
+
                             // aca se valida si la pagina es valida
-                            if (
-                                valor_parcela == "PARCELA"
-                                && valor_sector == "SECTOR"
-                                && valor_propietario == "PROPIETARIO"
-                                )
+
+                            bool es_una_pagina_valida = true;
+                            string mensaje_de_no_valida = string.Empty;
+
+                            // si la D esta vacia prueba con la M
+                            if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                            {
+                                valor_parcela_value = Formateador.GetExcel<string>(hoja, "M1");
+                                valor_sector_value = Formateador.GetExcel<string>(hoja, "M2");
+                            }
+
+                            if (valor_parcela != "PARCELA")
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " B1 no contiene 'PARCELA'";
+                            }
+                            else if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " D1 la parcela esta vacia";
+                            }
+                            else if (valor_sector != "SECTOR")
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " B2 no contiene 'SECTOR'";
+                            }
+                            else if (string.IsNullOrWhiteSpace(valor_sector_value))
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " D2 el sector esta vacio";
+                            }
+                            else if (valor_propietario != "PROPIETARIO")
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " B3 no contiene 'PROPIETARIO'";
+                            }else if (string.IsNullOrWhiteSpace(rut))
+                            {
+                                es_una_pagina_valida = false;
+                                mensaje_de_no_valida += " A3 no contiene el Rut";
+                            }
+
+
+                            if (es_una_pagina_valida)
                             {
                                 rep.Reportar("VALIDA", false);
                                 path.Numero_hojas_validas++;
@@ -430,50 +482,99 @@ namespace Importador_Contable_BA
                                 int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
 
                                 string glosa = "P" + valor_parcela_value + valor_sector_value;
-                                string rut = "11.111.111-1";
 
 
-                                comprobante_gasto_comun.Add(new EComprobante_Detalle(
+                                if (en_cobranza_judicial)
+                                {
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                        comprobante_gasto_comun.Cuenta_abono,
                                         rut,
                                         glosa,
                                         gasos_comunes
                                     ));
-                                comprobante_energia.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        energia
-                                    ));
-                                comprobante_agua.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        agua
-                                    ));
-                                comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        cargo_fijo_agua
-                                    ));
-                                comprobante_cuota_asoc.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        cuota_asoc
-                                    ));
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_energia.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            energia
+                                        ));
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_agua.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            agua
+                                        ));
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_cargo_fijo_agua.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            cargo_fijo_agua
+                                        ));
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_cuota_asoc.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            cuota_asoc
+                                        ));
 
-                                comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_otros_ingresos.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            otros_ingresos
+                                        ));
+                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_multa_e_intereses.Cuenta_abono,
+                                            rut,
+                                            glosa,
+                                            multa_e_intereses
+                                        ));
+                                }
+                                else
+                                {
+                                    comprobante_gasto_comun.Add(new EComprobante_Detalle(
                                         rut,
                                         glosa,
-                                        otros_ingresos
+                                        gasos_comunes
                                     ));
-                                comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        multa_e_intereses
-                                    ));
+                                    comprobante_energia.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            energia
+                                        ));
+                                    comprobante_agua.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            agua
+                                        ));
+                                    comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            cargo_fijo_agua
+                                        ));
+                                    comprobante_cuota_asoc.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            cuota_asoc
+                                        ));
+
+                                    comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            otros_ingresos
+                                        ));
+                                    comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
+                                            rut,
+                                            glosa,
+                                            multa_e_intereses
+                                        ));
+                                }
+                                
 
                             }
                             else
                             {
-                                rep.Reportar("NO VALIDA", false);
+                                rep.Reportar("NO VALIDA " + mensaje_de_no_valida, false);
                             }
 
                         }
@@ -490,7 +591,7 @@ namespace Importador_Contable_BA
                     detalles.AddRange(comprobante_cuota_asoc.ExtraerComprobantes());
                     detalles.AddRange(comprobante_otros_ingresos.ExtraerComprobantes());
                     detalles.AddRange(comprobante_multa_e_intereses.ExtraerComprobantes());
-
+                    detalles.AddRange(comprobante_cobranza_judicial.ExtraerComprobantes());
 
                     res.Correcto();
                     res.Respuesta = detalles;
@@ -532,6 +633,19 @@ namespace Importador_Contable_BA
 
         private async void btnInsertarDatos_Click(object sender, EventArgs e)
         {
+            string path_mov_sys = this.path_mov_sys;
+
+            if (string.IsNullOrEmpty(path_mov_sys))
+            {
+                this.Aviso("No esta signada la varialble de la direccion del fichero MovSys");
+                return;
+            }
+            else if (!File.Exists(path_mov_sys))
+            {
+                this.Aviso("No se encontro el fichero MovSys");
+                return;
+            }
+
             System.Collections.IList lista = this.ComprobantesContables.List;
 
             if (lista.Count == 0 || !(lista is List<EComprobante_Detalle>))
@@ -543,7 +657,7 @@ namespace Importador_Contable_BA
             List<EComprobante_Detalle> lista_comprobantes = (List<EComprobante_Detalle>)lista;
 
             Reportador rep = new Reportador();
-            Res res = await this.EjecutarAsyncAwait(() => { return this.InsertarDatos(lista_comprobantes, rep); }, "Insertando", rep, false);
+            Res res = await this.EjecutarAsyncAwait(() => { return this.InsertarDatos(lista_comprobantes, path_mov_sys, rep); }, "Insertando", rep, false);
 
 
             this.dgvExcels.Refresh();
@@ -557,12 +671,15 @@ namespace Importador_Contable_BA
             this.Message(res);
         }
 
-        private Res InsertarDatos(List<EComprobante_Detalle > detalle_a_insertar, Reportador rep)
+        private Res InsertarDatos(List<EComprobante_Detalle > detalle_a_insertar, string path_mov_sys, Reportador rep)
         {
             Res res = new Res();
 
-            string nombre_carpeta = @"C:\Users\Seba\source\repos\Importador Contable BA\Datos Git\contajvh\A2020\75941710";
-            string nombre_db = @"MovSys";
+            //string nombre_carpeta = @"C:\Users\Seba\source\repos\Importador Contable BA\Datos Git\contajvh\A2020\75941710";
+            //string nombre_db = @"MovSys";
+
+            string nombre_carpeta = Path.GetDirectoryName(path_mov_sys);
+            string nombre_db = Path.GetFileName(path_mov_sys);
 
 
             rep.Reportar("Conectando con la base de datos");
@@ -652,9 +769,14 @@ namespace Importador_Contable_BA
 
         private void cmbAnio2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.CalcularPathMovSys();
+        }
+
+        private void CalcularPathMovSys()
+        {
             int rut_empresa = this.txtRutEmpresa.ValueInt;
 
-            if(rut_empresa == 0)
+            if (rut_empresa == 0)
             {
                 this.ErrorPathMovSys("El Rut de Empresa esta vacio");
                 return;
@@ -663,7 +785,7 @@ namespace Importador_Contable_BA
 
             EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
 
-            if(e_anio == null)
+            if (e_anio == null)
             {
                 this.ErrorPathMovSys("No se pudo obtener el año del combo año");
                 return;

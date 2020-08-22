@@ -37,6 +37,7 @@
             this.txtRegistro.Multiline = true;
             this.txtRegistro.Name = "txtRegistro";
             this.txtRegistro.ReadOnly = true;
+            this.txtRegistro.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtRegistro.Size = new System.Drawing.Size(628, 352);
             this.txtRegistro.TabIndex = 0;
             // 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Herramientas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,18 @@ namespace Entidades
 
         List<EComprobante_Detalle> detalle;
 
-        public EComprobante(string nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_abono, int cuenta_cargo)
+        public EComprobante(string nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_cargo)
         {
             this.numero_comprobante = numero_comprobante;
             this.Nombre_comprobante = nombre_comprobante;
+            this.cuenta_cargo = cuenta_cargo;
+            this.fecha = fecha;
+        }
+
+        public EComprobante(string nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_abono, int cuenta_cargo)
+        {
+            this.numero_comprobante = numero_comprobante;
+            this.nombre_comprobante = nombre_comprobante;
             this.cuenta_abono = cuenta_abono;
             this.cuenta_cargo = cuenta_cargo;
             this.fecha = fecha;
@@ -41,15 +50,26 @@ namespace Entidades
 
         public string Fecha_formateada { get => fecha.ToString("ddMMyy"); }
         public int Numero_comprobante { get => numero_comprobante; set => numero_comprobante = value; }
+        public int Cuenta_abono { get => cuenta_abono; }
 
         public void Add(EComprobante_Detalle detalle_add)
         {
             if (detalle == null)
                 detalle = new List<EComprobante_Detalle>();
 
+            if(this.cuenta_abono == 0 && detalle_add.Numero_cuenta == 0)
+            {
+                Interacciones.Ex("Para añadir un detalle a un comprobante sin numero de cuenta abono, este detalle debe contenerla");
+                return;
+            }
+
+            if(detalle_add.Numero_cuenta == 0)
+            {
+                detalle_add.Numero_cuenta = this.cuenta_abono;
+            }
+
             detalle_add.Numero_comprobante = this.numero_comprobante;
             detalle_add.Fecha = this.fecha;
-            detalle_add.Numero_cuenta = this.cuenta_abono;
             detalle_add.Correlativo = detalle.Count + 1;
 
             detalle.Add(detalle_add);

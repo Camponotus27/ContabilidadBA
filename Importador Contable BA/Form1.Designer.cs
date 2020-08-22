@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnAsignarAplicacion = new System.Windows.Forms.Button();
             this.btnEliminar = new ControlesPersonalizados.ButtonPitagoras();
             this.btnBuscar = new ControlesPersonalizados.ButtonPitagoras();
             this.dgvExcels = new ControlesPersonalizados.GridPitagoras();
             this.nombreDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bindingExcel = new System.Windows.Forms.BindingSource(this.components);
-            this.lbPathAplicacion = new ControlesPersonalizados.LabelPitagoras();
             this.dgvComprobantes = new ControlesPersonalizados.GridPitagoras();
             this.numerocuentaformateadaDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fechaformateadaDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,11 +73,14 @@
             this.correlativoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grDatosSistema = new System.Windows.Forms.GroupBox();
-            this.lpPathMovSys = new ControlesPersonalizados.LabelPitagoras();
             this.labelPitagoras3 = new ControlesPersonalizados.LabelPitagoras();
             this.btnSalvarRutEmpresa = new System.Windows.Forms.Button();
             this.labelPitagoras4 = new ControlesPersonalizados.LabelPitagoras();
             this.txtRutEmpresa = new ControlesPersonalizados.TextBoxNumeroPitagoras();
+            this.txtPathAplicacion = new System.Windows.Forms.TextBox();
+            this.txtPathMovSys = new System.Windows.Forms.TextBox();
+            this.labelPitagoras5 = new ControlesPersonalizados.LabelPitagoras();
+            this.il = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingExcel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvComprobantes)).BeginInit();
@@ -91,11 +94,12 @@
             // 
             // btnAsignarAplicacion
             // 
-            this.btnAsignarAplicacion.Location = new System.Drawing.Point(6, 19);
+            this.btnAsignarAplicacion.ImageIndex = 0;
+            this.btnAsignarAplicacion.ImageList = this.il;
+            this.btnAsignarAplicacion.Location = new System.Drawing.Point(374, 34);
             this.btnAsignarAplicacion.Name = "btnAsignarAplicacion";
-            this.btnAsignarAplicacion.Size = new System.Drawing.Size(153, 23);
+            this.btnAsignarAplicacion.Size = new System.Drawing.Size(30, 30);
             this.btnAsignarAplicacion.TabIndex = 1;
-            this.btnAsignarAplicacion.Text = "Asignar Aplicacion Contable";
             this.btnAsignarAplicacion.UseVisualStyleBackColor = true;
             this.btnAsignarAplicacion.Click += new System.EventHandler(this.btnAsignarAplicacion_Click);
             // 
@@ -119,7 +123,7 @@
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBuscar.Location = new System.Drawing.Point(242, 15);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(100, 23);
+            this.btnBuscar.Size = new System.Drawing.Size(96, 23);
             this.btnBuscar.TabIndex = 8;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -132,26 +136,26 @@
             this.dgvExcels.AutoGenerateColumns = false;
             this.dgvExcels.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvExcels.CMSGridPitagotas = null;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvExcels.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvExcels.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvExcels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvExcels.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nombreDataGridViewTextBoxColumn1});
             this.dgvExcels.DataSource = this.bindingExcel;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvExcels.EnableHeadersVisualStyles = false;
             this.dgvExcels.GridColor = System.Drawing.Color.Gainsboro;
             this.dgvExcels.Location = new System.Drawing.Point(12, 15);
@@ -159,7 +163,7 @@
             this.dgvExcels.Name = "dgvExcels";
             this.dgvExcels.RowHeadersVisible = false;
             this.dgvExcels.SePuedeCrearLieneaNuevaConEnter = true;
-            this.dgvExcels.Size = new System.Drawing.Size(224, 147);
+            this.dgvExcels.Size = new System.Drawing.Size(224, 170);
             this.dgvExcels.TabIndex = 7;
             // 
             // nombreDataGridViewTextBoxColumn1
@@ -174,18 +178,6 @@
             // 
             this.bindingExcel.DataSource = typeof(Entidades.EPath_Excel);
             // 
-            // lbPathAplicacion
-            // 
-            this.lbPathAplicacion.AutoSize = true;
-            this.lbPathAplicacion.ForeColor = System.Drawing.Color.Black;
-            this.lbPathAplicacion.Location = new System.Drawing.Point(179, 24);
-            this.lbPathAplicacion.Name = "lbPathAplicacion";
-            this.lbPathAplicacion.Size = new System.Drawing.Size(13, 13);
-            this.lbPathAplicacion.TabIndex = 0;
-            this.lbPathAplicacion.Text = "--";
-            this.lbPathAplicacion.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
-            this.lbPathAplicacion.Click += new System.EventHandler(this.lbPathAplicacion_Click);
-            // 
             // dgvComprobantes
             // 
             this.dgvComprobantes.AllowUserToAddRows = false;
@@ -193,14 +185,14 @@
             this.dgvComprobantes.AutoGenerateColumns = false;
             this.dgvComprobantes.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvComprobantes.CMSGridPitagotas = null;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvComprobantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvComprobantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvComprobantes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvComprobantes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.numerocuentaformateadaDataGridViewTextBoxColumn1,
@@ -212,17 +204,17 @@
             this.correlativoDataGridViewTextBoxColumn1,
             this.mesDataGridViewTextBoxColumn1});
             this.dgvComprobantes.DataSource = this.ComprobantesContables;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvComprobantes.EnableHeadersVisualStyles = false;
             this.dgvComprobantes.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvComprobantes.Location = new System.Drawing.Point(12, 264);
+            this.dgvComprobantes.Location = new System.Drawing.Point(12, 278);
             this.dgvComprobantes.MantenerPorLoMenosUnaFila = false;
             this.dgvComprobantes.Name = "dgvComprobantes";
             this.dgvComprobantes.RowHeadersVisible = false;
@@ -299,7 +291,7 @@
             // 
             this.grInsertarDatos.Controls.Add(this.btnInsertarDatos);
             this.grInsertarDatos.Enabled = false;
-            this.grInsertarDatos.Location = new System.Drawing.Point(361, 168);
+            this.grInsertarDatos.Location = new System.Drawing.Point(361, 192);
             this.grInsertarDatos.Name = "grInsertarDatos";
             this.grInsertarDatos.Size = new System.Drawing.Size(410, 80);
             this.grInsertarDatos.TabIndex = 20;
@@ -328,7 +320,7 @@
             this.grExtraerDatos.Controls.Add(this.cmbAnio);
             this.grExtraerDatos.Controls.Add(this.labelPitagoras1);
             this.grExtraerDatos.Controls.Add(this.txtNComprobante);
-            this.grExtraerDatos.Location = new System.Drawing.Point(12, 168);
+            this.grExtraerDatos.Location = new System.Drawing.Point(12, 191);
             this.grExtraerDatos.Name = "grExtraerDatos";
             this.grExtraerDatos.Size = new System.Drawing.Size(343, 80);
             this.grExtraerDatos.TabIndex = 19;
@@ -521,49 +513,40 @@
             // 
             // grDatosSistema
             // 
-            this.grDatosSistema.Controls.Add(this.lpPathMovSys);
+            this.grDatosSistema.Controls.Add(this.labelPitagoras5);
+            this.grDatosSistema.Controls.Add(this.txtPathMovSys);
+            this.grDatosSistema.Controls.Add(this.txtPathAplicacion);
             this.grDatosSistema.Controls.Add(this.labelPitagoras3);
             this.grDatosSistema.Controls.Add(this.btnSalvarRutEmpresa);
             this.grDatosSistema.Controls.Add(this.labelPitagoras4);
             this.grDatosSistema.Controls.Add(this.txtRutEmpresa);
             this.grDatosSistema.Controls.Add(this.btnAsignarAplicacion);
-            this.grDatosSistema.Controls.Add(this.lbPathAplicacion);
             this.grDatosSistema.Location = new System.Drawing.Point(361, 12);
             this.grDatosSistema.Name = "grDatosSistema";
-            this.grDatosSistema.Size = new System.Drawing.Size(410, 150);
+            this.grDatosSistema.Size = new System.Drawing.Size(410, 174);
             this.grDatosSistema.TabIndex = 21;
             this.grDatosSistema.TabStop = false;
             this.grDatosSistema.Text = "Sistema";
-            // 
-            // lpPathMovSys
-            // 
-            this.lpPathMovSys.AutoSize = true;
-            this.lpPathMovSys.ForeColor = System.Drawing.Color.Black;
-            this.lpPathMovSys.Location = new System.Drawing.Point(11, 126);
-            this.lpPathMovSys.Name = "lpPathMovSys";
-            this.lpPathMovSys.Size = new System.Drawing.Size(13, 13);
-            this.lpPathMovSys.TabIndex = 8;
-            this.lpPathMovSys.Text = "--";
-            this.lpPathMovSys.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // labelPitagoras3
             // 
             this.labelPitagoras3.AutoSize = true;
             this.labelPitagoras3.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras3.Location = new System.Drawing.Point(6, 110);
+            this.labelPitagoras3.Location = new System.Drawing.Point(6, 119);
             this.labelPitagoras3.Name = "labelPitagoras3";
-            this.labelPitagoras3.Size = new System.Drawing.Size(70, 13);
+            this.labelPitagoras3.Size = new System.Drawing.Size(280, 13);
             this.labelPitagoras3.TabIndex = 7;
-            this.labelPitagoras3.Text = "Path MovSys";
+            this.labelPitagoras3.Text = "Path MovSys (la ubicacion se calculará automaticamente)";
             this.labelPitagoras3.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // btnSalvarRutEmpresa
             // 
-            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(105, 74);
+            this.btnSalvarRutEmpresa.ImageIndex = 1;
+            this.btnSalvarRutEmpresa.ImageList = this.il;
+            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(103, 80);
             this.btnSalvarRutEmpresa.Name = "btnSalvarRutEmpresa";
-            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(120, 23);
+            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(30, 30);
             this.btnSalvarRutEmpresa.TabIndex = 6;
-            this.btnSalvarRutEmpresa.Text = "Salvar Rut Empresa";
             this.btnSalvarRutEmpresa.UseVisualStyleBackColor = true;
             this.btnSalvarRutEmpresa.Click += new System.EventHandler(this.btnSalvarRutEmpresa_Click);
             // 
@@ -571,7 +554,7 @@
             // 
             this.labelPitagoras4.AutoSize = true;
             this.labelPitagoras4.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras4.Location = new System.Drawing.Point(3, 60);
+            this.labelPitagoras4.Location = new System.Drawing.Point(6, 70);
             this.labelPitagoras4.Name = "labelPitagoras4";
             this.labelPitagoras4.Size = new System.Drawing.Size(68, 13);
             this.labelPitagoras4.TabIndex = 5;
@@ -587,7 +570,7 @@
             this.txtRutEmpresa.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtRutEmpresa.FormatoNumerico = true;
             this.txtRutEmpresa.IgnorarFlujo = false;
-            this.txtRutEmpresa.Location = new System.Drawing.Point(6, 76);
+            this.txtRutEmpresa.Location = new System.Drawing.Point(9, 86);
             this.txtRutEmpresa.MaxLength = 9;
             this.txtRutEmpresa.Name = "txtRutEmpresa";
             this.txtRutEmpresa.SeleccionaTodoConClick = true;
@@ -607,11 +590,45 @@
             0});
             this.txtRutEmpresa.Leave += new System.EventHandler(this.txtRutEmpresa_Leave);
             // 
+            // txtPathAplicacion
+            // 
+            this.txtPathAplicacion.Location = new System.Drawing.Point(9, 39);
+            this.txtPathAplicacion.Name = "txtPathAplicacion";
+            this.txtPathAplicacion.ReadOnly = true;
+            this.txtPathAplicacion.Size = new System.Drawing.Size(362, 20);
+            this.txtPathAplicacion.TabIndex = 9;
+            // 
+            // txtPathMovSys
+            // 
+            this.txtPathMovSys.Location = new System.Drawing.Point(9, 133);
+            this.txtPathMovSys.Name = "txtPathMovSys";
+            this.txtPathMovSys.ReadOnly = true;
+            this.txtPathMovSys.Size = new System.Drawing.Size(395, 20);
+            this.txtPathMovSys.TabIndex = 10;
+            // 
+            // labelPitagoras5
+            // 
+            this.labelPitagoras5.AutoSize = true;
+            this.labelPitagoras5.ForeColor = System.Drawing.Color.Black;
+            this.labelPitagoras5.Location = new System.Drawing.Point(6, 23);
+            this.labelPitagoras5.Name = "labelPitagoras5";
+            this.labelPitagoras5.Size = new System.Drawing.Size(127, 13);
+            this.labelPitagoras5.TabIndex = 11;
+            this.labelPitagoras5.Text = "Ruta Aplicacion Contable";
+            this.labelPitagoras5.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            // 
+            // il
+            // 
+            this.il.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il.ImageStream")));
+            this.il.TransparentColor = System.Drawing.Color.Transparent;
+            this.il.Images.SetKeyName(0, "icono-buscar-64x64.png");
+            this.il.Images.SetKeyName(1, "guardar.png");
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 464);
             this.Controls.Add(this.grDatosSistema);
             this.Controls.Add(this.grInsertarDatos);
             this.Controls.Add(this.grExtraerDatos);
@@ -639,7 +656,6 @@
         }
 
         #endregion
-        private ControlesPersonalizados.LabelPitagoras lbPathAplicacion;
         private System.Windows.Forms.Button btnAsignarAplicacion;
         private ControlesPersonalizados.GridPitagoras dgvExcels;
         private ControlesPersonalizados.ButtonPitagoras btnBuscar;
@@ -682,8 +698,11 @@
         private ControlesPersonalizados.LabelPitagoras labelPitagoras4;
         private ControlesPersonalizados.TextBoxNumeroPitagoras txtRutEmpresa;
         private System.Windows.Forms.Button btnSalvarRutEmpresa;
-        private ControlesPersonalizados.LabelPitagoras lpPathMovSys;
         private ControlesPersonalizados.LabelPitagoras labelPitagoras3;
+        private ControlesPersonalizados.LabelPitagoras labelPitagoras5;
+        private System.Windows.Forms.TextBox txtPathMovSys;
+        private System.Windows.Forms.TextBox txtPathAplicacion;
+        private System.Windows.Forms.ImageList il;
     }
 }
 

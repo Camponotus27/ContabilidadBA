@@ -26,6 +26,14 @@ namespace Entidades
             this.abono = abono;
         }
 
+        public EComprobante_Detalle(int numero_cuenta, string rut, string glosa, int abono)
+        {
+            this.numero_cuenta = numero_cuenta;
+            this.rut = rut;
+            this.glosa = glosa;
+            this.abono = abono;
+        }
+
         public EComprobante_Detalle(int numero_comprobante, DateTime fecha, int numero_cuenta, string glosa, int correlativo, int suma_abono)
         {
             this.numero_comprobante = numero_comprobante;
