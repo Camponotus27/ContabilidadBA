@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,10 @@ namespace Herramientas
         {
             string logMessage = ex.Message;
             this.LogWrite(logMessage);
+        }
+
+        public LogWriter()
+        {
         }
 
         public void LogWrite(string logMessage)
@@ -90,5 +95,9 @@ namespace Herramientas
 
         }
 
+        public void AbrirLog()
+        {
+            Process.Start("explorer.exe", "/select, " + DireccionLog);
+        }
     }
 }

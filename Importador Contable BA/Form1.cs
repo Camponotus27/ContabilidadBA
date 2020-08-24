@@ -34,10 +34,13 @@ namespace Importador_Contable_BA
             {
                 this.path_mov_sys = path;
                 this.txtPathMovSys.Text = path;
+
+
+                this.lbPathMovSys.ForeColor = Color.Black;
             }
             else
             {
-                this.ErrorPathMovSys("No se encontro el MovSys en la direccion construida a partid de los datos ingresados");
+                this.ErrorPathMovSys("No se encontro el MovSys en la direccion construida a partir de los datos ingresados");
             }
         }
 
@@ -45,6 +48,9 @@ namespace Importador_Contable_BA
         {
             this.path_mov_sys = string.Empty;
             this.txtPathMovSys.Text = error;
+            this.lbPathMovSys.ForeColor = Color.Red;
+
+
         }
 
         public Form1()
@@ -170,6 +176,7 @@ namespace Importador_Contable_BA
                         this.txtPathAplicacion.Text = file;
                         this.Setting.Save();
 
+                        this.CalcularPathMovSys();
                         this.Informacion("Se guardo la path correctamente");
                     }
                 }
@@ -289,15 +296,38 @@ namespace Importador_Contable_BA
                 return;
             }
 
+            if(this.Pregunta("Quieres calcular el numero de comprobante automaticamente? actualmente es " + this.GetNumeroComprobanteActual().ToString().PadLeft(7, '0'), RespuestaPregunta.Si))
+            {
+                if (!this.VerificarMomSysExiste())
+                return;
+
+                Reportador rep1 = new Reportador();
+                Res res_consulta_ultimo_numero = this.GetSigueinteNumeroComprobante(this.path_mov_sys, rep1);
+
+                if (res_consulta_ultimo_numero.IsCorrecto)
+                {
+                    if (res_consulta_ultimo_numero.Respuesta is decimal)
+                    {
+                        this.txtNComprobante.Value = ((decimal)res_consulta_ultimo_numero.Respuesta) % 100;
+                    }
+                    else
+                    {
+                        this.Aviso("La respuesta no es un numero");
+                        return;
+                    }
+                }
+                else
+                {
+                    this.Aviso("No se pudo obtener el siguiente numero");
+                    return;
+                }
+            }
+
 
             EMes e_mes = (EMes)this.bindingCmbMeses.Current;
             EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
 
-            int numero_comprobante_inicial_prefijo = Formateador.ToInt32(this.lbPrefijoNComprobante.Text);
-
-            numero_comprobante_inicial_prefijo *= 1000;
-
-            int numero_comprobante_inicial = numero_comprobante_inicial_prefijo + this.txtNComprobante.ValueInt;
+            int numero_comprobante_inicial = this.GetNumeroComprobanteActual();
 
             if(e_mes == null)
             {
@@ -318,7 +348,7 @@ namespace Importador_Contable_BA
             }
 
             Reportador rep = new Reportador();
-            Res res = await this.EjecutarAsyncAwait(() => { return this.ExtraerDatos(e_mes, e_anio, numero_comprobante_inicial, rep); }, "Cargando", rep, false);
+            Res res = await this.EjecutarAsyncAwait(() => { return this.ExtraerDatos(e_mes, e_anio, numero_comprobante_inicial, rep); }, "Recopilando Datos", rep, false);
 
 
             this.dgvExcels.Refresh();
@@ -336,14 +366,25 @@ namespace Importador_Contable_BA
                 {
                     res.Error("El tipo de dato en la respuesta no es valido");
                 }
-
-                
+            }
+            else
+            {
+                rep.ForzarFinalizacion();
             }
 
             this.dgvComprobantes.Refresh();
             this.dgvExcels.Refresh();
 
             this.Message(res);
+        }
+
+        private int GetNumeroComprobanteActual()
+        {
+            int numero_comprobante_inicial_prefijo = Formateador.ToInt32(this.lbPrefijoNComprobante.Text);
+
+            numero_comprobante_inicial_prefijo *= 1000;
+
+            return numero_comprobante_inicial_prefijo + this.txtNComprobante.ValueInt;
         }
 
         private Res ExtraerDatos(EMes e_mes, EAnio e_anio, int numero_comprobante_inicial, Reportador rep)
@@ -382,20 +423,18 @@ namespace Importador_Contable_BA
 
                 if (lista.Count > 0)
                 {
+                    rep.Reportar("Iniciando aplicacion Excel");
+                    Excel.Application excel_Aplicacion = new Excel.Application();
+                    excel_Aplicacion.Visible = false;
+
                     foreach (EPath_Excel path in lista)
                     {
-                        rep.Reportar("Iniciando aplicacion Excel");
-                        Excel.Application excel_Aplicacion = new Excel.Application();
-                        excel_Aplicacion.Visible = false;
-
-                        
                         Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path.Path_excel);
                         rep.Reportar("Abriendo documento " + libro_excel.Name);
 
                         rep.Reportar("Iniciando hojas Excel");
                         Excel.Sheets hojas = libro_excel.Sheets;
                         
-
                         foreach (Excel._Worksheet hoja in hojas)
                         {
 
@@ -473,13 +512,24 @@ namespace Importador_Contable_BA
                                 // 6 Otros Ingresos
                                 // 7 R multa e intereses
 
-                                int gasos_comunes = Formateador.GetExcel<int>(hoja, "Q" + fila);
+                                int gastos_comunes = Formateador.GetExcel<int>(hoja, "Q" + fila);
                                 int energia = Formateador.GetExcel<int>(hoja, "G" + fila);
                                 int agua = Formateador.GetExcel<int>(hoja, "L" + fila);
                                 int cargo_fijo_agua = Formateador.GetExcel<int>(hoja, "M" + fila);
                                 int cuota_asoc = Formateador.GetExcel<int>(hoja, "N" + fila);
                                 int otros_ingresos = Formateador.GetExcel<int>(hoja, "O" + fila);
                                 int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
+
+                                #region Validacion de valores negativos
+                                if(gastos_comunes < 0
+                                    || energia < 0
+                                    || agua < 0
+                                    || cargo_fijo_agua < 0
+                                    || cuota_asoc < 0
+                                    || otros_ingresos < 0
+                                    || multa_e_intereses < 0)
+                                    return res.Error("Se recopilo un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion"); 
+                                #endregion
 
                                 string glosa = "P" + valor_parcela_value + valor_sector_value;
 
@@ -490,7 +540,7 @@ namespace Importador_Contable_BA
                                         comprobante_gasto_comun.Cuenta_abono,
                                         rut,
                                         glosa,
-                                        gasos_comunes
+                                        gastos_comunes
                                     ));
                                     comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
                                             comprobante_energia.Cuenta_abono,
@@ -535,7 +585,7 @@ namespace Importador_Contable_BA
                                     comprobante_gasto_comun.Add(new EComprobante_Detalle(
                                         rut,
                                         glosa,
-                                        gasos_comunes
+                                        gastos_comunes
                                     ));
                                     comprobante_energia.Add(new EComprobante_Detalle(
                                             rut,
@@ -595,7 +645,6 @@ namespace Importador_Contable_BA
 
                     res.Correcto();
                     res.Respuesta = detalles;
-
                 }
                 else
                 {
@@ -633,18 +682,9 @@ namespace Importador_Contable_BA
 
         private async void btnInsertarDatos_Click(object sender, EventArgs e)
         {
-            string path_mov_sys = this.path_mov_sys;
+            if (!this.VerificarMomSysExiste())
+                return;
 
-            if (string.IsNullOrEmpty(path_mov_sys))
-            {
-                this.Aviso("No esta signada la varialble de la direccion del fichero MovSys");
-                return;
-            }
-            else if (!File.Exists(path_mov_sys))
-            {
-                this.Aviso("No se encontro el fichero MovSys");
-                return;
-            }
 
             System.Collections.IList lista = this.ComprobantesContables.List;
 
@@ -657,7 +697,7 @@ namespace Importador_Contable_BA
             List<EComprobante_Detalle> lista_comprobantes = (List<EComprobante_Detalle>)lista;
 
             Reportador rep = new Reportador();
-            Res res = await this.EjecutarAsyncAwait(() => { return this.InsertarDatos(lista_comprobantes, path_mov_sys, rep); }, "Insertando", rep, false);
+            Res res = await this.EjecutarAsyncAwait(() => { return this.InsertarDatos(lista_comprobantes, this.path_mov_sys, rep); }, "Insertando", rep, false);
 
 
             this.dgvExcels.Refresh();
@@ -671,12 +711,38 @@ namespace Importador_Contable_BA
             this.Message(res);
         }
 
+        private bool VerificarMomSysExiste()
+        {
+            if (string.IsNullOrEmpty(this.path_mov_sys))
+            {
+                this.Aviso("No esta signada la variable de la direccion del fichero MovSys");
+                return false;
+            }
+            else if (!File.Exists(this.path_mov_sys))
+            {
+                this.Aviso("No se encontro el fichero MovSys");
+                return false;
+            }
+
+            return true;
+        }
+
         private Res InsertarDatos(List<EComprobante_Detalle > detalle_a_insertar, string path_mov_sys, Reportador rep)
         {
             Res res = new Res();
 
-            //string nombre_carpeta = @"C:\Users\Seba\source\repos\Importador Contable BA\Datos Git\contajvh\A2020\75941710";
-            //string nombre_db = @"MovSys";
+
+            Res res_copia_seguridad = this.CrearCopiaDeSeguridad(path_mov_sys);
+
+            if (res_copia_seguridad.IsError)
+            {
+                DialogResult d = MessageBox.Show("No se pudo crear la copia de segurdad, desea continaur de todas maneras?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                
+                if(d == DialogResult.No)
+                {
+                    return res.Error("Detenido por el usuario");
+                }
+            }
 
             string nombre_carpeta = Path.GetDirectoryName(path_mov_sys);
             string nombre_db = Path.GetFileName(path_mov_sys);
@@ -731,6 +797,27 @@ namespace Importador_Contable_BA
             return res;
         }
 
+        private Res CrearCopiaDeSeguridad(string path_mov_sys)
+        {
+            Res res = new Res();
+            string path_respaldos = @"respaldos";
+
+            if (File.Exists(path_mov_sys))
+            {
+                ManejoArchivos.CrearCarpetaSiNoExiste(path_respaldos);
+
+                ManejoArchivos.Copiar(path_mov_sys, Path.Combine(path_respaldos, "MovSys" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm") + Path.GetExtension(path_mov_sys)));
+
+                res.Correcto();
+            }
+            else
+            {
+                return res.Error("No existe el archivo " + path_mov_sys);
+            }
+
+            return res;
+        }
+
         private void lbPathAplicacion_Click(object sender, EventArgs e)
         {
 
@@ -764,6 +851,8 @@ namespace Importador_Contable_BA
             this.Setting.Rut_empresa = rut_empresa;
             this.Setting.Save();
 
+            this.CalcularPathMovSys();
+
             this.Informacion("Se ha salvado el rut");
         }
 
@@ -775,6 +864,13 @@ namespace Importador_Contable_BA
         private void CalcularPathMovSys()
         {
             int rut_empresa = this.txtRutEmpresa.ValueInt;
+
+
+            if(this.Setting.Rut_empresa != rut_empresa)
+            {
+                this.ErrorPathMovSys("Guarda el Rut de Empresa antes de continuar");
+                return;
+            }
 
             if (rut_empresa == 0)
             {
@@ -807,6 +903,97 @@ namespace Importador_Contable_BA
             }
 
             this.SetPathMovSys(Path.Combine(path_aplicacion_contable, "A" + anio.ToString(), rut_empresa.ToString(), "MovSys.dbf"));
+        }
+
+        private void tstbNuevaImportacion_Click(object sender, EventArgs e)
+        {
+            this.NuevaImportacion();
+        }
+
+        private void NuevaImportacion()
+        {
+            this.grExtraerDatos.Enabled = true;
+            this.grInsertarDatos.Enabled = false;
+
+            this.ComprobantesContables.Clear();
+        }
+
+        private async void buscarSiguienteNDisponibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!this.VerificarMomSysExiste())
+                return;
+
+            Reportador rep = new Reportador();
+            Res res = await this.EjecutarAsyncAwait(() => { return this.GetSigueinteNumeroComprobante(this.path_mov_sys, rep); }, "Insertando", rep);
+
+            if (res.IsCorrecto)
+            {
+                if(res.Respuesta is decimal)
+                {
+                    this.txtNComprobante.Value = (decimal)res.Respuesta;
+                }
+                else
+                {
+                    res.Error("La respuesta no es un numero");
+                }
+                
+            }
+
+            this.Message(res);
+        }
+
+        private Res GetSigueinteNumeroComprobante(string path_mov_sys, Reportador rep)
+        {
+            Res res = new Res();
+
+            string nombre_carpeta = Path.GetDirectoryName(path_mov_sys);
+            string nombre_db = Path.GetFileName(path_mov_sys);
+
+
+            rep.Reportar("Conectando con la base de datos");
+            OleDbConnection con = new OleDbConnection();
+            con.ConnectionString = @"Provider = Microsoft.Jet.OLEDB.4.0; Data Source = " + nombre_carpeta + "; Extended Properties = dBase IV; User ID=; Password=";
+            con.Open();
+
+            try
+            {
+                string consulta = "select MAX(NUM) AS MAXNUM, COUNT(NUM) AS COUNTNUM from " + nombre_db + " WHERE NUM LIKE '" + this.lbPrefijoNComprobante.Text + "%'";
+
+                OleDbCommand oCmd = con.CreateCommand();
+                // Read the table
+                oCmd.CommandText = consulta;
+
+                DataTable dt = new DataTable();
+                dt.Load(oCmd.ExecuteReader());
+
+                // columna numero comprobante NUM
+                if(dt.Rows.Count > 0 && dt.Columns.Contains("MAXNUM") && dt.Columns.Contains("COUNTNUM"))
+                {
+                    res.Correcto();
+
+                    decimal count_filas = Formateador.ToDecimal(dt.Rows[0]["COUNTNUM"]);
+
+                    if (count_filas == 0)
+                        res.Respuesta = 0M;
+                    else
+                        res.Respuesta = Formateador.ToDecimal(dt.Rows[0]["MAXNUM"]) + 1;
+
+                }
+                else
+                {
+                    return res.Error("No se obtubo el numero de comprobante");
+                }
+            }
+            catch (Exception ex)
+            {
+                return res.Error(ex.Message);
+            }
+            finally
+            {
+                rep.Reportar("Se cierra la conexion con la base de datos");
+                con.Close();
+            }
+            return res;
         }
     }
 }

@@ -33,6 +33,8 @@ namespace Entidades.Herramietas
     public class Reportador
     {
         #region Reportador
+        bool insertar_log_por_reporte = false;
+
         /// <summary>
         /// Se envia una cadena de texto que es notificada al reportador y mostrada, es el reporte visible
         /// </summary>
@@ -52,7 +54,8 @@ namespace Entidades.Herramietas
             ReportadorEventHandler handler = this.Reportando;
             handler?.Invoke(this, e);
 
-            new LogWriter(e.Reporte);
+            if(!this.insertar_log_por_reporte)
+                new LogWriter(e.Reporte);
         }
 
         public delegate void ReportadorEventHandler(object sender, ReportandorEventArgs e);
@@ -99,6 +102,19 @@ namespace Entidades.Herramietas
         public void NotificarProcreso(int count)
         {
             //throw new NotImplementedException();
+        }
+
+        public void ForzarFinalizacion()
+        {
+            this.OnForzarCierre(new EventArgs());
+        }
+
+        public event EventHandler ForzarCierre;
+
+        protected virtual void OnForzarCierre(EventArgs e)
+        {
+            EventHandler handler = this.ForzarCierre;
+            handler?.Invoke(this, e);
         }
     }
 }

@@ -500,6 +500,18 @@ namespace ControlesPersonalizados
                 {
                     i.NotificarProgreso();
                 };
+
+                rep.ForzarCierre += (sender4, e4) =>
+                {
+                    try
+                    {
+                        i.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        new LogWriter(ex);
+                    }
+                };
             }
 
             i.Show((IWin32Window)this);

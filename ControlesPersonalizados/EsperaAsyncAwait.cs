@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Herramientas;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,13 +11,18 @@ using System.Windows.Forms;
 
 namespace ControlesPersonalizados
 {
+    public enum Estados
+    {
+        INICIADO,
+        CARGANDO,
+        TERMINADO
+    }
+
     public partial class EsperaAsyncAwait : Form
     {
-        bool is_load = false;
+        private Estados estado = Estados.INICIADO;
         string action_realizar = string.Empty;
         string texto_terminado = "Completado";
-
-        public bool IsLoad { get => is_load; set => is_load = value; }
 
         public EsperaAsyncAwait(string action_realizar = "")
         {
@@ -26,12 +32,12 @@ namespace ControlesPersonalizados
 
         private void EsperaAsyncAwait_Load(object sender, EventArgs e)
         {
-            this.is_load = true;
+            this.estado = Estados.CARGANDO;
+
             if (!string.IsNullOrEmpty(this.action_realizar))
             {
                 this.lbMensajeSuperior.Text = action_realizar + "...";
             }
-            
         }
 
         public void AñadirMensaje(string mensaje, bool salto_linea = true)
@@ -115,7 +121,6 @@ namespace ControlesPersonalizados
 
         internal void NotificarProgreso()
         {
-
             if (this.pbPrincipal.InvokeRequired)
             {
                 this.pbPrincipal.Invoke(new MethodInvoker(delegate
@@ -141,16 +146,37 @@ namespace ControlesPersonalizados
 
         private void btnVerRegistro_Click(object sender, EventArgs e)
         {
-            EsperaAsyncAwaitVerRegistro i = new EsperaAsyncAwaitVerRegistro(this.lbMensaje.Text);
-            i.Show();
+            LogWriter logWriter = new LogWriter();
+            logWriter.AbrirLog();
         }
 
-        internal void Cargado()
+        public void Cargado()
         {
+            this.CrearLog();
+
+            this.estado = Estados.TERMINADO;
+
             this.lbMensajeSuperior.Text = this.texto_terminado;
             this.pbCargando.Image = this.il.Images[0];
 
 
+
+            this.AñadirBotonAceptar();
+        }
+
+        private void CrearLog()
+        {
+            if(this.estado != Estados.TERMINADO)
+            {
+                string log = this.lbMensajeSuperior.Text;
+                log = log + "\r\n" + this.lbMensaje.Text;
+
+                new LogWriter(log);
+            }
+        }
+
+        private void AñadirBotonAceptar()
+        {
             ButtonPitagoras btnAceptar = new ButtonPitagoras();
             btnAceptar.Text = "Aceptar";
             btnAceptar.Click += (sender, e) =>
@@ -158,10 +184,9 @@ namespace ControlesPersonalizados
                 this.Close();
             };
 
-           
             this.flp.Controls.Add(btnAceptar);
 
-            btnAceptar.Location = new Point(this.flp.Size.Width - btnAceptar.Size.Width - 3 , btnAceptar.Location.Y);
+            btnAceptar.Location = new Point(this.flp.Size.Width - btnAceptar.Size.Width - 3, btnAceptar.Location.Y);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -169,8 +194,12 @@ namespace ControlesPersonalizados
             base.OnPaint(e);
 
             Graphics g = e.Graphics;
-            
             g.DrawRectangle(new Pen(Color.FromArgb(210, 210, 210), Parametros.anchoBorde), 0, 0, Width - 0, Height - 0);
+        }
+
+        private void EsperaAsyncAwait_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.CrearLog();
         }
     }
 }

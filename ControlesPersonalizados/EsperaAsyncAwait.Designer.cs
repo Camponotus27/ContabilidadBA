@@ -33,14 +33,14 @@
             this.pbCargando = new System.Windows.Forms.PictureBox();
             this.plSuperior = new System.Windows.Forms.Panel();
             this.flp = new System.Windows.Forms.FlowLayoutPanel();
-            this.lbMensajeSuperior = new ControlesPersonalizados.LabelPitagoras();
             this.plProgreso = new System.Windows.Forms.Panel();
-            this.lbProgreso = new ControlesPersonalizados.LabelPitagoras();
             this.pbPrincipal = new System.Windows.Forms.ProgressBar();
             this.lbMensaje = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnVerRegistro = new ControlesPersonalizados.ButtonPitagoras();
             this.il = new System.Windows.Forms.ImageList(this.components);
+            this.lbMensajeSuperior = new ControlesPersonalizados.LabelPitagoras();
+            this.lbProgreso = new ControlesPersonalizados.LabelPitagoras();
+            this.btnAbrirRegistro = new ControlesPersonalizados.ButtonPitagoras();
             ((System.ComponentModel.ISupportInitialize)(this.pbCargando)).BeginInit();
             this.flp.SuspendLayout();
             this.plProgreso.SuspendLayout();
@@ -80,18 +80,6 @@
             this.flp.Size = new System.Drawing.Size(510, 327);
             this.flp.TabIndex = 6;
             // 
-            // lbMensajeSuperior
-            // 
-            this.lbMensajeSuperior.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbMensajeSuperior.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbMensajeSuperior.ForeColor = System.Drawing.Color.Black;
-            this.lbMensajeSuperior.Location = new System.Drawing.Point(3, 0);
-            this.lbMensajeSuperior.Name = "lbMensajeSuperior";
-            this.lbMensajeSuperior.Size = new System.Drawing.Size(500, 35);
-            this.lbMensajeSuperior.TabIndex = 2;
-            this.lbMensajeSuperior.Text = "Realizando la operacion...";
-            this.lbMensajeSuperior.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
-            // 
             // plProgreso
             // 
             this.plProgreso.Controls.Add(this.lbProgreso);
@@ -101,17 +89,6 @@
             this.plProgreso.Size = new System.Drawing.Size(500, 60);
             this.plProgreso.TabIndex = 7;
             this.plProgreso.Visible = false;
-            // 
-            // lbProgreso
-            // 
-            this.lbProgreso.AutoSize = true;
-            this.lbProgreso.ForeColor = System.Drawing.Color.Black;
-            this.lbProgreso.Location = new System.Drawing.Point(441, 43);
-            this.lbProgreso.Name = "lbProgreso";
-            this.lbProgreso.Size = new System.Drawing.Size(18, 13);
-            this.lbProgreso.TabIndex = 1;
-            this.lbProgreso.Text = "-/-";
-            this.lbProgreso.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // pbPrincipal
             // 
@@ -133,30 +110,53 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnVerRegistro);
+            this.panel1.Controls.Add(this.btnAbrirRegistro);
             this.panel1.Location = new System.Drawing.Point(3, 250);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(500, 29);
             this.panel1.TabIndex = 9;
-            // 
-            // btnVerRegistro
-            // 
-            this.btnVerRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnVerRegistro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.btnVerRegistro.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerRegistro.Location = new System.Drawing.Point(397, 3);
-            this.btnVerRegistro.Name = "btnVerRegistro";
-            this.btnVerRegistro.Size = new System.Drawing.Size(100, 23);
-            this.btnVerRegistro.TabIndex = 0;
-            this.btnVerRegistro.Text = "Ver Registro";
-            this.btnVerRegistro.UseVisualStyleBackColor = true;
-            this.btnVerRegistro.Click += new System.EventHandler(this.btnVerRegistro_Click);
             // 
             // il
             // 
             this.il.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il.ImageStream")));
             this.il.TransparentColor = System.Drawing.Color.Transparent;
             this.il.Images.SetKeyName(0, "check.png");
+            // 
+            // lbMensajeSuperior
+            // 
+            this.lbMensajeSuperior.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbMensajeSuperior.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMensajeSuperior.ForeColor = System.Drawing.Color.Black;
+            this.lbMensajeSuperior.Location = new System.Drawing.Point(3, 0);
+            this.lbMensajeSuperior.Name = "lbMensajeSuperior";
+            this.lbMensajeSuperior.Size = new System.Drawing.Size(500, 35);
+            this.lbMensajeSuperior.TabIndex = 2;
+            this.lbMensajeSuperior.Text = "Realizando la operacion...";
+            this.lbMensajeSuperior.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            // 
+            // lbProgreso
+            // 
+            this.lbProgreso.AutoSize = true;
+            this.lbProgreso.ForeColor = System.Drawing.Color.Black;
+            this.lbProgreso.Location = new System.Drawing.Point(441, 43);
+            this.lbProgreso.Name = "lbProgreso";
+            this.lbProgreso.Size = new System.Drawing.Size(18, 13);
+            this.lbProgreso.TabIndex = 1;
+            this.lbProgreso.Text = "-/-";
+            this.lbProgreso.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            // 
+            // btnAbrirRegistro
+            // 
+            this.btnAbrirRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAbrirRegistro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.btnAbrirRegistro.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAbrirRegistro.Location = new System.Drawing.Point(397, 3);
+            this.btnAbrirRegistro.Name = "btnAbrirRegistro";
+            this.btnAbrirRegistro.Size = new System.Drawing.Size(100, 23);
+            this.btnAbrirRegistro.TabIndex = 0;
+            this.btnAbrirRegistro.Text = "Ver Registro";
+            this.btnAbrirRegistro.UseVisualStyleBackColor = true;
+            this.btnAbrirRegistro.Click += new System.EventHandler(this.btnVerRegistro_Click);
             // 
             // EsperaAsyncAwait
             // 
@@ -171,6 +171,7 @@
             this.Name = "EsperaAsyncAwait";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Cargando";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EsperaAsyncAwait_FormClosed);
             this.Load += new System.EventHandler(this.EsperaAsyncAwait_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbCargando)).EndInit();
             this.flp.ResumeLayout(false);
@@ -194,7 +195,7 @@
         private LabelPitagoras lbProgreso;
         private System.Windows.Forms.TextBox lbMensaje;
         private System.Windows.Forms.Panel panel1;
-        private ButtonPitagoras btnVerRegistro;
+        private ButtonPitagoras btnAbrirRegistro;
         private System.Windows.Forms.ImageList il;
     }
 }

@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnAsignarAplicacion = new System.Windows.Forms.Button();
+            this.il = new System.Windows.Forms.ImageList(this.components);
             this.btnEliminar = new ControlesPersonalizados.ButtonPitagoras();
             this.btnBuscar = new ControlesPersonalizados.ButtonPitagoras();
             this.dgvExcels = new ControlesPersonalizados.GridPitagoras();
@@ -45,8 +46,8 @@
             this.fechaformateadaDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.glosaFormateadaDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.abonoDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cargoDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.abonoDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.correlativoDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mesDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComprobantesContables = new System.Windows.Forms.BindingSource(this.components);
@@ -63,6 +64,8 @@
             this.bindingCmbAnio = new System.Windows.Forms.BindingSource(this.components);
             this.labelPitagoras1 = new ControlesPersonalizados.LabelPitagoras();
             this.txtNComprobante = new ControlesPersonalizados.TextBoxNumeroPitagoras();
+            this.cmsNumeroComprobante = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.buscarSiguienteNDisponibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numerocuentaformateadaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fechaformateadaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,14 +76,15 @@
             this.correlativoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grDatosSistema = new System.Windows.Forms.GroupBox();
-            this.labelPitagoras3 = new ControlesPersonalizados.LabelPitagoras();
+            this.labelPitagoras5 = new ControlesPersonalizados.LabelPitagoras();
+            this.txtPathMovSys = new System.Windows.Forms.TextBox();
+            this.txtPathAplicacion = new System.Windows.Forms.TextBox();
+            this.lbPathMovSys = new ControlesPersonalizados.LabelPitagoras();
             this.btnSalvarRutEmpresa = new System.Windows.Forms.Button();
             this.labelPitagoras4 = new ControlesPersonalizados.LabelPitagoras();
             this.txtRutEmpresa = new ControlesPersonalizados.TextBoxNumeroPitagoras();
-            this.txtPathAplicacion = new System.Windows.Forms.TextBox();
-            this.txtPathMovSys = new System.Windows.Forms.TextBox();
-            this.labelPitagoras5 = new ControlesPersonalizados.LabelPitagoras();
-            this.il = new System.Windows.Forms.ImageList(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tstbNuevaImportacion = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingExcel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvComprobantes)).BeginInit();
@@ -89,7 +93,9 @@
             this.grExtraerDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCmbMeses)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCmbAnio)).BeginInit();
+            this.cmsNumeroComprobante.SuspendLayout();
             this.grDatosSistema.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAsignarAplicacion
@@ -103,14 +109,21 @@
             this.btnAsignarAplicacion.UseVisualStyleBackColor = true;
             this.btnAsignarAplicacion.Click += new System.EventHandler(this.btnAsignarAplicacion_Click);
             // 
+            // il
+            // 
+            this.il.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il.ImageStream")));
+            this.il.TransparentColor = System.Drawing.Color.Transparent;
+            this.il.Images.SetKeyName(0, "icono-buscar-64x64.png");
+            this.il.Images.SetKeyName(1, "guardar.png");
+            // 
             // btnEliminar
             // 
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminar.Location = new System.Drawing.Point(242, 44);
+            this.btnEliminar.Location = new System.Drawing.Point(242, 64);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(100, 23);
+            this.btnEliminar.Size = new System.Drawing.Size(96, 23);
             this.btnEliminar.TabIndex = 9;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -121,7 +134,7 @@
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(242, 15);
+            this.btnBuscar.Location = new System.Drawing.Point(242, 35);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(96, 23);
             this.btnBuscar.TabIndex = 8;
@@ -158,7 +171,7 @@
             this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvExcels.EnableHeadersVisualStyles = false;
             this.dgvExcels.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvExcels.Location = new System.Drawing.Point(12, 15);
+            this.dgvExcels.Location = new System.Drawing.Point(12, 35);
             this.dgvExcels.MantenerPorLoMenosUnaFila = false;
             this.dgvExcels.Name = "dgvExcels";
             this.dgvExcels.RowHeadersVisible = false;
@@ -199,8 +212,8 @@
             this.fechaformateadaDataGridViewTextBoxColumn1,
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1,
             this.glosaFormateadaDataGridViewTextBoxColumn1,
-            this.abonoDataGridViewTextBoxColumn1,
             this.cargoDataGridViewTextBoxColumn1,
+            this.abonoDataGridViewTextBoxColumn1,
             this.correlativoDataGridViewTextBoxColumn1,
             this.mesDataGridViewTextBoxColumn1});
             this.dgvComprobantes.DataSource = this.ComprobantesContables;
@@ -214,7 +227,7 @@
             this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvComprobantes.EnableHeadersVisualStyles = false;
             this.dgvComprobantes.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvComprobantes.Location = new System.Drawing.Point(12, 278);
+            this.dgvComprobantes.Location = new System.Drawing.Point(12, 298);
             this.dgvComprobantes.MantenerPorLoMenosUnaFila = false;
             this.dgvComprobantes.Name = "dgvComprobantes";
             this.dgvComprobantes.RowHeadersVisible = false;
@@ -254,19 +267,19 @@
             this.glosaFormateadaDataGridViewTextBoxColumn1.Name = "glosaFormateadaDataGridViewTextBoxColumn1";
             this.glosaFormateadaDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
-            // abonoDataGridViewTextBoxColumn1
-            // 
-            this.abonoDataGridViewTextBoxColumn1.DataPropertyName = "Abono";
-            this.abonoDataGridViewTextBoxColumn1.HeaderText = "Abono";
-            this.abonoDataGridViewTextBoxColumn1.Name = "abonoDataGridViewTextBoxColumn1";
-            this.abonoDataGridViewTextBoxColumn1.Width = 80;
-            // 
             // cargoDataGridViewTextBoxColumn1
             // 
             this.cargoDataGridViewTextBoxColumn1.DataPropertyName = "Cargo";
             this.cargoDataGridViewTextBoxColumn1.HeaderText = "Cargo";
             this.cargoDataGridViewTextBoxColumn1.Name = "cargoDataGridViewTextBoxColumn1";
             this.cargoDataGridViewTextBoxColumn1.Width = 80;
+            // 
+            // abonoDataGridViewTextBoxColumn1
+            // 
+            this.abonoDataGridViewTextBoxColumn1.DataPropertyName = "Abono";
+            this.abonoDataGridViewTextBoxColumn1.HeaderText = "Abono";
+            this.abonoDataGridViewTextBoxColumn1.Name = "abonoDataGridViewTextBoxColumn1";
+            this.abonoDataGridViewTextBoxColumn1.Width = 80;
             // 
             // correlativoDataGridViewTextBoxColumn1
             // 
@@ -291,7 +304,7 @@
             // 
             this.grInsertarDatos.Controls.Add(this.btnInsertarDatos);
             this.grInsertarDatos.Enabled = false;
-            this.grInsertarDatos.Location = new System.Drawing.Point(361, 192);
+            this.grInsertarDatos.Location = new System.Drawing.Point(361, 212);
             this.grInsertarDatos.Name = "grInsertarDatos";
             this.grInsertarDatos.Size = new System.Drawing.Size(410, 80);
             this.grInsertarDatos.TabIndex = 20;
@@ -303,7 +316,7 @@
             this.btnInsertarDatos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnInsertarDatos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnInsertarDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsertarDatos.Location = new System.Drawing.Point(295, 23);
+            this.btnInsertarDatos.Location = new System.Drawing.Point(308, 18);
             this.btnInsertarDatos.Name = "btnInsertarDatos";
             this.btnInsertarDatos.Size = new System.Drawing.Size(96, 47);
             this.btnInsertarDatos.TabIndex = 11;
@@ -320,7 +333,7 @@
             this.grExtraerDatos.Controls.Add(this.cmbAnio);
             this.grExtraerDatos.Controls.Add(this.labelPitagoras1);
             this.grExtraerDatos.Controls.Add(this.txtNComprobante);
-            this.grExtraerDatos.Location = new System.Drawing.Point(12, 191);
+            this.grExtraerDatos.Location = new System.Drawing.Point(12, 211);
             this.grExtraerDatos.Name = "grExtraerDatos";
             this.grExtraerDatos.Size = new System.Drawing.Size(343, 80);
             this.grExtraerDatos.TabIndex = 19;
@@ -377,7 +390,7 @@
             this.btnExtraerDatos.Name = "btnExtraerDatos";
             this.btnExtraerDatos.Size = new System.Drawing.Size(96, 47);
             this.btnExtraerDatos.TabIndex = 10;
-            this.btnExtraerDatos.Text = "Extrer Datos";
+            this.btnExtraerDatos.Text = "Extraer Datos";
             this.btnExtraerDatos.UseVisualStyleBackColor = true;
             this.btnExtraerDatos.Click += new System.EventHandler(this.btnVerificarFormato_Click);
             // 
@@ -405,9 +418,9 @@
             this.labelPitagoras1.ForeColor = System.Drawing.Color.Black;
             this.labelPitagoras1.Location = new System.Drawing.Point(6, 53);
             this.labelPitagoras1.Name = "labelPitagoras1";
-            this.labelPitagoras1.Size = new System.Drawing.Size(69, 13);
+            this.labelPitagoras1.Size = new System.Drawing.Size(115, 13);
             this.labelPitagoras1.TabIndex = 16;
-            this.labelPitagoras1.Text = "N° Comp. Ini.";
+            this.labelPitagoras1.Text = "N° Comprobante Inicial";
             this.labelPitagoras1.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // txtNComprobante
@@ -438,6 +451,20 @@
             0,
             0,
             0});
+            // 
+            // cmsNumeroComprobante
+            // 
+            this.cmsNumeroComprobante.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buscarSiguienteNDisponibleToolStripMenuItem});
+            this.cmsNumeroComprobante.Name = "cmsNumeroComprobante";
+            this.cmsNumeroComprobante.Size = new System.Drawing.Size(236, 26);
+            // 
+            // buscarSiguienteNDisponibleToolStripMenuItem
+            // 
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Name = "buscarSiguienteNDisponibleToolStripMenuItem";
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Text = "Buscar siguiente N° disponible";
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Click += new System.EventHandler(this.buscarSiguienteNDisponibleToolStripMenuItem_Click);
             // 
             // nombreDataGridViewTextBoxColumn
             // 
@@ -516,28 +543,55 @@
             this.grDatosSistema.Controls.Add(this.labelPitagoras5);
             this.grDatosSistema.Controls.Add(this.txtPathMovSys);
             this.grDatosSistema.Controls.Add(this.txtPathAplicacion);
-            this.grDatosSistema.Controls.Add(this.labelPitagoras3);
+            this.grDatosSistema.Controls.Add(this.lbPathMovSys);
             this.grDatosSistema.Controls.Add(this.btnSalvarRutEmpresa);
             this.grDatosSistema.Controls.Add(this.labelPitagoras4);
             this.grDatosSistema.Controls.Add(this.txtRutEmpresa);
             this.grDatosSistema.Controls.Add(this.btnAsignarAplicacion);
-            this.grDatosSistema.Location = new System.Drawing.Point(361, 12);
+            this.grDatosSistema.Location = new System.Drawing.Point(361, 32);
             this.grDatosSistema.Name = "grDatosSistema";
             this.grDatosSistema.Size = new System.Drawing.Size(410, 174);
             this.grDatosSistema.TabIndex = 21;
             this.grDatosSistema.TabStop = false;
             this.grDatosSistema.Text = "Sistema";
             // 
-            // labelPitagoras3
+            // labelPitagoras5
             // 
-            this.labelPitagoras3.AutoSize = true;
-            this.labelPitagoras3.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras3.Location = new System.Drawing.Point(6, 119);
-            this.labelPitagoras3.Name = "labelPitagoras3";
-            this.labelPitagoras3.Size = new System.Drawing.Size(280, 13);
-            this.labelPitagoras3.TabIndex = 7;
-            this.labelPitagoras3.Text = "Path MovSys (la ubicacion se calculará automaticamente)";
-            this.labelPitagoras3.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            this.labelPitagoras5.AutoSize = true;
+            this.labelPitagoras5.ForeColor = System.Drawing.Color.Black;
+            this.labelPitagoras5.Location = new System.Drawing.Point(6, 23);
+            this.labelPitagoras5.Name = "labelPitagoras5";
+            this.labelPitagoras5.Size = new System.Drawing.Size(127, 13);
+            this.labelPitagoras5.TabIndex = 11;
+            this.labelPitagoras5.Text = "Ruta Aplicacion Contable";
+            this.labelPitagoras5.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
+            // 
+            // txtPathMovSys
+            // 
+            this.txtPathMovSys.Location = new System.Drawing.Point(9, 133);
+            this.txtPathMovSys.Name = "txtPathMovSys";
+            this.txtPathMovSys.ReadOnly = true;
+            this.txtPathMovSys.Size = new System.Drawing.Size(395, 20);
+            this.txtPathMovSys.TabIndex = 10;
+            // 
+            // txtPathAplicacion
+            // 
+            this.txtPathAplicacion.Location = new System.Drawing.Point(9, 39);
+            this.txtPathAplicacion.Name = "txtPathAplicacion";
+            this.txtPathAplicacion.ReadOnly = true;
+            this.txtPathAplicacion.Size = new System.Drawing.Size(362, 20);
+            this.txtPathAplicacion.TabIndex = 9;
+            // 
+            // lbPathMovSys
+            // 
+            this.lbPathMovSys.AutoSize = true;
+            this.lbPathMovSys.ForeColor = System.Drawing.Color.Black;
+            this.lbPathMovSys.Location = new System.Drawing.Point(6, 119);
+            this.lbPathMovSys.Name = "lbPathMovSys";
+            this.lbPathMovSys.Size = new System.Drawing.Size(280, 13);
+            this.lbPathMovSys.TabIndex = 7;
+            this.lbPathMovSys.Text = "Path MovSys (la ubicacion se calculará automaticamente)";
+            this.lbPathMovSys.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // btnSalvarRutEmpresa
             // 
@@ -571,7 +625,7 @@
             this.txtRutEmpresa.FormatoNumerico = true;
             this.txtRutEmpresa.IgnorarFlujo = false;
             this.txtRutEmpresa.Location = new System.Drawing.Point(9, 86);
-            this.txtRutEmpresa.MaxLength = 9;
+            this.txtRutEmpresa.MaxLength = 11;
             this.txtRutEmpresa.Name = "txtRutEmpresa";
             this.txtRutEmpresa.SeleccionaTodoConClick = true;
             this.txtRutEmpresa.Size = new System.Drawing.Size(93, 20);
@@ -590,45 +644,28 @@
             0});
             this.txtRutEmpresa.Leave += new System.EventHandler(this.txtRutEmpresa_Leave);
             // 
-            // txtPathAplicacion
+            // menuStrip1
             // 
-            this.txtPathAplicacion.Location = new System.Drawing.Point(9, 39);
-            this.txtPathAplicacion.Name = "txtPathAplicacion";
-            this.txtPathAplicacion.ReadOnly = true;
-            this.txtPathAplicacion.Size = new System.Drawing.Size(362, 20);
-            this.txtPathAplicacion.TabIndex = 9;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tstbNuevaImportacion});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 22;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // txtPathMovSys
+            // tstbNuevaImportacion
             // 
-            this.txtPathMovSys.Location = new System.Drawing.Point(9, 133);
-            this.txtPathMovSys.Name = "txtPathMovSys";
-            this.txtPathMovSys.ReadOnly = true;
-            this.txtPathMovSys.Size = new System.Drawing.Size(395, 20);
-            this.txtPathMovSys.TabIndex = 10;
-            // 
-            // labelPitagoras5
-            // 
-            this.labelPitagoras5.AutoSize = true;
-            this.labelPitagoras5.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras5.Location = new System.Drawing.Point(6, 23);
-            this.labelPitagoras5.Name = "labelPitagoras5";
-            this.labelPitagoras5.Size = new System.Drawing.Size(127, 13);
-            this.labelPitagoras5.TabIndex = 11;
-            this.labelPitagoras5.Text = "Ruta Aplicacion Contable";
-            this.labelPitagoras5.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
-            // 
-            // il
-            // 
-            this.il.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il.ImageStream")));
-            this.il.TransparentColor = System.Drawing.Color.Transparent;
-            this.il.Images.SetKeyName(0, "icono-buscar-64x64.png");
-            this.il.Images.SetKeyName(1, "guardar.png");
+            this.tstbNuevaImportacion.Name = "tstbNuevaImportacion";
+            this.tstbNuevaImportacion.Size = new System.Drawing.Size(121, 20);
+            this.tstbNuevaImportacion.Text = "Nueva importacion";
+            this.tstbNuevaImportacion.Click += new System.EventHandler(this.tstbNuevaImportacion_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 464);
+            this.ClientSize = new System.Drawing.Size(800, 484);
             this.Controls.Add(this.grDatosSistema);
             this.Controls.Add(this.grInsertarDatos);
             this.Controls.Add(this.grExtraerDatos);
@@ -636,9 +673,12 @@
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.dgvExcels);
+            this.Controls.Add(this.menuStrip1);
             this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Importador Contable Bosques Aculeo";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingExcel)).EndInit();
@@ -649,9 +689,13 @@
             this.grExtraerDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCmbMeses)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCmbAnio)).EndInit();
+            this.cmsNumeroComprobante.ResumeLayout(false);
             this.grDatosSistema.ResumeLayout(false);
             this.grDatosSistema.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -685,24 +729,28 @@
         private System.Windows.Forms.HelpProvider hp;
         private System.Windows.Forms.GroupBox grInsertarDatos;
         private ControlesPersonalizados.ButtonPitagoras btnInsertarDatos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numerocuentaformateadaDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fechaformateadaDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numerocomprobanteformateadaDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn glosaFormateadaDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn abonoDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cargoDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn correlativoDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mesDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn1;
         private System.Windows.Forms.GroupBox grDatosSistema;
         private ControlesPersonalizados.LabelPitagoras labelPitagoras4;
         private ControlesPersonalizados.TextBoxNumeroPitagoras txtRutEmpresa;
         private System.Windows.Forms.Button btnSalvarRutEmpresa;
-        private ControlesPersonalizados.LabelPitagoras labelPitagoras3;
+        private ControlesPersonalizados.LabelPitagoras lbPathMovSys;
         private ControlesPersonalizados.LabelPitagoras labelPitagoras5;
         private System.Windows.Forms.TextBox txtPathMovSys;
         private System.Windows.Forms.TextBox txtPathAplicacion;
         private System.Windows.Forms.ImageList il;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tstbNuevaImportacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numerocuentaformateadaDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fechaformateadaDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numerocomprobanteformateadaDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn glosaFormateadaDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cargoDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn abonoDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn correlativoDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mesDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.ContextMenuStrip cmsNumeroComprobante;
+        private System.Windows.Forms.ToolStripMenuItem buscarSiguienteNDisponibleToolStripMenuItem;
     }
 }
 
