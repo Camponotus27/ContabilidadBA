@@ -427,213 +427,256 @@ namespace Importador_Contable_BA
                     excel_Aplicacion = new Excel.Application();
                     excel_Aplicacion.Visible = false;
 
+                    Excel.Workbooks libros_excel = excel_Aplicacion.Workbooks;
+
                     foreach (EPath_Excel path in lista)
                     {
-                        Excel.Workbook libro_excel = excel_Aplicacion.Workbooks.Open(path.Path_excel);
+                        Excel.Workbook libro_excel = libros_excel.Open(path.Path_excel, null, true);
                         rep.Reportar("Abriendo documento " + libro_excel.Name);
 
                         rep.Reportar("Iniciando hojas Excel");
                         Excel.Sheets hojas = libro_excel.Sheets;
 
+                        // Las hojas validas deven estar entre el Inicio y el final por lo que se manejaran estados
+                        bool pasando_por_inicio = false;
+                        bool paso_por_inicio = false;
+                        bool pasando_por_final = false;
+
+
                         foreach (Excel._Worksheet hoja in hojas)
                         {
-
-                            rep.Reportar("Abriendo hoja " + hoja.Name);
-                            // en cabezado hoja
-                            string valor_parcela = Formateador.GetExcel<string>(hoja, "B1");
-                            string valor_sector = Formateador.GetExcel<string>(hoja, "B2");
-                            string valor_propietario = Formateador.GetExcel<string>(hoja, "B3");
-
-                            // valores hoja
-                            string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
-                            string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
-
-                            string rut = Formateador.GetExcel<string>(hoja, "A3");
-
-                            string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "F3");
-
-                            bool en_cobranza_judicial = valor_cobranza_judicial_value == "EN COBRANZA JUDICIAL";
-
-                            // aca se valida si la pagina es valida
-
-                            bool es_una_pagina_valida = true;
-                            string mensaje_de_no_valida = string.Empty;
-
-                            // si la D esta vacia prueba con la M
-                            if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                            if (!string.IsNullOrEmpty(hoja.Name))
                             {
-                                valor_parcela_value = Formateador.GetExcel<string>(hoja, "M1");
-                                valor_sector_value = Formateador.GetExcel<string>(hoja, "M2");
-                            }
+                                string nombre_hoja_formateado = hoja.Name.Trim().ToUpper();
 
-                            if (valor_parcela != "PARCELA")
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " B1 no contiene 'PARCELA'";
-                            }
-                            else if (string.IsNullOrWhiteSpace(valor_parcela_value))
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " D1 la parcela esta vacia";
-                            }
-                            else if (valor_sector != "SECTOR")
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " B2 no contiene 'SECTOR'";
-                            }
-                            else if (string.IsNullOrWhiteSpace(valor_sector_value))
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " D2 el sector esta vacio";
-                            }
-                            else if (valor_propietario != "PROPIETARIO")
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " B3 no contiene 'PROPIETARIO'";
-                            }
-                            else if (string.IsNullOrWhiteSpace(rut))
-                            {
-                                es_una_pagina_valida = false;
-                                mensaje_de_no_valida += " A3 no contiene el Rut";
-                            }
-
-
-                            if (es_una_pagina_valida)
-                            {
-                                rep.Reportar("VALIDA", false);
-                                path.Numero_hojas_validas++;
-
-
-                                // 1 Q gastos comunes
-                                // 2 G Energia
-                                // 3 L Agua
-                                // 4 M Cargo fijo agua
-                                // 5 N Cuota asoc
-
-                                // 6 Otros Ingresos
-                                // 7 R multa e intereses
-
-                                int gastos_comunes = Formateador.GetExcel<int>(hoja, "Q" + fila);
-                                int energia = Formateador.GetExcel<int>(hoja, "G" + fila);
-                                int agua = Formateador.GetExcel<int>(hoja, "L" + fila);
-                                int cargo_fijo_agua = Formateador.GetExcel<int>(hoja, "M" + fila);
-                                int cuota_asoc = Formateador.GetExcel<int>(hoja, "N" + fila);
-                                int otros_ingresos = Formateador.GetExcel<int>(hoja, "O" + fila);
-                                int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
-
-                                #region Validacion de valores negativos
-                                if (gastos_comunes < 0
-                                    || energia < 0
-                                    || agua < 0
-                                    || cargo_fijo_agua < 0
-                                    || cuota_asoc < 0
-                                    || otros_ingresos < 0
-                                    || multa_e_intereses < 0)
-                                    return res.Error("Se recopilo un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion");
-                                #endregion
-
-                                string glosa = "P" + valor_parcela_value + valor_sector_value;
-
-
-                                if (en_cobranza_judicial)
+                                switch (nombre_hoja_formateado)
                                 {
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                        comprobante_gasto_comun.Cuenta_abono,
-                                        rut,
-                                        glosa,
-                                        gastos_comunes
-                                    ));
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_energia.Cuenta_abono,
-                                            rut,
-                                            glosa,
-                                            energia
-                                        ));
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_agua.Cuenta_abono,
-                                            rut,
-                                            glosa,
-                                            agua
-                                        ));
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_cargo_fijo_agua.Cuenta_abono,
-                                            rut,
-                                            glosa,
-                                            cargo_fijo_agua
-                                        ));
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_cuota_asoc.Cuenta_abono,
-                                            rut,
-                                            glosa,
-                                            cuota_asoc
-                                        ));
+                                    case "INICIO":
+                                        pasando_por_inicio = true;
+                                        break;
+                                    case "FINAL":
+                                        pasando_por_final = true;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
 
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_otros_ingresos.Cuenta_abono,
+                            // si encuentra el final se saldrá del ciclo foreach
+                            if (pasando_por_final)
+                                break;
+
+                            if (paso_por_inicio && !pasando_por_final)
+                            {
+                                rep.Reportar("Abriendo hoja " + hoja.Name);
+                                // en cabezado hoja
+                                string valor_parcela = Formateador.GetExcel<string>(hoja, "B1");
+                                string valor_sector = Formateador.GetExcel<string>(hoja, "B2");
+                                string valor_propietario = Formateador.GetExcel<string>(hoja, "B3");
+
+                                // valores hoja
+                                string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
+                                string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
+
+                                string rut = Formateador.GetExcel<string>(hoja, "A3");
+
+                                string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "F3");
+
+                                bool en_cobranza_judicial = valor_cobranza_judicial_value == "EN COBRANZA JUDICIAL";
+
+                                // aca se valida si la pagina es valida
+
+                                bool es_una_pagina_valida = true;
+                                string mensaje_de_no_valida = string.Empty;
+
+                                // si la D esta vacia prueba con la M
+                                if (string.IsNullOrWhiteSpace(valor_parcela_value) && string.IsNullOrWhiteSpace(valor_sector_value))
+                                {
+                                    valor_parcela_value = Formateador.GetExcel<string>(hoja, "M1");
+                                    valor_sector_value = Formateador.GetExcel<string>(hoja, "M2");
+                                }
+
+                                /*
+                                if (valor_parcela != "PARCELA")
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " B1 no contiene 'PARCELA'";
+                                }
+                                else if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " D1 la parcela esta vacia";
+                                }
+                                else */
+                                
+                                if (valor_sector != "SECTOR")
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " B2 no contiene 'SECTOR'";
+                                }
+                                else if (string.IsNullOrWhiteSpace(valor_sector_value))
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " D2 el sector esta vacio";
+                                }
+                                else if (valor_propietario != "PROPIETARIO")
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " B3 no contiene 'PROPIETARIO'";
+                                }
+                                else if (string.IsNullOrWhiteSpace(rut))
+                                {
+                                    es_una_pagina_valida = false;
+                                    mensaje_de_no_valida += " A3 no contiene el Rut";
+                                }
+
+
+                                if (es_una_pagina_valida)
+                                {
+                                    rep.Reportar("VALIDA", false);
+                                    path.Numero_hojas_validas++;
+
+
+                                    // 1 Q gastos comunes
+                                    // 2 G Energia
+                                    // 3 L Agua
+                                    // 4 M Cargo fijo agua
+                                    // 5 N Cuota asoc
+
+                                    // 6 Otros Ingresos
+                                    // 7 R multa e intereses
+
+                                    int gastos_comunes = Formateador.GetExcel<int>(hoja, "Q" + fila);
+                                    int energia = Formateador.GetExcel<int>(hoja, "G" + fila);
+                                    int agua = Formateador.GetExcel<int>(hoja, "L" + fila);
+                                    int cargo_fijo_agua = Formateador.GetExcel<int>(hoja, "M" + fila);
+                                    int cuota_asoc = Formateador.GetExcel<int>(hoja, "N" + fila);
+                                    int otros_ingresos = Formateador.GetExcel<int>(hoja, "O" + fila);
+                                    int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
+
+                                    #region Validacion de valores negativos
+                                    if (gastos_comunes < 0
+                                        || energia < 0
+                                        || agua < 0
+                                        || cargo_fijo_agua < 0
+                                        || cuota_asoc < 0
+                                        || otros_ingresos < 0
+                                        || multa_e_intereses < 0)
+                                        return res.Error("Se recopilo un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion");
+                                    #endregion
+
+                                    string glosa = string.Empty;
+
+                                    if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                                        glosa = valor_sector_value;
+                                    else
+                                        glosa = "P" + valor_parcela_value + valor_sector_value;
+
+
+                                    if (en_cobranza_judicial)
+                                    {
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                            comprobante_gasto_comun.Cuenta_abono,
                                             rut,
                                             glosa,
-                                            otros_ingresos
+                                            gastos_comunes
                                         ));
-                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_multa_e_intereses.Cuenta_abono,
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_energia.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                energia
+                                            ));
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_agua.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                agua
+                                            ));
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_cargo_fijo_agua.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                cargo_fijo_agua
+                                            ));
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_cuota_asoc.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                cuota_asoc
+                                            ));
+
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_otros_ingresos.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                otros_ingresos
+                                            ));
+                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_multa_e_intereses.Cuenta_abono,
+                                                rut,
+                                                glosa,
+                                                multa_e_intereses
+                                            ));
+                                    }
+                                    else
+                                    {
+                                        comprobante_gasto_comun.Add(new EComprobante_Detalle(
                                             rut,
                                             glosa,
-                                            multa_e_intereses
+                                            gastos_comunes
                                         ));
+                                        comprobante_energia.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                energia
+                                            ));
+                                        comprobante_agua.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                agua
+                                            ));
+                                        comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                cargo_fijo_agua
+                                            ));
+                                        comprobante_cuota_asoc.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                cuota_asoc
+                                            ));
+
+                                        comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                otros_ingresos
+                                            ));
+                                        comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                multa_e_intereses
+                                            ));
+                                    }
+
+
                                 }
                                 else
                                 {
-                                    comprobante_gasto_comun.Add(new EComprobante_Detalle(
-                                        rut,
-                                        glosa,
-                                        gastos_comunes
-                                    ));
-                                    comprobante_energia.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            energia
-                                        ));
-                                    comprobante_agua.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            agua
-                                        ));
-                                    comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            cargo_fijo_agua
-                                        ));
-                                    comprobante_cuota_asoc.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            cuota_asoc
-                                        ));
-
-                                    comprobante_otros_ingresos.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            otros_ingresos
-                                        ));
-                                    comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            multa_e_intereses
-                                        ));
+                                    rep.Reportar("NO VALIDA " + mensaje_de_no_valida, false);
                                 }
-
-
-                            }
-                            else
-                            {
-                                rep.Reportar("NO VALIDA " + mensaje_de_no_valida, false);
                             }
 
-                            
+
+                            if (pasando_por_inicio)
+                                paso_por_inicio = true;
                         }
 
                         libro_excel.Close();
+                        
                     }
 
+                    libros_excel.Close();
                     excel_Aplicacion.Quit();
 
                     // una vez encontrado los datos
