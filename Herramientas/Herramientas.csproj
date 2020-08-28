@@ -94,7 +94,6 @@
     <Compile Include="HHTML.cs" />
     <Compile Include="HScraping.cs" />
     <Compile Include="HXML.cs" />
-    <Compile Include="Impresora.cs" />
     <Compile Include="Interacciones.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="ManejoArchivos.cs" />

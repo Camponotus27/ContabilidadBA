@@ -260,25 +260,25 @@ namespace Importador_Contable_BA
         {
             System.Collections.IList lista = this.bindingExcel.List;
 
-            if (lista.Count > 0)
+            List<EPath_Excel> lista_path = new List<EPath_Excel>();
+
+            foreach (EPath_Excel path in lista)
             {
-                List<EPath_Excel> lista_path = new List<EPath_Excel>();
-
-                foreach (EPath_Excel path in lista)
-                {
-                    lista_path.Add(path);
-                }
-
-                this.Setting.Path_excel = lista_path;
-                this.Setting.Save();
+                lista_path.Add(path);
             }
+
+            this.Setting.Path_excel = lista_path;
+            this.Setting.Save();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            this.bindingExcel.RemoveCurrent();
+            if(this.bindingExcel.Current != null)
+            {
+                this.bindingExcel.RemoveCurrent();
 
-            this.GuardarTabla();
+                this.GuardarTabla();
+            }
         }
 
         private async void btnVerificarFormato_Click(object sender, EventArgs e)
@@ -390,7 +390,7 @@ namespace Importador_Contable_BA
         private Res ExtraerDatos(EMes e_mes, EAnio e_anio, int numero_comprobante_inicial, Reportador rep)
         {
             Res res = new Res();
-
+            Excel.Application excel_Aplicacion = null;
             try
             {
                 int mes = e_mes.Id;
@@ -424,7 +424,7 @@ namespace Importador_Contable_BA
                 if (lista.Count > 0)
                 {
                     rep.Reportar("Iniciando aplicacion Excel");
-                    Excel.Application excel_Aplicacion = new Excel.Application();
+                    excel_Aplicacion = new Excel.Application();
                     excel_Aplicacion.Visible = false;
 
                     foreach (EPath_Excel path in lista)
@@ -434,7 +434,7 @@ namespace Importador_Contable_BA
 
                         rep.Reportar("Iniciando hojas Excel");
                         Excel.Sheets hojas = libro_excel.Sheets;
-                        
+
                         foreach (Excel._Worksheet hoja in hojas)
                         {
 
@@ -490,7 +490,8 @@ namespace Importador_Contable_BA
                             {
                                 es_una_pagina_valida = false;
                                 mensaje_de_no_valida += " B3 no contiene 'PROPIETARIO'";
-                            }else if (string.IsNullOrWhiteSpace(rut))
+                            }
+                            else if (string.IsNullOrWhiteSpace(rut))
                             {
                                 es_una_pagina_valida = false;
                                 mensaje_de_no_valida += " A3 no contiene el Rut";
@@ -521,14 +522,14 @@ namespace Importador_Contable_BA
                                 int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
 
                                 #region Validacion de valores negativos
-                                if(gastos_comunes < 0
+                                if (gastos_comunes < 0
                                     || energia < 0
                                     || agua < 0
                                     || cargo_fijo_agua < 0
                                     || cuota_asoc < 0
                                     || otros_ingresos < 0
                                     || multa_e_intereses < 0)
-                                    return res.Error("Se recopilo un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion"); 
+                                    return res.Error("Se recopilo un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion");
                                 #endregion
 
                                 string glosa = "P" + valor_parcela_value + valor_sector_value;
@@ -619,7 +620,7 @@ namespace Importador_Contable_BA
                                             multa_e_intereses
                                         ));
                                 }
-                                
+
 
                             }
                             else
@@ -627,9 +628,13 @@ namespace Importador_Contable_BA
                                 rep.Reportar("NO VALIDA " + mensaje_de_no_valida, false);
                             }
 
+                            
                         }
 
+                        libro_excel.Close();
                     }
+
+                    excel_Aplicacion.Quit();
 
                     // una vez encontrado los datos
                     List<EComprobante_Detalle> detalles = new List<EComprobante_Detalle>();
@@ -651,10 +656,31 @@ namespace Importador_Contable_BA
                     return res.Error("No hay excel en la tabla para verificar");
                 }
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return res.Error(ex);
             }
+            finally {
+                if (excel_Aplicacion != null && excel_Aplicacion.Workbooks != null)
+                {
+                    excel_Aplicacion.Workbooks.Close();
+                    excel_Aplicacion.Quit();
+                }
+            }
+
+            /*
+             * Private Sub releaseObject(ByVal obj As Object)
+               Try
+                   System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+                   obj = Nothing
+               Catch ex As Exception
+                   obj = Nothing
+               Finally
+                   GC.Collect()
+               End Try
+            End Sub
+            */
 
             return res;
         }
@@ -731,7 +757,7 @@ namespace Importador_Contable_BA
         {
             Res res = new Res();
 
-
+            rep.Reportar("Creando copia de seguridad");
             Res res_copia_seguridad = this.CrearCopiaDeSeguridad(path_mov_sys);
 
             if (res_copia_seguridad.IsError)

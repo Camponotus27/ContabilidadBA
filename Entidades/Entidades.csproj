@@ -142,8 +142,6 @@
     <Compile Include="ERel_Productos_Cod_Bar.cs" />
     <Compile Include="ERel_Productos_Cod_Prov_Entidad.cs" />
     <Compile Include="EMae_Entidades.cs" />
-    <Compile Include="Herramietas\EEmail.cs" />
-    <Compile Include="Herramietas\EPDF.cs" />
     <Compile Include="Herramietas\Reportador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sesion.cs" />

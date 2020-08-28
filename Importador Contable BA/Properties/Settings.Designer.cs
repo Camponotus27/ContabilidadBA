@@ -22,29 +22,5 @@ namespace Importador_Contable_BA.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string path_aplicacion {
-            get {
-                return ((string)(this["path_aplicacion"]));
-            }
-            set {
-                this["path_aplicacion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string path_excel {
-            get {
-                return ((string)(this["path_excel"]));
-            }
-            set {
-                this["path_excel"] = value;
-            }
-        }
     }
 }
