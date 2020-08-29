@@ -20,6 +20,7 @@ using Entidades;
 using Entidades.Herramietas;
 using System.Data.Odbc;
 using System.Data.OleDb;
+using System.Text.RegularExpressions;
 
 namespace Importador_Contable_BA
 {
@@ -478,6 +479,7 @@ namespace Importador_Contable_BA
                                 string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
                                 string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
 
+                                string glosa_personalizada = Formateador.GetExcel<string>(hoja, "A2");
                                 string rut = Formateador.GetExcel<string>(hoja, "A3");
 
                                 string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "F3");
@@ -533,9 +535,14 @@ namespace Importador_Contable_BA
 
                                 if (es_una_pagina_valida)
                                 {
-                                    rep.Reportar("VALIDA", false);
+                                    if(hoja.Name == "LBA-P6")
+                                        rep.Reportar("VALIDA (caso especial todo menos luz)", false);
+                                    else if (hoja.Name == "LBA-P6 (2)")
+                                        rep.Reportar("VALIDA (caso especial solo luz)", false);
+                                    else
+                                        rep.Reportar("VALIDA", false);
+                                    
                                     path.Numero_hojas_validas++;
-
 
                                     // 1 Q gastos comunes
                                     // 2 G Energia
@@ -567,96 +574,109 @@ namespace Importador_Contable_BA
 
                                     string glosa = string.Empty;
 
-                                    if (string.IsNullOrWhiteSpace(valor_parcela_value))
+                                    if (!string.IsNullOrWhiteSpace(glosa_personalizada))
+                                        glosa = glosa_personalizada;
+                                    else if (string.IsNullOrWhiteSpace(valor_parcela_value))
                                         glosa = valor_sector_value;
                                     else
                                         glosa = "P" + valor_parcela_value + valor_sector_value;
 
 
+                                    glosa = this.LimpiarGlosa(glosa);
+                                    glosa = this.Abreviaciones(glosa);
+
+
                                     if (en_cobranza_judicial)
                                     {
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                            comprobante_gasto_comun.Cuenta_abono,
-                                            rut,
-                                            glosa,
-                                            gastos_comunes
-                                        ));
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_energia.Cuenta_abono,
+
+                                        if (hoja.Name != "LBA-P6")
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                 comprobante_energia.Cuenta_abono,
+                                                 rut,
+                                                 glosa,
+                                                 energia
+                                             ));
+
+                                        if (hoja.Name != "LBA-P6 (2)")
+                                        {
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                comprobante_gasto_comun.Cuenta_abono,
                                                 rut,
                                                 glosa,
-                                                energia
-                                            ));
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_agua.Cuenta_abono,
-                                                rut,
-                                                glosa,
-                                                agua
-                                            ));
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_cargo_fijo_agua.Cuenta_abono,
-                                                rut,
-                                                glosa,
-                                                cargo_fijo_agua
-                                            ));
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_cuota_asoc.Cuenta_abono,
-                                                rut,
-                                                glosa,
-                                                cuota_asoc
+                                                gastos_comunes
                                             ));
 
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_otros_ingresos.Cuenta_abono,
-                                                rut,
-                                                glosa,
-                                                otros_ingresos
-                                            ));
-                                        comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                comprobante_multa_e_intereses.Cuenta_abono,
-                                                rut,
-                                                glosa,
-                                                multa_e_intereses
-                                            ));
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    comprobante_agua.Cuenta_abono,
+                                                    rut,
+                                                    glosa,
+                                                    agua
+                                                ));
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    comprobante_cargo_fijo_agua.Cuenta_abono,
+                                                    rut,
+                                                    glosa,
+                                                    cargo_fijo_agua
+                                                ));
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    comprobante_cuota_asoc.Cuenta_abono,
+                                                    rut,
+                                                    glosa,
+                                                    cuota_asoc
+                                                ));
+
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    comprobante_otros_ingresos.Cuenta_abono,
+                                                    rut,
+                                                    glosa,
+                                                    otros_ingresos
+                                                ));
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    comprobante_multa_e_intereses.Cuenta_abono,
+                                                    rut,
+                                                    glosa,
+                                                    multa_e_intereses
+                                                ));
+                                        }
                                     }
                                     else
                                     {
-                                        comprobante_gasto_comun.Add(new EComprobante_Detalle(
-                                            rut,
-                                            glosa,
-                                            gastos_comunes
-                                        ));
-                                        comprobante_energia.Add(new EComprobante_Detalle(
+                                        if (hoja.Name != "LBA-P6")
+                                            comprobante_energia.Add(new EComprobante_Detalle(
                                                 rut,
                                                 glosa,
                                                 energia
                                             ));
-                                        comprobante_agua.Add(new EComprobante_Detalle(
+
+                                        if (hoja.Name != "LBA-P6 (2)")
+                                        {
+                                            comprobante_agua.Add(new EComprobante_Detalle(
                                                 rut,
                                                 glosa,
                                                 agua
                                             ));
-                                        comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
-                                                rut,
-                                                glosa,
-                                                cargo_fijo_agua
-                                            ));
-                                        comprobante_cuota_asoc.Add(new EComprobante_Detalle(
-                                                rut,
-                                                glosa,
-                                                cuota_asoc
-                                            ));
+                                            comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    cargo_fijo_agua
+                                                ));
+                                            comprobante_cuota_asoc.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    cuota_asoc
+                                                ));
 
-                                        comprobante_otros_ingresos.Add(new EComprobante_Detalle(
-                                                rut,
-                                                glosa,
-                                                otros_ingresos
-                                            ));
-                                        comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
-                                                rut,
-                                                glosa,
-                                                multa_e_intereses
-                                            ));
+                                            comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    otros_ingresos
+                                                ));
+                                            comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    multa_e_intereses
+                                                ));
+                                        }
                                     }
 
 
@@ -726,6 +746,44 @@ namespace Importador_Contable_BA
             */
 
             return res;
+        }
+
+        private string LimpiarGlosa(string glosa)
+        {
+            if (!string.IsNullOrWhiteSpace(glosa))
+            {
+                return Regex.Replace(glosa.Replace(" ", ""), @"[^\w\s]+", "");
+            }
+            return string.Empty;
+        }
+
+        private string Abreviaciones(string glosa)
+        {
+            if (!string.IsNullOrEmpty(glosa))
+                glosa = glosa.ToUpper();
+
+
+            Dictionary<string, string> abreviaciones = new Dictionary<string, string>()
+            {
+                ["SUMINISTRO"] = "SUMIN",
+
+                ["AGRICOLA"] = "AGRI",
+                ["BOLDOS"] = "BOL",
+                ["BOSQUES"] = "BOSQ",
+                ["QUILLAYES"] = "QUI",
+
+
+                ["PEUMOSII"] = "PII",
+
+                ["PEUMOS"] = "PEU",
+            };
+
+            foreach (KeyValuePair<string, string> abreviacion in abreviaciones)
+            {
+                glosa = glosa.Replace(abreviacion.Key, abreviacion.Value);
+            }
+
+            return glosa;
         }
 
         private void comboBoxPitagoras1_SelectedIndexChanged(object sender, EventArgs e)
