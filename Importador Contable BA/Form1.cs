@@ -407,18 +407,25 @@ namespace Importador_Contable_BA
                 string nombre_mes = e_mes.Nombre.ToUpper();
 
                 rep.Reportar("Iniciando estructura comprobantes");
-                EComprobante comprobante_gasto_comun = new EComprobante("GASTO COMUN " + nombre_mes, numero_comprobante_inicial, fecha_ultimo_dia_mes, 1600101, 9100101);
-                EComprobante comprobante_energia = new EComprobante("LUZ " + nombre_mes, numero_comprobante_inicial + 1, fecha_ultimo_dia_mes, 1600102, 9100103);
-                EComprobante comprobante_agua = new EComprobante("AGUA " + nombre_mes, numero_comprobante_inicial + 2, fecha_ultimo_dia_mes, 1600103, 9100102);
-                EComprobante comprobante_cargo_fijo_agua = new EComprobante("CARGO FIJO " + nombre_mes, numero_comprobante_inicial + 3, fecha_ultimo_dia_mes, 1600113, 9100108);
-                EComprobante comprobante_cuota_asoc = new EComprobante("CUOTA ASOCIACION " + nombre_mes, numero_comprobante_inicial + 4, fecha_ultimo_dia_mes, 1600110, 4500101);
+                EComprobante comprobante_gasto_comun = new EComprobante("GASTO COMUN", nombre_mes, numero_comprobante_inicial, fecha_ultimo_dia_mes, 1600101, 9100101);
+                EComprobante comprobante_energia = new EComprobante("LUZ", nombre_mes, numero_comprobante_inicial + 1, fecha_ultimo_dia_mes, 1600102, 9100103);
+                EComprobante comprobante_agua = new EComprobante("AGUA", nombre_mes, numero_comprobante_inicial + 2, fecha_ultimo_dia_mes, 1600103, 9100102);
+                EComprobante comprobante_cargo_fijo_agua = new EComprobante("CARGO FIJO", nombre_mes, numero_comprobante_inicial + 3, fecha_ultimo_dia_mes, 1600113, 9100108);
+                EComprobante comprobante_cuota_asoc = new EComprobante("CUOTA ASOCIACION", nombre_mes, numero_comprobante_inicial + 4, fecha_ultimo_dia_mes, 1600110, 4500101);
 
                 // este no se dice pero aparece en el comprobante final
-                EComprobante comprobante_otros_ingresos = new EComprobante("OTROS INGRESOS " + nombre_mes, numero_comprobante_inicial + 5, fecha_ultimo_dia_mes, 1600112, 9100107);
-                EComprobante comprobante_multa_e_intereses = new EComprobante("MULTAS E INTERESES " + nombre_mes, numero_comprobante_inicial + 6, fecha_ultimo_dia_mes, 1600106, 9100104);
+                EComprobante comprobante_otros_ingresos = new EComprobante("OTROS INGRESOS", nombre_mes, numero_comprobante_inicial + 5, fecha_ultimo_dia_mes, 1600112, 9100107);
+                EComprobante comprobante_multa_e_intereses = new EComprobante("MULTAS E INTERESES", nombre_mes, numero_comprobante_inicial + 6, fecha_ultimo_dia_mes, 1600106, 9100104);
 
 
-                EComprobante comprobante_cobranza_judicial = new EComprobante("COBRANZA JUDICIAL " + nombre_mes, numero_comprobante_inicial + 7, fecha_ultimo_dia_mes, 1610101);
+                EComprobante comprobante_cobranza_judicial = new EComprobante("COBRANZA JUDICIAL", nombre_mes, numero_comprobante_inicial + 7, fecha_ultimo_dia_mes, 1610101);
+
+                List<EComprobante> lista_comprobantes_reemplazo_otros = new List<EComprobante>()
+                {
+                    comprobante_gasto_comun,
+                    comprobante_energia,
+                    comprobante_agua
+                };
 
                 System.Collections.IList lista = this.bindingExcel.List;
 
@@ -559,7 +566,9 @@ namespace Importador_Contable_BA
                                     int cargo_fijo_agua = Formateador.GetExcel<int>(hoja, "M" + fila);
                                     int cuota_asoc = Formateador.GetExcel<int>(hoja, "N" + fila);
                                     int otros_ingresos = Formateador.GetExcel<int>(hoja, "O" + fila);
-                                    int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + fila);
+                                    int multa_e_intereses = Formateador.GetExcel<int>(hoja, "R" + (fila - 1));
+
+                                    string nota_otros_ingresos = Formateador.GetNotaExcel(hoja, "O" + fila);
 
                                     #region Validacion de valores negativos
                                     if (gastos_comunes < 0
@@ -625,12 +634,33 @@ namespace Importador_Contable_BA
                                                     cuota_asoc
                                                 ));
 
-                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
-                                                    comprobante_otros_ingresos.Cuenta_abono,
-                                                    rut,
-                                                    glosa,
-                                                    otros_ingresos
-                                                ));
+                                            bool se_intercambio_el_comprobante_otro = false;
+                                            foreach (EComprobante comp_temp in lista_comprobantes_reemplazo_otros)
+                                            {
+                                                if (nota_otros_ingresos.Contains("'" + comp_temp.Nombre_comprobante + "'"))
+                                                {
+                                                    comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                        comp_temp.Cuenta_abono,
+                                                        rut,
+                                                        glosa,
+                                                        otros_ingresos
+                                                    ));
+
+                                                    se_intercambio_el_comprobante_otro = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!se_intercambio_el_comprobante_otro)
+                                            {
+                                                comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                        comprobante_otros_ingresos.Cuenta_abono,
+                                                        rut,
+                                                        glosa,
+                                                        otros_ingresos
+                                                   ));
+                                            }
+
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
                                                     comprobante_multa_e_intereses.Cuenta_abono,
                                                     rut,
@@ -650,6 +680,12 @@ namespace Importador_Contable_BA
 
                                         if (hoja.Name != "LBA-P6 (2)")
                                         {
+                                            comprobante_gasto_comun.Add(new EComprobante_Detalle(
+                                                rut,
+                                                glosa,
+                                                gastos_comunes
+                                            ));
+
                                             comprobante_agua.Add(new EComprobante_Detalle(
                                                 rut,
                                                 glosa,
@@ -666,11 +702,32 @@ namespace Importador_Contable_BA
                                                     cuota_asoc
                                                 ));
 
-                                            comprobante_otros_ingresos.Add(new EComprobante_Detalle(
-                                                    rut,
-                                                    glosa,
-                                                    otros_ingresos
-                                                ));
+                                            bool se_intercambio_el_comprobante_otro = false;
+                                            foreach(EComprobante comp_temp in lista_comprobantes_reemplazo_otros)
+                                            {
+                                                if (nota_otros_ingresos.Contains("'" + comp_temp.Nombre_comprobante + "'"))
+                                                {
+                                                    comp_temp.Add(new EComprobante_Detalle(
+                                                        rut,
+                                                        glosa,
+                                                        otros_ingresos
+                                                    ));
+
+                                                    se_intercambio_el_comprobante_otro = true;
+                                                    break;
+                                                }
+                                            }
+                                            
+                                            if(!se_intercambio_el_comprobante_otro)
+                                            {
+                                                comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                                       rut,
+                                                       glosa,
+                                                       otros_ingresos
+                                                   ));
+                                            }
+
+
                                             comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
                                                     rut,
                                                     glosa,

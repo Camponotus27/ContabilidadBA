@@ -10,6 +10,7 @@ namespace Entidades
     public class EComprobante
     {
         string nombre_comprobante = "NN";
+        string post_nombre_comprobante = "";
         int numero_comprobante;
         int cuenta_abono;
         int cuenta_cargo;
@@ -19,16 +20,18 @@ namespace Entidades
 
         List<EComprobante_Detalle> detalle;
 
-        public EComprobante(string nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_cargo)
+        public EComprobante(string nombre_comprobante, string post_nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_cargo)
         {
+            this.nombre_comprobante = nombre_comprobante;
+            this.post_nombre_comprobante = post_nombre_comprobante;
             this.numero_comprobante = numero_comprobante;
-            this.Nombre_comprobante = nombre_comprobante;
             this.cuenta_cargo = cuenta_cargo;
             this.fecha = fecha;
         }
 
-        public EComprobante(string nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_abono, int cuenta_cargo)
+        public EComprobante(string nombre_comprobante, string post_nombre_comprobante, int numero_comprobante, DateTime fecha, int cuenta_abono, int cuenta_cargo)
         {
+            this.post_nombre_comprobante = post_nombre_comprobante;
             this.numero_comprobante = numero_comprobante;
             this.nombre_comprobante = nombre_comprobante;
             this.cuenta_abono = cuenta_abono;
@@ -36,7 +39,17 @@ namespace Entidades
             this.fecha = fecha;
         }
 
-        public string Nombre_comprobante { get => nombre_comprobante; set => nombre_comprobante = value; }
+        public string Nombre_completo_comprobante {
+            get {
+                if(string.IsNullOrWhiteSpace(post_nombre_comprobante))
+                    return nombre_comprobante;
+                
+                return nombre_comprobante + " " + post_nombre_comprobante;
+            }
+        }
+
+        public string Nombre_comprobante { get => nombre_comprobante; }
+
         public List<EComprobante_Detalle> Detalle
         {
             get

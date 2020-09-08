@@ -663,6 +663,16 @@ namespace Herramientas
             return check == last;
         }
 
+        public static string GetNotaExcel(Excel._Worksheet hoja, string indice_celda)
+        {
+            Excel.Range celda = hoja.Range[indice_celda, indice_celda];
+
+            if(celda == null)
+                return string.Empty;
+
+            return celda.NoteText();
+        }
+
         public static T GetExcel<T>(Excel._Worksheet hoja, string indice_celda)
         {
             Excel.Range celda = hoja.Range[indice_celda, indice_celda];
