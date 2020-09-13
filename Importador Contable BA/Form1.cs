@@ -489,7 +489,7 @@ namespace Importador_Contable_BA
                                 string glosa_personalizada = Formateador.GetExcel<string>(hoja, "A2");
                                 string rut = Formateador.GetExcel<string>(hoja, "A3");
 
-                                string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "F3");
+                                string valor_cobranza_judicial_value = Formateador.GetExcel<string>(hoja, "S3");
 
                                 bool en_cobranza_judicial = valor_cobranza_judicial_value == "EN COBRANZA JUDICIAL";
 
@@ -597,6 +597,7 @@ namespace Importador_Contable_BA
 
                                     if (en_cobranza_judicial)
                                     {
+                                        rep.Reportar("EN COBRANZA JUDICIAL", false);
 
                                         if (hoja.Name != "LBA-P6")
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
@@ -1178,6 +1179,11 @@ namespace Importador_Contable_BA
                 con.Close();
             }
             return res;
+        }
+
+        private void tstbComprobarActualizaciones_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
