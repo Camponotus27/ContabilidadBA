@@ -1195,5 +1195,11 @@ namespace Importador_Contable_BA
             if (!args.IsUpdateAvailable)
                 this.Informacion("No se encontraron actualizaciones disponibles");
         }
+
+        private void tstbinstructivo_Click(object sender, EventArgs e)
+        {
+            FrmInstructivo i = new FrmInstructivo();
+            i.Show();
+        }
     }
 }
