@@ -75,6 +75,9 @@
     <StartupObject>Importador_Contable_BA.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoUpdater.NET">
+      <HintPath>..\AutoUpdate\AutoUpdater.NET.dll</HintPath>
+    </Reference>
     <Reference Include="dBASE.NET, Version=1.2.0.0, Culture=neutral, PublicKeyToken=d6e3bc908c40324d, processorArchitecture=MSIL">
       <HintPath>..\packages\dBASE.NET.1.2.1\lib\net45\dBASE.NET.dll</HintPath>
     </Reference>

@@ -21,6 +21,7 @@ using Entidades.Herramietas;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Text.RegularExpressions;
+using AutoUpdaterDotNET;
 
 namespace Importador_Contable_BA
 {
@@ -1183,7 +1184,7 @@ namespace Importador_Contable_BA
 
         private void tstbComprobarActualizaciones_Click(object sender, EventArgs e)
         {
-            
+            AutoUpdater.Start("https://parcelacionaculeo.limonay.com/aplicacioncontable/actualizacion/actualizacion.xml");
         }
     }
 }
