@@ -86,7 +86,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tstbNuevaImportacion = new System.Windows.Forms.ToolStripMenuItem();
             this.instructivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tstbBuscarActualizaciones = new System.Windows.Forms.ToolStripMenuItem();
             this.tstbComprobarActualizaciones = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingExcel)).BeginInit();
@@ -650,8 +649,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tstbNuevaImportacion,
             this.instructivoToolStripMenuItem,
-            this.tstbComprobarActualizaciones,
-            this.tstbBuscarActualizaciones});
+            this.tstbComprobarActualizaciones});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -670,13 +668,6 @@
             this.instructivoToolStripMenuItem.Name = "instructivoToolStripMenuItem";
             this.instructivoToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.instructivoToolStripMenuItem.Text = "Instructivo";
-            // 
-            // tstbBuscarActualizaciones
-            // 
-            this.tstbBuscarActualizaciones.Name = "tstbBuscarActualizaciones";
-            this.tstbBuscarActualizaciones.Size = new System.Drawing.Size(139, 20);
-            this.tstbBuscarActualizaciones.Text = "Buscar Actualizaciones";
-            this.tstbBuscarActualizaciones.Click += new System.EventHandler(this.tstbComprobarActualizaciones_Click);
             // 
             // tstbComprobarActualizaciones
             // 
@@ -776,7 +767,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsNumeroComprobante;
         private System.Windows.Forms.ToolStripMenuItem buscarSiguienteNDisponibleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem instructivoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tstbBuscarActualizaciones;
         private System.Windows.Forms.ToolStripMenuItem tstbComprobarActualizaciones;
     }
 }
