@@ -64,7 +64,7 @@ namespace Importador_Contable_BA
             this.InicializarMeses();
             this.InicializarAnio();
 
-            AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+            
         }
 
         private void InicializarAnio()
@@ -140,6 +140,7 @@ namespace Importador_Contable_BA
                 return;
             }
 
+            AutoUpdater.Start("https://parcelacionaculeo.limonay.com/aplicacioncontable/actualizacion/actualizacion.xml");
         }
 
 
@@ -1186,14 +1187,7 @@ namespace Importador_Contable_BA
 
         private void tstbComprobarActualizaciones_Click(object sender, EventArgs e)
         {
-            AutoUpdater.Start("https://parcelacionaculeo.limonay.com/aplicacioncontable/actualizacion/actualizacion.xml");
-
-        }
-
-        private void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
-        {
-            if (!args.IsUpdateAvailable)
-                this.Informacion("No se encontraron actualizaciones disponibles");
+            
         }
 
         private void tstbinstructivo_Click(object sender, EventArgs e)
