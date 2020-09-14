@@ -59,12 +59,24 @@ namespace Importador_Contable_BA
         {
             InitializeComponent();
 
+            this.AsigarVersion();
+
             this.Setting = new AppSettings();
 
             this.InicializarMeses();
             this.InicializarAnio();
 
             
+        }
+
+        private void AsigarVersion()
+        {
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            Version InstalledVersion = mainAssembly.GetName().Version;
+
+            string version_texto = InstalledVersion.ToString();
+
+            this.Text = this.Text + " V" + version_texto;
         }
 
         private void InicializarAnio()
