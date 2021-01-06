@@ -1084,7 +1084,8 @@ namespace Importador_Contable_BA
             }
             else
             {
-                this.Error("No se pudo obtener un año valido desde el combo");
+               if(obj_sel_anio != null)
+                    this.Error("No se pudo obtener un año valido desde el combo");
             }
 
             this.CalcularPathMovSys();
