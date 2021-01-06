@@ -417,7 +417,11 @@ namespace Importador_Contable_BA
 
                 // obtencion de la fecha del comprobante, ultimo dia del mes
                 DateTime fechatemp = new DateTime(anio, mes, 1);
-                DateTime fecha_ultimo_dia_mes = new DateTime(fechatemp.Year, fechatemp.Month + 1, 1).AddDays(-1);
+
+
+                DateTime fecha_ultimo_dia_mes = new DateTime(fechatemp.Year, fechatemp.Month, 1);
+                fecha_ultimo_dia_mes = fecha_ultimo_dia_mes.AddMonths(1);
+                fecha_ultimo_dia_mes = fecha_ultimo_dia_mes.AddDays(-1);
 
                 // nombre de mes para cada comprobante
                 string nombre_mes = e_mes.Nombre.ToUpper();
@@ -1059,6 +1063,30 @@ namespace Importador_Contable_BA
 
         private void cmbAnio2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
+            object obj_sel_anio = this.cmbAnio.SelectedItem;
+            if (obj_sel_anio is EAnio)
+            {
+                EAnio sel_anio = (EAnio)obj_sel_anio;
+                if (obj_sel_anio != e_anio)
+                {
+                    int position_sel_anio = this.bindingCmbAnio.IndexOf(sel_anio);
+
+                    if (position_sel_anio != -1)
+                    {
+                        this.bindingCmbAnio.Position = position_sel_anio;
+                    }
+                    else
+                    {
+                        this.Error("No se pudo obtener la posicion del año desde el combo");
+                    }
+                }
+            }
+            else
+            {
+                this.Error("No se pudo obtener un año valido desde el combo");
+            }
+
             this.CalcularPathMovSys();
         }
 
@@ -1078,7 +1106,6 @@ namespace Importador_Contable_BA
                 this.ErrorPathMovSys("El Rut de Empresa esta vacio");
                 return;
             }
-
 
             EAnio e_anio = (EAnio)this.bindingCmbAnio.Current;
 
