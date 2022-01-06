@@ -57,10 +57,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9E081635C5B3E0BD00078ACA7EFC2B84CE6F5024</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>ECB663F3CCFE477C4A2EFF951D5C1891C3931D61</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ImportadorContableBA_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -125,6 +126,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.manifest" />
+    <None Include="ImportadorContableBA_1_TemporaryKey.pfx" />
     <None Include="ImportadorContableBA_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Entidades.EAnio.datasource" />
