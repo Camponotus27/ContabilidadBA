@@ -770,7 +770,7 @@ namespace Importador_Contable_BA
                                 paso_por_inicio = true;
                         }
 
-                        libro_excel.Close();
+                        libro_excel.Close(false);
                         
                     }
 
