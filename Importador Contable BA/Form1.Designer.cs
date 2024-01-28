@@ -103,9 +103,10 @@
             // 
             this.btnAsignarAplicacion.ImageIndex = 0;
             this.btnAsignarAplicacion.ImageList = this.il;
-            this.btnAsignarAplicacion.Location = new System.Drawing.Point(374, 34);
+            this.btnAsignarAplicacion.Location = new System.Drawing.Point(997, 81);
+            this.btnAsignarAplicacion.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnAsignarAplicacion.Name = "btnAsignarAplicacion";
-            this.btnAsignarAplicacion.Size = new System.Drawing.Size(30, 30);
+            this.btnAsignarAplicacion.Size = new System.Drawing.Size(80, 72);
             this.btnAsignarAplicacion.TabIndex = 1;
             this.btnAsignarAplicacion.UseVisualStyleBackColor = true;
             this.btnAsignarAplicacion.Click += new System.EventHandler(this.btnAsignarAplicacion_Click);
@@ -122,9 +123,10 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminar.Location = new System.Drawing.Point(242, 64);
+            this.btnEliminar.Location = new System.Drawing.Point(645, 153);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(96, 23);
+            this.btnEliminar.Size = new System.Drawing.Size(256, 55);
             this.btnEliminar.TabIndex = 9;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -135,9 +137,10 @@
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(242, 35);
+            this.btnBuscar.Location = new System.Drawing.Point(645, 83);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(96, 23);
+            this.btnBuscar.Size = new System.Drawing.Size(256, 55);
             this.btnBuscar.TabIndex = 8;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -172,12 +175,14 @@
             this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvExcels.EnableHeadersVisualStyles = false;
             this.dgvExcels.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvExcels.Location = new System.Drawing.Point(12, 35);
+            this.dgvExcels.Location = new System.Drawing.Point(32, 83);
             this.dgvExcels.MantenerPorLoMenosUnaFila = false;
+            this.dgvExcels.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dgvExcels.Name = "dgvExcels";
             this.dgvExcels.RowHeadersVisible = false;
+            this.dgvExcels.RowHeadersWidth = 102;
             this.dgvExcels.SePuedeCrearLieneaNuevaConEnter = true;
-            this.dgvExcels.Size = new System.Drawing.Size(224, 170);
+            this.dgvExcels.Size = new System.Drawing.Size(597, 405);
             this.dgvExcels.TabIndex = 7;
             // 
             // nombreDataGridViewTextBoxColumn1
@@ -185,6 +190,7 @@
             this.nombreDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.nombreDataGridViewTextBoxColumn1.DataPropertyName = "Nombre";
             this.nombreDataGridViewTextBoxColumn1.HeaderText = "Nombre";
+            this.nombreDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.nombreDataGridViewTextBoxColumn1.Name = "nombreDataGridViewTextBoxColumn1";
             this.nombreDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -228,18 +234,21 @@
             this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvComprobantes.EnableHeadersVisualStyles = false;
             this.dgvComprobantes.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvComprobantes.Location = new System.Drawing.Point(12, 298);
+            this.dgvComprobantes.Location = new System.Drawing.Point(32, 711);
             this.dgvComprobantes.MantenerPorLoMenosUnaFila = false;
+            this.dgvComprobantes.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dgvComprobantes.Name = "dgvComprobantes";
             this.dgvComprobantes.RowHeadersVisible = false;
+            this.dgvComprobantes.RowHeadersWidth = 102;
             this.dgvComprobantes.SePuedeCrearLieneaNuevaConEnter = true;
-            this.dgvComprobantes.Size = new System.Drawing.Size(776, 174);
+            this.dgvComprobantes.Size = new System.Drawing.Size(2069, 415);
             this.dgvComprobantes.TabIndex = 14;
             // 
             // numerocuentaformateadaDataGridViewTextBoxColumn1
             // 
             this.numerocuentaformateadaDataGridViewTextBoxColumn1.DataPropertyName = "Numero_cuenta_formateada";
             this.numerocuentaformateadaDataGridViewTextBoxColumn1.HeaderText = "N° Cuenta";
+            this.numerocuentaformateadaDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.numerocuentaformateadaDataGridViewTextBoxColumn1.Name = "numerocuentaformateadaDataGridViewTextBoxColumn1";
             this.numerocuentaformateadaDataGridViewTextBoxColumn1.ReadOnly = true;
             this.numerocuentaformateadaDataGridViewTextBoxColumn1.Width = 90;
@@ -248,6 +257,7 @@
             // 
             this.fechaformateadaDataGridViewTextBoxColumn1.DataPropertyName = "Fecha_formateada";
             this.fechaformateadaDataGridViewTextBoxColumn1.HeaderText = "Fecha";
+            this.fechaformateadaDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.fechaformateadaDataGridViewTextBoxColumn1.Name = "fechaformateadaDataGridViewTextBoxColumn1";
             this.fechaformateadaDataGridViewTextBoxColumn1.ReadOnly = true;
             this.fechaformateadaDataGridViewTextBoxColumn1.Width = 80;
@@ -256,6 +266,7 @@
             // 
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.DataPropertyName = "Numero_comprobante_formateada";
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.HeaderText = "N° Comp";
+            this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.Name = "numerocomprobanteformateadaDataGridViewTextBoxColumn1";
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.ReadOnly = true;
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn1.Width = 80;
@@ -265,6 +276,7 @@
             this.glosaFormateadaDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.glosaFormateadaDataGridViewTextBoxColumn1.DataPropertyName = "Glosa_Formateada";
             this.glosaFormateadaDataGridViewTextBoxColumn1.HeaderText = "Glosa";
+            this.glosaFormateadaDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.glosaFormateadaDataGridViewTextBoxColumn1.Name = "glosaFormateadaDataGridViewTextBoxColumn1";
             this.glosaFormateadaDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -272,6 +284,7 @@
             // 
             this.cargoDataGridViewTextBoxColumn1.DataPropertyName = "Cargo";
             this.cargoDataGridViewTextBoxColumn1.HeaderText = "Cargo";
+            this.cargoDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.cargoDataGridViewTextBoxColumn1.Name = "cargoDataGridViewTextBoxColumn1";
             this.cargoDataGridViewTextBoxColumn1.Width = 80;
             // 
@@ -279,6 +292,7 @@
             // 
             this.abonoDataGridViewTextBoxColumn1.DataPropertyName = "Abono";
             this.abonoDataGridViewTextBoxColumn1.HeaderText = "Abono";
+            this.abonoDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.abonoDataGridViewTextBoxColumn1.Name = "abonoDataGridViewTextBoxColumn1";
             this.abonoDataGridViewTextBoxColumn1.Width = 80;
             // 
@@ -286,6 +300,7 @@
             // 
             this.correlativoDataGridViewTextBoxColumn1.DataPropertyName = "Correlativo";
             this.correlativoDataGridViewTextBoxColumn1.HeaderText = "Correlativo";
+            this.correlativoDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.correlativoDataGridViewTextBoxColumn1.Name = "correlativoDataGridViewTextBoxColumn1";
             this.correlativoDataGridViewTextBoxColumn1.Width = 70;
             // 
@@ -293,6 +308,7 @@
             // 
             this.mesDataGridViewTextBoxColumn1.DataPropertyName = "Mes";
             this.mesDataGridViewTextBoxColumn1.HeaderText = "Mes";
+            this.mesDataGridViewTextBoxColumn1.MinimumWidth = 12;
             this.mesDataGridViewTextBoxColumn1.Name = "mesDataGridViewTextBoxColumn1";
             this.mesDataGridViewTextBoxColumn1.ReadOnly = true;
             this.mesDataGridViewTextBoxColumn1.Width = 60;
@@ -305,9 +321,11 @@
             // 
             this.grInsertarDatos.Controls.Add(this.btnInsertarDatos);
             this.grInsertarDatos.Enabled = false;
-            this.grInsertarDatos.Location = new System.Drawing.Point(361, 212);
+            this.grInsertarDatos.Location = new System.Drawing.Point(963, 506);
+            this.grInsertarDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.grInsertarDatos.Name = "grInsertarDatos";
-            this.grInsertarDatos.Size = new System.Drawing.Size(410, 80);
+            this.grInsertarDatos.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grInsertarDatos.Size = new System.Drawing.Size(1093, 191);
             this.grInsertarDatos.TabIndex = 20;
             this.grInsertarDatos.TabStop = false;
             this.grInsertarDatos.Text = "Insertar Datos";
@@ -317,9 +335,10 @@
             this.btnInsertarDatos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnInsertarDatos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnInsertarDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsertarDatos.Location = new System.Drawing.Point(308, 18);
+            this.btnInsertarDatos.Location = new System.Drawing.Point(821, 43);
+            this.btnInsertarDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnInsertarDatos.Name = "btnInsertarDatos";
-            this.btnInsertarDatos.Size = new System.Drawing.Size(96, 47);
+            this.btnInsertarDatos.Size = new System.Drawing.Size(256, 112);
             this.btnInsertarDatos.TabIndex = 11;
             this.btnInsertarDatos.Text = "Insertar Datos";
             this.btnInsertarDatos.UseVisualStyleBackColor = true;
@@ -334,9 +353,11 @@
             this.grExtraerDatos.Controls.Add(this.cmbAnio);
             this.grExtraerDatos.Controls.Add(this.labelPitagoras1);
             this.grExtraerDatos.Controls.Add(this.txtNComprobante);
-            this.grExtraerDatos.Location = new System.Drawing.Point(12, 211);
+            this.grExtraerDatos.Location = new System.Drawing.Point(32, 503);
+            this.grExtraerDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.grExtraerDatos.Name = "grExtraerDatos";
-            this.grExtraerDatos.Size = new System.Drawing.Size(343, 80);
+            this.grExtraerDatos.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grExtraerDatos.Size = new System.Drawing.Size(915, 191);
             this.grExtraerDatos.TabIndex = 19;
             this.grExtraerDatos.TabStop = false;
             this.grExtraerDatos.Text = "Extraer Datos";
@@ -345,9 +366,10 @@
             // 
             this.labelPitagoras2.AutoSize = true;
             this.labelPitagoras2.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras2.Location = new System.Drawing.Point(6, 26);
+            this.labelPitagoras2.Location = new System.Drawing.Point(16, 62);
+            this.labelPitagoras2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.labelPitagoras2.Name = "labelPitagoras2";
-            this.labelPitagoras2.Size = new System.Drawing.Size(43, 13);
+            this.labelPitagoras2.Size = new System.Drawing.Size(113, 32);
             this.labelPitagoras2.TabIndex = 17;
             this.labelPitagoras2.Text = "Periodo";
             this.labelPitagoras2.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -356,9 +378,10 @@
             // 
             this.lbPrefijoNComprobante.AutoSize = true;
             this.lbPrefijoNComprobante.ForeColor = System.Drawing.Color.Black;
-            this.lbPrefijoNComprobante.Location = new System.Drawing.Point(144, 53);
+            this.lbPrefijoNComprobante.Location = new System.Drawing.Point(384, 126);
+            this.lbPrefijoNComprobante.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lbPrefijoNComprobante.Name = "lbPrefijoNComprobante";
-            this.lbPrefijoNComprobante.Size = new System.Drawing.Size(31, 13);
+            this.lbPrefijoNComprobante.Size = new System.Drawing.Size(78, 32);
             this.lbPrefijoNComprobante.TabIndex = 18;
             this.lbPrefijoNComprobante.Text = "0000";
             this.lbPrefijoNComprobante.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -369,9 +392,10 @@
             this.cmbMes.DisplayMember = "Nombre";
             this.cmbMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMes.FormattingEnabled = true;
-            this.cmbMes.Location = new System.Drawing.Point(77, 23);
+            this.cmbMes.Location = new System.Drawing.Point(205, 55);
+            this.cmbMes.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cmbMes.Name = "cmbMes";
-            this.cmbMes.Size = new System.Drawing.Size(66, 21);
+            this.cmbMes.Size = new System.Drawing.Size(169, 39);
             this.cmbMes.TabIndex = 11;
             this.cmbMes.Value = ((uint)(0u));
             this.cmbMes.ValueMember = "Id";
@@ -387,9 +411,10 @@
             this.btnExtraerDatos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExtraerDatos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnExtraerDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExtraerDatos.Location = new System.Drawing.Point(230, 23);
+            this.btnExtraerDatos.Location = new System.Drawing.Point(613, 55);
+            this.btnExtraerDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnExtraerDatos.Name = "btnExtraerDatos";
-            this.btnExtraerDatos.Size = new System.Drawing.Size(96, 47);
+            this.btnExtraerDatos.Size = new System.Drawing.Size(256, 112);
             this.btnExtraerDatos.TabIndex = 10;
             this.btnExtraerDatos.Text = "Extraer Datos";
             this.btnExtraerDatos.UseVisualStyleBackColor = true;
@@ -401,9 +426,10 @@
             this.cmbAnio.DisplayMember = "Anio";
             this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAnio.FormattingEnabled = true;
-            this.cmbAnio.Location = new System.Drawing.Point(149, 23);
+            this.cmbAnio.Location = new System.Drawing.Point(397, 55);
+            this.cmbAnio.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cmbAnio.Name = "cmbAnio";
-            this.cmbAnio.Size = new System.Drawing.Size(64, 21);
+            this.cmbAnio.Size = new System.Drawing.Size(164, 39);
             this.cmbAnio.TabIndex = 12;
             this.cmbAnio.Value = ((uint)(0u));
             this.cmbAnio.ValueMember = "Id";
@@ -417,9 +443,10 @@
             // 
             this.labelPitagoras1.AutoSize = true;
             this.labelPitagoras1.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras1.Location = new System.Drawing.Point(6, 53);
+            this.labelPitagoras1.Location = new System.Drawing.Point(16, 126);
+            this.labelPitagoras1.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.labelPitagoras1.Name = "labelPitagoras1";
-            this.labelPitagoras1.Size = new System.Drawing.Size(115, 13);
+            this.labelPitagoras1.Size = new System.Drawing.Size(305, 32);
             this.labelPitagoras1.TabIndex = 16;
             this.labelPitagoras1.Text = "N° Comprobante Inicial";
             this.labelPitagoras1.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -433,11 +460,12 @@
             this.txtNComprobante.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtNComprobante.FormatoNumerico = false;
             this.txtNComprobante.IgnorarFlujo = false;
-            this.txtNComprobante.Location = new System.Drawing.Point(176, 50);
+            this.txtNComprobante.Location = new System.Drawing.Point(469, 119);
+            this.txtNComprobante.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtNComprobante.MaxLength = 3;
             this.txtNComprobante.Name = "txtNComprobante";
             this.txtNComprobante.SeleccionaTodoConClick = true;
-            this.txtNComprobante.Size = new System.Drawing.Size(37, 20);
+            this.txtNComprobante.Size = new System.Drawing.Size(92, 38);
             this.txtNComprobante.StringVaciaSiEsCero = false;
             this.txtNComprobante.TabIndex = 15;
             this.txtNComprobante.Text = "0";
@@ -455,15 +483,16 @@
             // 
             // cmsNumeroComprobante
             // 
+            this.cmsNumeroComprobante.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.cmsNumeroComprobante.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buscarSiguienteNDisponibleToolStripMenuItem});
             this.cmsNumeroComprobante.Name = "cmsNumeroComprobante";
-            this.cmsNumeroComprobante.Size = new System.Drawing.Size(236, 26);
+            this.cmsNumeroComprobante.Size = new System.Drawing.Size(500, 52);
             // 
             // buscarSiguienteNDisponibleToolStripMenuItem
             // 
             this.buscarSiguienteNDisponibleToolStripMenuItem.Name = "buscarSiguienteNDisponibleToolStripMenuItem";
-            this.buscarSiguienteNDisponibleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Size = new System.Drawing.Size(499, 48);
             this.buscarSiguienteNDisponibleToolStripMenuItem.Text = "Buscar siguiente N° disponible";
             this.buscarSiguienteNDisponibleToolStripMenuItem.Click += new System.EventHandler(this.buscarSiguienteNDisponibleToolStripMenuItem_Click);
             // 
@@ -472,6 +501,7 @@
             this.nombreDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
             this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
+            this.nombreDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
             this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -479,6 +509,7 @@
             // 
             this.numerocuentaformateadaDataGridViewTextBoxColumn.DataPropertyName = "Numero_cuenta_formateada";
             this.numerocuentaformateadaDataGridViewTextBoxColumn.HeaderText = "N° Cuenta";
+            this.numerocuentaformateadaDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.numerocuentaformateadaDataGridViewTextBoxColumn.Name = "numerocuentaformateadaDataGridViewTextBoxColumn";
             this.numerocuentaformateadaDataGridViewTextBoxColumn.ReadOnly = true;
             this.numerocuentaformateadaDataGridViewTextBoxColumn.Width = 85;
@@ -487,6 +518,7 @@
             // 
             this.fechaformateadaDataGridViewTextBoxColumn.DataPropertyName = "Fecha_formateada";
             this.fechaformateadaDataGridViewTextBoxColumn.HeaderText = "Fecha";
+            this.fechaformateadaDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.fechaformateadaDataGridViewTextBoxColumn.Name = "fechaformateadaDataGridViewTextBoxColumn";
             this.fechaformateadaDataGridViewTextBoxColumn.ReadOnly = true;
             this.fechaformateadaDataGridViewTextBoxColumn.Width = 70;
@@ -495,6 +527,7 @@
             // 
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn.DataPropertyName = "Numero_comprobante_formateada";
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn.HeaderText = "N° Comp.";
+            this.numerocomprobanteformateadaDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn.Name = "numerocomprobanteformateadaDataGridViewTextBoxColumn";
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn.ReadOnly = true;
             this.numerocomprobanteformateadaDataGridViewTextBoxColumn.Width = 80;
@@ -504,6 +537,7 @@
             this.glosaFormateadaDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.glosaFormateadaDataGridViewTextBoxColumn.DataPropertyName = "Glosa_Formateada";
             this.glosaFormateadaDataGridViewTextBoxColumn.HeaderText = "Glosa";
+            this.glosaFormateadaDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.glosaFormateadaDataGridViewTextBoxColumn.Name = "glosaFormateadaDataGridViewTextBoxColumn";
             this.glosaFormateadaDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -511,6 +545,7 @@
             // 
             this.abonoDataGridViewTextBoxColumn.DataPropertyName = "Abono";
             this.abonoDataGridViewTextBoxColumn.HeaderText = "Abono";
+            this.abonoDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.abonoDataGridViewTextBoxColumn.Name = "abonoDataGridViewTextBoxColumn";
             this.abonoDataGridViewTextBoxColumn.ReadOnly = true;
             this.abonoDataGridViewTextBoxColumn.Width = 80;
@@ -519,6 +554,7 @@
             // 
             this.cargoDataGridViewTextBoxColumn.DataPropertyName = "Cargo";
             this.cargoDataGridViewTextBoxColumn.HeaderText = "Cargo";
+            this.cargoDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.cargoDataGridViewTextBoxColumn.Name = "cargoDataGridViewTextBoxColumn";
             this.cargoDataGridViewTextBoxColumn.ReadOnly = true;
             this.cargoDataGridViewTextBoxColumn.Width = 80;
@@ -527,6 +563,7 @@
             // 
             this.correlativoDataGridViewTextBoxColumn.DataPropertyName = "Correlativo";
             this.correlativoDataGridViewTextBoxColumn.HeaderText = "Fila";
+            this.correlativoDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.correlativoDataGridViewTextBoxColumn.Name = "correlativoDataGridViewTextBoxColumn";
             this.correlativoDataGridViewTextBoxColumn.ReadOnly = true;
             this.correlativoDataGridViewTextBoxColumn.Width = 30;
@@ -535,6 +572,7 @@
             // 
             this.mesDataGridViewTextBoxColumn.DataPropertyName = "Mes";
             this.mesDataGridViewTextBoxColumn.HeaderText = "Mes";
+            this.mesDataGridViewTextBoxColumn.MinimumWidth = 12;
             this.mesDataGridViewTextBoxColumn.Name = "mesDataGridViewTextBoxColumn";
             this.mesDataGridViewTextBoxColumn.ReadOnly = true;
             this.mesDataGridViewTextBoxColumn.Width = 30;
@@ -549,9 +587,11 @@
             this.grDatosSistema.Controls.Add(this.labelPitagoras4);
             this.grDatosSistema.Controls.Add(this.txtRutEmpresa);
             this.grDatosSistema.Controls.Add(this.btnAsignarAplicacion);
-            this.grDatosSistema.Location = new System.Drawing.Point(361, 32);
+            this.grDatosSistema.Location = new System.Drawing.Point(963, 76);
+            this.grDatosSistema.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.grDatosSistema.Name = "grDatosSistema";
-            this.grDatosSistema.Size = new System.Drawing.Size(410, 174);
+            this.grDatosSistema.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grDatosSistema.Size = new System.Drawing.Size(1093, 415);
             this.grDatosSistema.TabIndex = 21;
             this.grDatosSistema.TabStop = false;
             this.grDatosSistema.Text = "Sistema";
@@ -560,36 +600,40 @@
             // 
             this.labelPitagoras5.AutoSize = true;
             this.labelPitagoras5.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras5.Location = new System.Drawing.Point(6, 23);
+            this.labelPitagoras5.Location = new System.Drawing.Point(16, 55);
+            this.labelPitagoras5.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.labelPitagoras5.Name = "labelPitagoras5";
-            this.labelPitagoras5.Size = new System.Drawing.Size(127, 13);
+            this.labelPitagoras5.Size = new System.Drawing.Size(335, 32);
             this.labelPitagoras5.TabIndex = 11;
             this.labelPitagoras5.Text = "Ruta Aplicacion Contable";
             this.labelPitagoras5.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // txtPathMovSys
             // 
-            this.txtPathMovSys.Location = new System.Drawing.Point(9, 133);
+            this.txtPathMovSys.Location = new System.Drawing.Point(24, 317);
+            this.txtPathMovSys.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtPathMovSys.Name = "txtPathMovSys";
             this.txtPathMovSys.ReadOnly = true;
-            this.txtPathMovSys.Size = new System.Drawing.Size(395, 20);
+            this.txtPathMovSys.Size = new System.Drawing.Size(1047, 38);
             this.txtPathMovSys.TabIndex = 10;
             // 
             // txtPathAplicacion
             // 
-            this.txtPathAplicacion.Location = new System.Drawing.Point(9, 39);
+            this.txtPathAplicacion.Location = new System.Drawing.Point(24, 93);
+            this.txtPathAplicacion.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtPathAplicacion.Name = "txtPathAplicacion";
             this.txtPathAplicacion.ReadOnly = true;
-            this.txtPathAplicacion.Size = new System.Drawing.Size(362, 20);
+            this.txtPathAplicacion.Size = new System.Drawing.Size(959, 38);
             this.txtPathAplicacion.TabIndex = 9;
             // 
             // lbPathMovSys
             // 
             this.lbPathMovSys.AutoSize = true;
             this.lbPathMovSys.ForeColor = System.Drawing.Color.Black;
-            this.lbPathMovSys.Location = new System.Drawing.Point(6, 119);
+            this.lbPathMovSys.Location = new System.Drawing.Point(16, 284);
+            this.lbPathMovSys.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lbPathMovSys.Name = "lbPathMovSys";
-            this.lbPathMovSys.Size = new System.Drawing.Size(280, 13);
+            this.lbPathMovSys.Size = new System.Drawing.Size(742, 32);
             this.lbPathMovSys.TabIndex = 7;
             this.lbPathMovSys.Text = "Path MovSys (la ubicacion se calculará automaticamente)";
             this.lbPathMovSys.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -598,9 +642,10 @@
             // 
             this.btnSalvarRutEmpresa.ImageIndex = 1;
             this.btnSalvarRutEmpresa.ImageList = this.il;
-            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(103, 80);
+            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(275, 191);
+            this.btnSalvarRutEmpresa.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnSalvarRutEmpresa.Name = "btnSalvarRutEmpresa";
-            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(30, 30);
+            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(80, 72);
             this.btnSalvarRutEmpresa.TabIndex = 6;
             this.btnSalvarRutEmpresa.UseVisualStyleBackColor = true;
             this.btnSalvarRutEmpresa.Click += new System.EventHandler(this.btnSalvarRutEmpresa_Click);
@@ -609,9 +654,10 @@
             // 
             this.labelPitagoras4.AutoSize = true;
             this.labelPitagoras4.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras4.Location = new System.Drawing.Point(6, 70);
+            this.labelPitagoras4.Location = new System.Drawing.Point(16, 167);
+            this.labelPitagoras4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.labelPitagoras4.Name = "labelPitagoras4";
-            this.labelPitagoras4.Size = new System.Drawing.Size(68, 13);
+            this.labelPitagoras4.Size = new System.Drawing.Size(178, 32);
             this.labelPitagoras4.TabIndex = 5;
             this.labelPitagoras4.Text = "Rut Empresa";
             this.labelPitagoras4.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -625,11 +671,12 @@
             this.txtRutEmpresa.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtRutEmpresa.FormatoNumerico = true;
             this.txtRutEmpresa.IgnorarFlujo = false;
-            this.txtRutEmpresa.Location = new System.Drawing.Point(9, 86);
+            this.txtRutEmpresa.Location = new System.Drawing.Point(24, 205);
+            this.txtRutEmpresa.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtRutEmpresa.MaxLength = 11;
             this.txtRutEmpresa.Name = "txtRutEmpresa";
             this.txtRutEmpresa.SeleccionaTodoConClick = true;
-            this.txtRutEmpresa.Size = new System.Drawing.Size(93, 20);
+            this.txtRutEmpresa.Size = new System.Drawing.Size(241, 38);
             this.txtRutEmpresa.StringVaciaSiEsCero = true;
             this.txtRutEmpresa.TabIndex = 2;
             this.txtRutEmpresa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -647,34 +694,37 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tstbNuevaImportacion,
             this.tstbinstructivo});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(16, 5, 0, 5);
+            this.menuStrip1.Size = new System.Drawing.Size(2133, 55);
             this.menuStrip1.TabIndex = 22;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // tstbNuevaImportacion
             // 
             this.tstbNuevaImportacion.Name = "tstbNuevaImportacion";
-            this.tstbNuevaImportacion.Size = new System.Drawing.Size(121, 20);
+            this.tstbNuevaImportacion.Size = new System.Drawing.Size(294, 45);
             this.tstbNuevaImportacion.Text = "Nueva importacion";
             this.tstbNuevaImportacion.Click += new System.EventHandler(this.tstbNuevaImportacion_Click);
             // 
             // tstbinstructivo
             // 
             this.tstbinstructivo.Name = "tstbinstructivo";
-            this.tstbinstructivo.Size = new System.Drawing.Size(75, 20);
+            this.tstbinstructivo.Size = new System.Drawing.Size(180, 45);
             this.tstbinstructivo.Text = "Instructivo";
             this.tstbinstructivo.Click += new System.EventHandler(this.tstbinstructivo_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 484);
+            this.ClientSize = new System.Drawing.Size(2133, 1154);
             this.Controls.Add(this.grDatosSistema);
             this.Controls.Add(this.grInsertarDatos);
             this.Controls.Add(this.grExtraerDatos);
@@ -686,6 +736,7 @@
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "Form1";
             this.Text = "Importador Contable Bosques Aculeo";
             this.Load += new System.EventHandler(this.Form1_Load);

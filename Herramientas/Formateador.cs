@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Reflection;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -12,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Herramientas
 {
@@ -75,7 +75,7 @@ namespace Herramientas
 
         public static T CreateItem<T>(DataRow row)
         {
-            T obj = default(T);
+            T obj = default;
             if (row != null)
             {
                 obj = Activator.CreateInstance<T>();
@@ -107,14 +107,14 @@ namespace Herramientas
 
             foreach (PropertyDescriptor prop in properties)
             {
-                table.Columns.Add(prop.Name);
+                _ = table.Columns.Add(prop.Name);
             }
 
             return table;
         }
 
         public static string FormatearRut(string rut_param, string dv_param)
-        { 
+        {
             string rutTemporal = "";
             char[] charArray = rut_param.ToString().ToCharArray();
             Array.Reverse(charArray);
@@ -124,7 +124,9 @@ namespace Herramientas
             {
                 rutTemporal += rut[i];
                 if (i % 3 == 0)
+                {
                     rutTemporal += ".";
+                }
             }
 
             return rutTemporal.Substring(0, rutTemporal.Length - 1) + "-" + dv_param;
@@ -162,7 +164,7 @@ namespace Herramientas
             //// ean 13 sin codigo verificador
             ean13 = prefijo + codigo_producto.PadLeft(cantidad_relleno, '0');
 
-            ean13 = ean13 + Convert.ToString(Formateador.NumeroVerificadorEAN13(ean13));
+            ean13 += Convert.ToString(Formateador.NumeroVerificadorEAN13(ean13));
 
             return ean13;
         }
@@ -175,7 +177,9 @@ namespace Herramientas
         public static string ToStringDB(DateTime? fecha)
         {
             if (fecha == null)
+            {
                 return string.Empty;
+            }
 
             DateTime fecha_temporal = (DateTime)fecha;
             return fecha_temporal.ToString("yyyy-MM-dd");
@@ -207,20 +211,16 @@ namespace Herramientas
         /// <returns>Primer dia del mes</returns>
         public static DateTime PrimeroMes(DateTime? fecha = null)
         {
-            DateTime fecha_temp;
-
-            if (fecha == null)
-                fecha_temp = Formateador.Ahora();
-            else
-                fecha_temp = (DateTime)fecha;
-
+            DateTime fecha_temp = fecha == null ? Formateador.Ahora() : (DateTime)fecha;
             return new DateTime(fecha_temp.Year, fecha_temp.Month, 1);
         }
 
         public static string DateToTextMostrar(DateTime? fecha)
         {
             if (fecha == null)
+            {
                 return string.Empty;
+            }
 
             DateTime fecha_anulacion = (DateTime)fecha;
 
@@ -235,7 +235,9 @@ namespace Herramientas
         public static string DateTimeToTextMostrar(DateTime? fecha)
         {
             if (fecha == null)
+            {
                 return string.Empty;
+            }
 
             DateTime fecha_anulacion = (DateTime)fecha;
 
@@ -244,11 +246,7 @@ namespace Herramientas
 
         public static string DateToTextDB(DateTime? fecha)
         {
-            if (fecha == null)
-                return null;
-
-
-            return DateToTextDB((DateTime)fecha);
+            return fecha == null ? null : DateToTextDB((DateTime)fecha);
         }
 
         /// <summary>
@@ -265,11 +263,15 @@ namespace Herramientas
         {
             // Verificamos que sea serializable antes de hacer la copia            
             if (!typeof(T).IsSerializable)
+            {
                 throw new ArgumentException("La clase " + typeof(T).ToString() + " no es serializable");
+            }
 
             // En caso de ser nulo el objeto, se devuelve tal cual
-            if (Object.ReferenceEquals(origen, null))
-                return default(T);
+            if (origen == null)
+            {
+                return default;
+            }
 
             //Creamos un stream en memoria            
             IFormatter formatter = new BinaryFormatter();
@@ -279,7 +281,7 @@ namespace Herramientas
                 try
                 {
                     formatter.Serialize(stream, origen);
-                    stream.Seek(0, SeekOrigin.Begin);
+                    _ = stream.Seek(0, SeekOrigin.Begin);
                     //Deserializamos la porcón de memoria en el nuevo objeto                
                     return (T)formatter.Deserialize(stream);
                 }
@@ -292,17 +294,24 @@ namespace Herramientas
         public static bool EsUnControlFocuseable(Control ctl)
         {
             if (!ctl.CanFocus)
-                return false;
-            else if (!ctl.Enabled)
-                return false;
-            else if (ctl is TextBox)
             {
-                TextBox txt = (TextBox)ctl;
+                return false;
+            }
+            else if (!ctl.Enabled)
+            {
+                return false;
+            }
+            else if (ctl is TextBox txt)
+            {
                 if (txt.ReadOnly)
+                {
                     return false;
+                }
 
                 if (!txt.Visible)
+                {
                     return false;
+                }
             }
 
             return true;
@@ -310,10 +319,7 @@ namespace Herramientas
 
         public static string Acortar(string texto, int largo_maximo)
         {
-            if (texto.Length > largo_maximo)
-                return texto.Substring(0, largo_maximo);
-
-            return texto;
+            return texto.Length > largo_maximo ? texto.Substring(0, largo_maximo) : texto;
         }
 
         public static string NumeroAPesos(string numeros)
@@ -329,7 +335,7 @@ namespace Herramientas
                 if (numero_int < 0)
                 {
                     isNegatico = true;
-                    numeros = (numero_int*-1).ToString();
+                    numeros = (numero_int * -1).ToString();
                     numeros = numeros.ToString();
                 }
 
@@ -337,16 +343,23 @@ namespace Herramientas
                 {
                     numeroPesos = numeros[i] + numeroPesos;
                     if (contador % 3 == 0 && contador != numeros.Length)
+                    {
                         numeroPesos = "." + numeroPesos;
+                    }
+
                     contador++;
                 }
 
-                
+
                 if (isNegatico)
+                {
                     numeroPesos = "-" + numeroPesos;
-                
-            }else
+                }
+            }
+            else
+            {
                 numeroPesos = "0";
+            }
 
             return "$" + numeroPesos;
         }
@@ -373,33 +386,31 @@ namespace Herramientas
         }
         public static decimal RedondeoMultiplo(decimal numero, int multiplo)
         {
-            numero = numero / multiplo;
+            numero /= multiplo;
             numero = Math.Round(numero, 0);
-            numero = numero * 10;
+            numero *= 10;
             return numero;
         }
 
         public static string PrepatarConvertNumerico(string stringToNumber)
         {
-            if (stringToNumber == string.Empty || stringToNumber == "" || stringToNumber == null)
-                return "0";
-            else
-                return stringToNumber;
+            return stringToNumber == string.Empty || stringToNumber == "" || stringToNumber == null ? "0" : stringToNumber;
         }
 
         public static int ToInt32(string stringNumero)
         {
-    
+
             if (string.IsNullOrEmpty(stringNumero))
+            {
                 return 0;
+            }
 
             stringNumero = stringNumero.Trim();
             stringNumero = stringNumero.Replace(".", "");
 
-            if (stringNumero == string.Empty || stringNumero == "" || stringNumero == null)
-                return 0;
-            else
-                return Convert.ToInt32(Math.Round(Convert.ToDecimal(stringNumero)));
+            return stringNumero == string.Empty || stringNumero == "" || stringNumero == null
+                ? 0
+                : Convert.ToInt32(Math.Round(Convert.ToDecimal(stringNumero)));
         }
 
         public static string ToStringWordPress(object obj)
@@ -415,78 +426,51 @@ namespace Herramientas
         {
             stringNumero = stringNumero.Replace(".", "");
 
-            if (stringNumero == string.Empty || stringNumero == "" || stringNumero == null)
-                return 0;
-            else
-                return Convert.ToUInt32(Math.Round(Convert.ToDecimal(stringNumero)));
+            return stringNumero == string.Empty || stringNumero == "" || stringNumero == null
+                ? 0
+                : Convert.ToUInt32(Math.Round(Convert.ToDecimal(stringNumero)));
         }
 
         public static int ToInt32(object objNumero)
         {
-            if (objNumero == null)
-                return 0;
-            else
-                return Formateador.ToInt32(Convert.ToString(objNumero));
+            return objNumero == null ? 0 : Formateador.ToInt32(Convert.ToString(objNumero));
         }
 
         public static uint ToUInt32(object objNumero)
         {
-            if (objNumero == null)
-                return 0;
-            else
-                return Formateador.ToUInt32(Convert.ToString(objNumero));
+            return objNumero == null ? 0 : Formateador.ToUInt32(Convert.ToString(objNumero));
         }
 
         public static decimal ToDecimalMayor(decimal primer_decimal, decimal segundo_decimal)
         {
-            if (primer_decimal > segundo_decimal)
-                return primer_decimal;
-
-            return segundo_decimal;
+            return primer_decimal > segundo_decimal ? primer_decimal : segundo_decimal;
         }
 
         public static int ToInt32(TextBox textBox)
         {
-            if (textBox == null)
-                return 0;
-
-            return Formateador.ToInt32(textBox.Text);
+            return textBox == null ? 0 : Formateador.ToInt32(textBox.Text);
         }
 
         public static object getBoolDB(object bool_dv)
         {
             string bool_string = Formateador.ToString(bool_dv);
-            if (bool_string == "1")
-                return true;
-            else
-                return false;
+            return bool_string == "1" ? true : (object)false;
         }
 
         public static DateTime? ToDateTime(object date)
         {
             string date_str = Formateador.ToString(date);
-            if(DateTime.TryParse(date_str, out DateTime result))
-            {
-                return result;
-            }
-
-            return null;
+            return DateTime.TryParse(date_str, out DateTime result) ? result : (DateTime?)null;
         }
 
         public static float ToSingle(object objNumero)
         {
-            if (objNumero == null)
-                return 0;
-            else
-                return Formateador.ToSigle(objNumero.ToString());
+            return objNumero == null ? 0 : Formateador.ToSigle(objNumero.ToString());
         }
 
         public static float ToSigle(string stringNumero)
         {
-            if (stringNumero == string.Empty || stringNumero == "" || stringNumero == null)
-                return 0;
-            else
-                return Convert.ToSingle(stringNumero);
+            return stringNumero == string.Empty || stringNumero == "" || stringNumero == null ? 0 : Convert.ToSingle(stringNumero);
         }
 
         /// <summary>
@@ -497,18 +481,12 @@ namespace Herramientas
         /// <returns>resultado divicion si el segundo decimal es cero, el resultado tambien lo será</returns>
         public static decimal Dividir(decimal primer_decimal, decimal segundo_decimal)
         {
-            if (segundo_decimal == 0)
-                return 0;
-
-            return primer_decimal / segundo_decimal;
+            return segundo_decimal == 0 ? 0 : primer_decimal / segundo_decimal;
         }
 
         public static decimal ToDecimal(string stringNumero)
         {
-            if (stringNumero == string.Empty || stringNumero == "" || stringNumero == null)
-                return 0;
-            else
-                return Convert.ToDecimal(stringNumero);
+            return stringNumero == string.Empty || stringNumero == "" || stringNumero == null ? 0 : Convert.ToDecimal(stringNumero);
         }
 
         public static decimal ToDecimal(TextBox txt)
@@ -519,19 +497,18 @@ namespace Herramientas
         public static decimal ToDecimal(object objectNumero)
         {
             if (objectNumero == null)
+            {
                 return 0;
+            }
 
             string stringNumero = Convert.ToString(objectNumero);
 
-            if(stringNumero == string.Empty || stringNumero == "")
-                return 0;
-            
-            return Convert.ToDecimal(objectNumero);
+            return stringNumero == string.Empty || stringNumero == "" ? 0 : Convert.ToDecimal(objectNumero);
         }
 
         public static bool IsCaracterDigito(char c)
         {
-            return (
+            return
                     c == '0'
                     || c == '1'
                     || c == '2'
@@ -541,12 +518,12 @@ namespace Herramientas
                     || c == '6'
                     || c == '7'
                     || c == '8'
-                    || c == '9');
+                    || c == '9';
         }
 
         public static bool IsCaracterDigito(string c)
         {
-            return (
+            return
                     c == "0"
                     || c == "1"
                     || c == "2"
@@ -556,7 +533,7 @@ namespace Herramientas
                     || c == "6"
                     || c == "7"
                     || c == "8"
-                    || c == "9");
+                    || c == "9";
         }
 
         public static int actualizarSaldoRespectoACuentaContable(int saldo, int debe, int haber, int cuenta_contable)
@@ -564,10 +541,9 @@ namespace Herramientas
             string cuenta_contable_string = cuenta_contable.ToString();
 
             string inicio_cuenta_contable = cuenta_contable_string.Substring(0, 1);
-            if (inicio_cuenta_contable == "1" || inicio_cuenta_contable == "3" || inicio_cuenta_contable == "2")
-                return saldo + debe - haber;
-            else
-                return saldo + haber - debe;
+            return inicio_cuenta_contable == "1" || inicio_cuenta_contable == "3" || inicio_cuenta_contable == "2"
+                ? saldo + debe - haber
+                : saldo + haber - debe;
         }
 
         /// <summary>
@@ -578,10 +554,14 @@ namespace Herramientas
         public static string NombreMes(int mes_num)
         {
             if (mes_num < 1)
+            {
                 mes_num = 1;
+            }
 
             if (mes_num > 12)
+            {
                 mes_num = 12;
+            }
 
             string[] meses = Formateador.ArregloMeses();
 
@@ -603,22 +583,26 @@ namespace Herramientas
                 "Octubre",
                 "Noviembre",
                 "Diciembre"
-            }; 
+            };
         }
 
         public static string getOrigen(string origen)
         {
             if (origen == "V")
+            {
                 return "Ventas";
+            }
             else if (origen == "C")
+            {
                 return "Compras";
+            }
 
-            return "Sin espesificar";    
+            return "Sin espesificar";
         }
 
         public static bool IsValidGtin(string code)
         {
-            if (code != (new Regex("[^0-9]")).Replace(code, ""))
+            if (code != new Regex("[^0-9]").Replace(code, ""))
             {
                 // is not numeric
                 return false;
@@ -627,19 +611,19 @@ namespace Herramientas
             switch (code.Length)
             {
                 case 8:
-                    code = "000000" + code;
-                    break;
+                code = "000000" + code;
+                break;
                 case 12:
-                    code = "00" + code;
-                    break;
+                code = "00" + code;
+                break;
                 case 13:
-                    code = "0" + code;
-                    break;
+                code = "0" + code;
+                break;
                 case 14:
-                    break;
+                break;
                 default:
-                    // wrong number of digits
-                    return false;
+                // wrong number of digits
+                return false;
             }
             // calculate check digit
             int[] a = new int[13];
@@ -667,22 +651,20 @@ namespace Herramientas
         {
             Excel.Range celda = hoja.Range[indice_celda, indice_celda];
 
-            if(celda == null)
-                return string.Empty;
-
-            return celda.NoteText();
+            return celda == null ? string.Empty : celda.NoteText();
         }
 
         public static T GetExcel<T>(Excel._Worksheet hoja, string indice_celda)
         {
             Excel.Range celda = hoja.Range[indice_celda, indice_celda];
 
-            if(typeof(T) == typeof(string))
+            if (typeof(T) == typeof(string))
             {
-                return Formateador.ToString(celda.Value);
-            }else if (typeof(T) == typeof(int))
+                return (T)Convert.ChangeType(Formateador.ToString(celda.Value), typeof(T));
+            }
+            else if (typeof(T) == typeof(int))
             {
-                return (celda.Value == null) ? 0 : Formateador.ToInt32(celda.Value);
+                return (T)Convert.ChangeType((celda.Value == null) ? 0 : Formateador.ToInt32(celda.Value), typeof(T));
             }
 
             throw new Exception("La conversion espesificada no es configurada");
@@ -691,51 +673,44 @@ namespace Herramientas
         public static object FechaDBtoGrid(object fecha_obj)
         {
             if (fecha_obj is null)
+            {
                 return null;
+            }
 
             string fecha_string = fecha_obj.ToString();
 
-            if (fecha_string == "")
-                return null;
-
-            if(DateTime.TryParse(fecha_string, out DateTime fecha))
-            {
-                return fecha;
-            }
-
-            return null;
-            
+            return fecha_string == "" ? null : DateTime.TryParse(fecha_string, out DateTime fecha) ? fecha : (object)null;
         }
 
         public static string getBoolGridString(DataGridViewCell cell)
         {
-            if (cell.Value == null || cell.Value.ToString() == "")
-                return "0";
-
-            if (Convert.ToBoolean(cell.Value))
-                return "1";
-            else
-                return "0";
+            return cell.Value == null || cell.Value.ToString() == "" ? "0" : Convert.ToBoolean(cell.Value) ? "1" : "0";
         }
 
         public static bool BoolDesdeString(string bool_string)
         {
             if (bool_string == "1")
+            {
                 return true;
+            }
             else if (bool_string == "0")
+            {
                 return false;
+            }
 
             Interacciones.Ex();
             return false;
-                
+
         }
 
-        public static Dictionary<string, string> InsertarValorSuperiorSS( Dictionary<string, string> old_dic, string key, string value)
+        public static Dictionary<string, string> InsertarValorSuperiorSS(Dictionary<string, string> old_dic, string key, string value)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add(key, value);
+            Dictionary<string, string> dic = new Dictionary<string, string>
+            {
+                { key, value }
+            };
 
-            foreach(KeyValuePair<string, string> registro in old_dic)
+            foreach (KeyValuePair<string, string> registro in old_dic)
             {
                 dic.Add(registro.Key, registro.Value);
             }
@@ -752,7 +727,7 @@ namespace Herramientas
         /// <returns></returns>
         public static int NumeroVerificadorEAN13(string code)
         {
-            if (code != (new Regex("[^0-9]")).Replace(code, ""))
+            if (code != new Regex("[^0-9]").Replace(code, ""))
             {
                 // is not numeric
                 throw new Exception("El codigo EAN 13 sumistrado no es un numero");
@@ -774,29 +749,25 @@ namespace Herramientas
             a[11] = int.Parse(code[11].ToString()) * 3;
             int sum = a[0] + a[1] + a[2] + a[3] + a[4] + a[5] + a[6] + a[7] + a[8] + a[9] + a[10] + a[11];
             int digito_verificador = (10 - (sum % 10)) % 10;
-            
+
             return digito_verificador;
         }
 
         public static string ToString(object value)
         {
-            if (value == null)
-                return "";
-            else
-                return value.ToString().Trim();
+            return value == null ? "" : value.ToString().Trim();
         }
 
         public static object getIntToGridComboString(object v)
         {
             if (v == null)
+            {
                 return "";
+            }
 
             string str = v.ToString();
 
-            if (str == "0")
-                return "";
-            else
-                return str;
+            return str == "0" ? "" : (object)str;
         }
 
         public static void CrearArchivoString(string path, string texto)
@@ -813,12 +784,12 @@ namespace Herramientas
         /// <param name="condicion"></param>
         /// <param name="orden"></param>
         /// <returns></returns>
-        public static DataTable SelectDT(DataTable dt,string condicion, string orden)
+        public static DataTable SelectDT(DataTable dt, string condicion, string orden)
         {
 
             DataRow[] resultado = dt.Select(condicion, orden);
 
-            if(resultado.Length > 0)
+            if (resultado.Length > 0)
             {
                 return resultado.CopyToDataTable();
             }
@@ -829,7 +800,7 @@ namespace Herramientas
 
                 return temp;
             }
-            
+
         }
 
         public static int ContarConsidenciasDT(DataTable dt, string nombre_columna, object valor)
@@ -841,10 +812,12 @@ namespace Herramientas
 
             int cuenta = 0;
 
-            foreach(DataRow row in dt.Rows)
+            foreach (DataRow row in dt.Rows)
             {
                 if (row[nombre_columna].ToString() == valor.ToString())
+                {
                     cuenta++;
+                }
             }
 
 
@@ -865,16 +838,18 @@ namespace Herramientas
 
         public static string PrettyXml(string xml)
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
-            var element = XElement.Parse(xml);
+            XElement element = XElement.Parse(xml);
 
-            var settings = new XmlWriterSettings();
-            settings.OmitXmlDeclaration = true;
-            settings.Indent = true;
-            settings.NewLineOnAttributes = true;
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                Indent = true,
+                NewLineOnAttributes = true
+            };
 
-            using (var xmlWriter = XmlWriter.Create(stringBuilder, settings))
+            using (XmlWriter xmlWriter = XmlWriter.Create(stringBuilder, settings))
             {
                 element.Save(xmlWriter);
             }
@@ -896,10 +871,7 @@ namespace Herramientas
 
         public static string NodoToString(XmlNode nodo)
         {
-            if (nodo == null)
-                return string.Empty;
-
-            return nodo.InnerXml;
+            return nodo == null ? string.Empty : nodo.InnerXml;
         }
 
         public static uint ElementToUInt(XmlElement element)
@@ -914,10 +886,7 @@ namespace Herramientas
 
         public static string ToStringMasLargo(string palabra1, string palabra2)
         {
-            if (palabra2.Length > palabra1.Length)
-                return palabra2;
-
-            return palabra1;
+            return palabra2.Length > palabra1.Length ? palabra2 : palabra1;
         }
 
         public static decimal ElementToDecimal(XmlElement element)
@@ -934,23 +903,9 @@ namespace Herramientas
 
         public static bool ValidaEmail(string email)
         {
-            String expresion;
+            string expresion;
             expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(email, expresion))
-            {
-                if (Regex.Replace(email, expresion, String.Empty).Length == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            return Regex.IsMatch(email, expresion) && Regex.Replace(email, expresion, string.Empty).Length == 0;
         }
 
         public static bool IsNull(DateTime fecha_despacho)
