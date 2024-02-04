@@ -29,33 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInstructivo));
-            this.web = new System.Windows.Forms.WebBrowser();
+            this.instructivoTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // web
+            // instructivoTxt
             // 
-            this.web.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.web.Location = new System.Drawing.Point(0, 0);
-            this.web.MinimumSize = new System.Drawing.Size(20, 20);
-            this.web.Name = "web";
-            this.web.Size = new System.Drawing.Size(800, 450);
-            this.web.TabIndex = 0;
+            this.instructivoTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.instructivoTxt.Location = new System.Drawing.Point(22, 22);
+            this.instructivoTxt.Multiline = true;
+            this.instructivoTxt.Name = "instructivoTxt";
+            this.instructivoTxt.Size = new System.Drawing.Size(2086, 1039);
+            this.instructivoTxt.TabIndex = 0;
             // 
             // FrmInstructivo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.web);
+            this.ClientSize = new System.Drawing.Size(2133, 1073);
+            this.Controls.Add(this.instructivoTxt);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "FrmInstructivo";
             this.Text = "Instructivo";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.WebBrowser web;
+        private System.Windows.Forms.TextBox instructivoTxt;
     }
 }

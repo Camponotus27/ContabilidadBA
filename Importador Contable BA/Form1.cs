@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using Version = System.Version;
 
 namespace Importador_Contable_BA
 {
@@ -55,8 +56,6 @@ namespace Importador_Contable_BA
 
             InicializarMeses();
             InicializarAnio();
-
-
         }
 
         private void AsigarVersion()
@@ -141,9 +140,16 @@ namespace Importador_Contable_BA
                 return;
             }
 
-            AutoUpdater.Start("https://parcelacionaculeo.limonay.com/aplicacioncontable/actualizacion/actualizacion.xml");
+            BuscarActualizacionesDisponible();
         }
 
+        /// <summary>
+        /// Busca actualizaciones dispinibles de esta misma aplicacion, es decir actualizaciones para "Importador Contable BA"
+        /// </summary>
+        private void BuscarActualizacionesDisponible()
+        {
+            AutoUpdater.Start("https://parcelacionaculeo.limonay.com/aplicacioncontable/actualizacion/actualizacion.xml");
+        }
 
         private void AsignarLabel(Label label, string path, string texto_si_vacio)
         {
@@ -408,7 +414,8 @@ namespace Importador_Contable_BA
                 int mes = e_mes.Id;
                 int anio = e_anio.Id;
 
-                int fila = ((anio - 2000) * 12) + 1 - 30 + mes - 1;
+                int fila = CalcularFila(mes, anio);
+
 
                 // obtencion de la fecha del comprobante, ultimo dia del mes
                 DateTime fechatemp = new DateTime(anio, mes, 1);
@@ -432,8 +439,12 @@ namespace Importador_Contable_BA
                 EComprobante comprobante_otros_ingresos = new EComprobante("OTROS INGRESOS", nombre_mes, numero_comprobante_inicial + 5, fecha_ultimo_dia_mes, 1600112, 9100107);
                 EComprobante comprobante_multa_e_intereses = new EComprobante("MULTAS E INTERESES", nombre_mes, numero_comprobante_inicial + 6, fecha_ultimo_dia_mes, 1600106, 9100104);
 
-
                 EComprobante comprobante_cobranza_judicial = new EComprobante("COBRANZA JUDICIAL", nombre_mes, numero_comprobante_inicial + 7, fecha_ultimo_dia_mes, 1610101);
+
+
+                // TODO: Esperar correccion de las cuentas contables
+                EComprobante comprobante_fondo_de_reserva = new EComprobante("FONDO DE RESERVA", nombre_mes, numero_comprobante_inicial + 8, fecha_ultimo_dia_mes, 1600114, 9100111);
+                EComprobante comprobante_mejoras = new EComprobante("MEJORAS", nombre_mes, numero_comprobante_inicial + 9, fecha_ultimo_dia_mes, 6100105, 9100111);
 
                 List<EComprobante> lista_comprobantes_reemplazo_otros = new List<EComprobante>()
                 {
@@ -506,6 +517,7 @@ namespace Importador_Contable_BA
                                 // valores hoja
                                 string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
                                 string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
+                                string valor_propietarior_value = Formateador.GetExcel<string>(hoja, "C3");
 
                                 string glosa_personalizada = Formateador.GetExcel<string>(hoja, "A2");
                                 string rut = Formateador.GetExcel<string>(hoja, "A3");
@@ -572,7 +584,7 @@ namespace Importador_Contable_BA
                                     {
                                         rep.Reportar("VALIDA (caso especial solo luz)", false);
                                     }
-                                    else if (hoja.Name == "LBA-P45")
+                                    else if (hoja.Name == "LBA-5E-2C")
                                     {
                                         // for test
                                     }
@@ -606,6 +618,10 @@ namespace Importador_Contable_BA
                                     int otros_ingresos = Formateador.GetExcel<int>(hoja, columna_otros_ingresos + fila);
                                     int multa_e_intereses = Formateador.GetExcel<int>(hoja, columna_multa_e_intereses + (fila - 1));
 
+                                    int fondo_de_reserva = Formateador.GetExcel<int>(hoja, "O" + fila);
+                                    int mejoras = Formateador.GetExcel<int>(hoja, "P" + fila);
+
+
                                     string nota_otros_ingresos = Formateador.GetNotaExcel(hoja, columna_otros_ingresos + fila);
 
                                     #region Validacion de valores negativos
@@ -615,7 +631,10 @@ namespace Importador_Contable_BA
                                         || cargo_fijo_agua < 0
                                         || cuota_asoc < 0
                                         || otros_ingresos < 0
-                                        || multa_e_intereses < 0)
+                                        || multa_e_intereses < 0
+                                        || fondo_de_reserva < 0
+                                        || mejoras < 0
+                                        )
                                     {
                                         return res.Error("Se recopiló un valor negativo en la hoja " + hoja.Name + " fila " + fila + " verifiquelo puesto el sistema no esta preparado para esta codicion");
                                     }
@@ -706,6 +725,19 @@ namespace Importador_Contable_BA
                                                     glosa,
                                                     multa_e_intereses
                                                 ));
+
+                                            // TODO: Validar si las nuevas columnas sumas o restan que pedo con la cobranza juducial
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    fondo_de_reserva
+                                                ));
+
+                                            comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    mejoras
+                                                ));
                                         }
                                     }
                                     else
@@ -774,10 +806,22 @@ namespace Importador_Contable_BA
                                                     glosa,
                                                     multa_e_intereses
                                                 ));
+
+                                            comprobante_fondo_de_reserva.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    fondo_de_reserva
+                                                ));
+
+                                            comprobante_mejoras.Add(new EComprobante_Detalle(
+                                                    rut,
+                                                    glosa,
+                                                    mejoras
+                                                ));
                                         }
                                     }
 
-
+                                    // TODO: Agregar aqui la impresion del PDF
                                 }
                                 else
                                 {
@@ -810,6 +854,8 @@ namespace Importador_Contable_BA
                     detalles.AddRange(comprobante_otros_ingresos.ExtraerComprobantes());
                     detalles.AddRange(comprobante_multa_e_intereses.ExtraerComprobantes());
                     detalles.AddRange(comprobante_cobranza_judicial.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_fondo_de_reserva.ExtraerComprobantes());
+                    detalles.AddRange(comprobante_mejoras.ExtraerComprobantes());
 
                     _ = res.Correcto();
                     res.Respuesta = detalles;
@@ -847,6 +893,84 @@ namespace Importador_Contable_BA
             */
 
             return res;
+        }
+
+        /// <summary>
+        /// Retorna fila correspondiente al mes y año de las planillas de excel
+        /// </summary>
+        /// <param name="mes">mes, representando por un numero, empezando por el 1 es decir, Enero = 1, Febrero = 2</param>
+        /// <param name="anio">año, reprentado por el mismo numero del año, es decir, 2022 = 2022</param>
+        /// <returns>retorna el indice de la fina en planilla de Excel</returns>
+        /// <exception cref="Exception"></exception>
+        private int CalcularFila(int mes, int anio)
+        {
+            /*      A           B
+             * 1    PARCELA
+             * 2    SECTOR 
+             * 3    02005523-5	PROPIETARIO
+             * 4
+             * 5    Periodo
+             * 6    Item
+             * 7    2003	    Enero
+             * 8                Febrero
+             * 9                Marzo
+             * .
+             * .
+             * .
+             * 235  2022	    Enero
+             * 236              Febrero
+             * 237              Marzo
+            */
+
+            if (mes > 12)
+            {
+                throw new Exception("El mes mayor es 12 = Diciembre, si tiene mas meses es porque no vivie en la tierra");
+            }
+
+            if (anio < 2003)
+            {
+                throw new Exception("No estan soportados años anteriores al 2003");
+            }
+
+            int cantidadMesesEnUnAnio = 12;
+            int filaPrimerAnio = 7;
+            int aniosDeDiferenciaConPrimerAnio = anio - 2003;
+
+            /* CalcularFila(int mes, int anio)
+             * CalcularFila(2, 2003)
+             * valor esperado de retorno=8
+             * 
+             * 
+             * aniosDeDiferenciaConPrimerAnio = 0
+             * 
+             * filaPrimerAnio + (aniosDeDiferenciaConPrimerAnio * cantidadMesesEnUnAnio) + (mes - 1)
+             * 7 + (0 * 12) + (2 - 1)
+             * 7 + 0 + 1
+             * 8
+             * 
+             * * CalcularFila(2, 2022)
+             * valor esperado de retorno=236
+             * 
+             * aniosDeDiferenciaConPrimerAnio = 2022 - 2003 = 19
+             * 
+             * filaPrimerAnio + (aniosDeDiferenciaConPrimerAnio * cantidadMesesEnUnAnio) + (mes - 1)
+             * 7 + (19 * 12) + (2 - 1)
+             * 7 + 228 + 1
+             * 236
+             * 
+             * CalcularFila(3, 2022)
+             * valor esperado de retorno=237
+             * 
+             * aniosDeDiferenciaConPrimerAnio = 2022 - 2003 = 19
+             * 
+             * filaPrimerAnio + (aniosDeDiferenciaConPrimerAnio * cantidadMesesEnUnAnio) + (mes - 1)
+             * 7 + (19 * 12) + (3 - 1)
+             * 7 + 228 + 2
+             * 237
+             */
+
+
+            return filaPrimerAnio + (aniosDeDiferenciaConPrimerAnio * cantidadMesesEnUnAnio) + (mes - 1);
         }
 
         private string LimpiarGlosa(string glosa)

@@ -5,12 +5,7 @@ using Herramientas;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -43,10 +38,10 @@ namespace ControlesPersonalizados
             /// </summary>
             public void PrimerControl()
             {
-                if (this.flujo.Count > 0)
+                if (flujo.Count > 0)
                 {
-                    this.flujo[0].Focus();
-                    this.flujo[0].Select();
+                    _ = flujo[0].Focus();
+                    flujo[0].Select();
                 }
             }
             /// <summary>
@@ -54,13 +49,13 @@ namespace ControlesPersonalizados
             /// </summary>
             public void SiguienteControl()
             {
-                if (this.flujo != null && this.flujo.Count > 0)
+                if (flujo != null && flujo.Count > 0)
                 {
                     bool siguiente_control_encontrado = false;
                     bool pueda_seguir_avanzado = true;
-                    int largo_flujo = this.flujo.Count;
+                    int largo_flujo = flujo.Count;
                     int contador = 0;
-                    int posicion_con_el_foco = this.GetControlFoco();
+                    int posicion_con_el_foco = GetControlFoco();
 
                     if (posicion_con_el_foco != -1)
                     {
@@ -73,18 +68,17 @@ namespace ControlesPersonalizados
                             && pueda_seguir_avanzado
                             )
                         {
-                            posicion_proxima = this.SiguienteIndice(posicion_proxima, out bool dio_una_vuelta);
-                            if (!this.FlujoCircular && dio_una_vuelta)
+                            posicion_proxima = SiguienteIndice(posicion_proxima, out bool dio_una_vuelta);
+                            if (!FlujoCircular && dio_una_vuelta)
                             {
-                                pueda_seguir_avanzado = false;
                                 return;
                             }
 
-                            Control posible_control_valido = this.flujo[posicion_proxima];
+                            Control posible_control_valido = flujo[posicion_proxima];
 
-                            if (this.EsUnControlFocuseable(posible_control_valido))
+                            if (EsUnControlFocuseable(posible_control_valido))
                             {
-                                this.SelecionarControl(posible_control_valido);
+                                SelecionarControl(posible_control_valido);
                                 return;
                             }
 
@@ -95,7 +89,7 @@ namespace ControlesPersonalizados
             }
             private void SelecionarControl(Control ctl)
             {
-                ctl.Focus();
+                _ = ctl.Focus();
                 ctl.Select();
             }
             private bool EsUnControlFocuseable(Control ctl)
@@ -112,7 +106,7 @@ namespace ControlesPersonalizados
             {
                 dio_una_vuelta = false;
 
-                if (posicion_con_el_foco < this.flujo.Count - 1)
+                if (posicion_con_el_foco < flujo.Count - 1)
                 {
                     return posicion_con_el_foco + 1;
                 }
@@ -123,10 +117,13 @@ namespace ControlesPersonalizados
             private int GetControlFoco()
             {
                 int contador = 0;
-                foreach (Control ctl in this.flujo)
+                foreach (Control ctl in flujo)
                 {
                     if (ctl.Focused)
+                    {
                         return contador;
+                    }
+
                     contador++;
                 }
 
@@ -135,9 +132,9 @@ namespace ControlesPersonalizados
 
             public void Focus(Control ctl)
             {
-                ctl.Focus();
+                _ = ctl.Focus();
 
-                if(ctl is TextBox)
+                if (ctl is TextBox)
                 {
                     ((TextBox)ctl).SelectAll();
                 }
@@ -150,11 +147,11 @@ namespace ControlesPersonalizados
         #endregion
 
         public bool TieneCambios = false;
-        
+
         public FormPitagoras()
         {
             InitializeComponent();
-            this.Flujo = new FlujoPantalla();
+            Flujo = new FlujoPantalla();
         }
 
         #region Espear Inicializacion Controles
@@ -171,8 +168,8 @@ namespace ControlesPersonalizados
 
         public delegate void ControlesAEsperaCargadosEventHandler(object sender, EventArgs e);
 
-        EsperaAsyncAwait frm_espara_inicializar_controles;
-        bool se_lanso_evento_controles_a_espera_cargados = false;
+        private EsperaAsyncAwait frm_espara_inicializar_controles;
+        private bool se_lanso_evento_controles_a_espera_cargados = false;
         public event EventHandler ControlesAEsperaCargadosUnicoAviso;
         protected virtual void OnControlesAEsperaCargadosUnicoAviso(DatosCargadosEventArgs e)
         {
@@ -180,12 +177,12 @@ namespace ControlesPersonalizados
             {
                 se_lanso_evento_controles_a_espera_cargados = true;
 
-                this.CerrarFormEspera();
+                CerrarFormEspera();
 
                 EventHandler handler = ControlesAEsperaCargadosUnicoAviso;
                 handler?.Invoke(this, e);
             }
-            
+
         }
 
         public delegate void ControlesAEsperaCargadosUnicoAvisoEventHandler(object sender, EventArgs e);
@@ -193,8 +190,8 @@ namespace ControlesPersonalizados
 
 
 
-        Timer Timer;
-        List<IControlInicializador> controles_inicializando;
+        private Timer Timer;
+        private List<IControlInicializador> controles_inicializando;
         /// <summary>
         /// Crea un formulario de espera y esta al tando del incio y termino de los controles indicados
         /// PD: el progreso se debe ejecutar, este metodo no los inicia
@@ -203,14 +200,14 @@ namespace ControlesPersonalizados
         /// </param>
         public void EsperarInicializacionControles(List<IControlInicializador> controles)
         {
-            this.controles_inicializando = controles;
-            this.CrearFormularioEspera();
+            controles_inicializando = controles;
+            CrearFormularioEspera();
 
             foreach (IControlInicializador control in controles)
             {
                 object frm_ob = control.FindForm();
 
-                if(frm_ob != null)
+                if (frm_ob != null)
                 {
                     Type tipo = frm_ob.GetType().BaseType;
 
@@ -218,12 +215,12 @@ namespace ControlesPersonalizados
                     {
                         control.DatosCargados += (sender, e) =>
                         {
-                            this.SeCargonUnControlMas((IControlInicializador)sender);
+                            SeCargonUnControlMas((IControlInicializador)sender);
                         };
 
                         control.Inicializando += (sender2, e2) =>
                         {
-                            this.SeInicializoUnControl((IControlInicializador)sender2);
+                            SeInicializoUnControl((IControlInicializador)sender2);
                         };
                     }
                 }
@@ -232,8 +229,8 @@ namespace ControlesPersonalizados
 
         public void EsperarInicializacionControlesPorSegundaVez(List<IControlInicializador> controles)
         {
-            this.controles_inicializando = controles;
-            this.CrearFormularioEspera();
+            controles_inicializando = controles;
+            CrearFormularioEspera();
 
             foreach (IControlInicializador control in controles)
             {
@@ -243,15 +240,15 @@ namespace ControlesPersonalizados
 
         private void SeInicializoUnControl(IControlInicializador sender2)
         {
-            this.FrmEsperaIniciazarControlesAddMensaje("Inicializando " + sender2.Nombre);
+            FrmEsperaIniciazarControlesAddMensaje("Inicializando " + sender2.Nombre);
         }
 
         private void SeCargonUnControlMas(IControlInicializador sender2)
         {
-            this.OnControlesAEsperaCargados(new DatosCargadosEventArgs());
-            this.FrmEsperaIniciazarControlesAddMensaje("Finalizado " + sender2.Nombre);
+            OnControlesAEsperaCargados(new DatosCargadosEventArgs());
+            FrmEsperaIniciazarControlesAddMensaje("Finalizado " + sender2.Nombre);
 
-            foreach (IControlInicializador control in this.controles_inicializando)
+            foreach (IControlInicializador control in controles_inicializando)
             {
                 // si un control no esta inicializado no no se dispara el evento del forlmilario
                 if (!control.Inicializado)
@@ -260,64 +257,71 @@ namespace ControlesPersonalizados
                 }
             }
 
-            this.OnControlesAEsperaCargadosUnicoAviso(new DatosCargadosEventArgs());
-            
+            OnControlesAEsperaCargadosUnicoAviso(new DatosCargadosEventArgs());
+
         }
 
         private void FrmEsperaIniciazarControlesAddMensaje(string v)
         {
-            if (this.frm_espara_inicializar_controles == null)
+            if (frm_espara_inicializar_controles == null)
             {
                 return;
-                this.CrearFormularioEspera();
+                CrearFormularioEspera();
             }
 
-            this.frm_espara_inicializar_controles.AñadirMensaje(v);
+            frm_espara_inicializar_controles.AñadirMensaje(v);
         }
 
         private void CrearFormularioEspera()
         {
-            this.frm_espara_inicializar_controles = new EsperaAsyncAwait("Cargando datos");
-            this.frm_espara_inicializar_controles.StartPosition = FormStartPosition.CenterParent;
-            this.frm_espara_inicializar_controles.Show((IWin32Window)this);
-
-            if(this.Timer == null)
+            frm_espara_inicializar_controles = new EsperaAsyncAwait("Cargando datos")
             {
-                this.Timer = new Timer();
-                this.Timer.Interval = 500;
-                this.Timer.Enabled = true;
-                this.Timer.Tick += (sender, e) => {
-                    if (this.controles_inicializando != null)
+                StartPosition = FormStartPosition.CenterParent
+            };
+            frm_espara_inicializar_controles.Show(this);
+
+            if (Timer == null)
+            {
+                Timer = new Timer
+                {
+                    Interval = 500,
+                    Enabled = true
+                };
+                Timer.Tick += (sender, e) =>
+                {
+                    if (controles_inicializando != null)
                     {
-                        foreach (IControlInicializador control in this.controles_inicializando)
+                        foreach (IControlInicializador control in controles_inicializando)
                         {
                             if (!control.Inicializado)
+                            {
                                 return;
+                            }
                         }
                     }
 
-                    this.CerrarFormEspera();
+                    CerrarFormEspera();
                 };
 
-                this.Timer.Start();
+                Timer.Start();
             }
         }
 
         private void CerrarFormEspera()
         {
-            if (this.frm_espara_inicializar_controles != null)
+            if (frm_espara_inicializar_controles != null)
             {
-                this.frm_espara_inicializar_controles.Close();
-                this.frm_espara_inicializar_controles = null;
+                frm_espara_inicializar_controles.Close();
+                frm_espara_inicializar_controles = null;
             }
 
 
-            if (this.Timer != null)
+            if (Timer != null)
             {
-                this.Timer.Stop();
-                this.Timer.Enabled = false;
+                Timer.Stop();
+                Timer.Enabled = false;
 
-                this.Timer = null;
+                Timer = null;
             }
         }
         #endregion
@@ -329,16 +333,16 @@ namespace ControlesPersonalizados
 
         protected void SetText(string titulo)
         {
-            this.Text = titulo;
+            Text = titulo;
         }
 
-        bool identificarPantallaPorAmbiente = false;
+        private readonly bool identificarPantallaPorAmbiente = false;
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-          
-            
+
+
         }
 
         protected override void OnShown(EventArgs e)
@@ -346,15 +350,18 @@ namespace ControlesPersonalizados
             base.OnShown(e);
 
             #region Cerrar al cargar
-            if (this.cerrar_con_mensaje)
+            if (cerrar_con_mensaje)
             {
-                if (this.razon_cierre != string.Empty)
-                    this.Aviso(this.razon_cierre);
-                this.Close();
+                if (razon_cierre != string.Empty)
+                {
+                    Aviso(razon_cierre);
+                }
+
+                Close();
             }
             #endregion
 
-            this.frm_shown = true;
+            frm_shown = true;
         }
 
         #region Mensajes y respuestas
@@ -365,24 +372,32 @@ namespace ControlesPersonalizados
         public void Message(Res res)
         {
             if (res.IsCorrecto && string.IsNullOrEmpty(res.Mensaje))
+            {
                 return;
+            }
 
             if (!res.IsCorrecto)
-                this.Error(res.DescripcionError);
+            {
+                Error(res.DescripcionError);
+            }
 
             if (!string.IsNullOrEmpty(res.Mensaje))
-                this.Informacion(res.Mensaje);
+            {
+                Informacion(res.Mensaje);
+            }
         }
         private void I_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Enabled = true;
+            Enabled = true;
         }
 
-        public void Error(string errir)
+        public void Error(string error)
         {
-            this.BringToFront();
-            if (this.CanFocus && this.CanSelect)
-                MessageBox.Show((IWin32Window)this, errir, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            BringToFront();
+            if (CanFocus && CanSelect)
+            {
+                _ = MessageBox.Show(this, error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
 
@@ -390,9 +405,11 @@ namespace ControlesPersonalizados
         }
         public void Aviso(string aviso)
         {
-            this.BringToFront();
-            if(this.CanFocus && this.CanSelect)
-                MessageBox.Show((IWin32Window)this, aviso, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            BringToFront();
+            if (CanFocus && CanSelect)
+            {
+                _ = MessageBox.Show(this, aviso, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
             else
             {
 
@@ -400,9 +417,11 @@ namespace ControlesPersonalizados
         }
         public void Informacion(string mensaje)
         {
-            this.BringToFront();
-            if (this.CanFocus && this.CanSelect)
-                MessageBox.Show((IWin32Window)this, mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            BringToFront();
+            if (CanFocus && CanSelect)
+            {
+                _ = MessageBox.Show(this, mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             else
             {
 
@@ -415,19 +434,11 @@ namespace ControlesPersonalizados
         }
         public bool Pregunta(string pregunta, RespuestaPregunta respuesta_por_defecto = RespuestaPregunta.No)
         {
-            this.BringToFront();
-            MessageBoxDefaultButton boton_por_defecto;
-            if (respuesta_por_defecto == RespuestaPregunta.Si)
-                boton_por_defecto = MessageBoxDefaultButton.Button1;
-            else
-                boton_por_defecto = MessageBoxDefaultButton.Button2;
+            BringToFront();
+            MessageBoxDefaultButton boton_por_defecto = respuesta_por_defecto == RespuestaPregunta.Si ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2;
+            DialogResult d = MessageBox.Show(this, pregunta, "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, boton_por_defecto);
 
-            DialogResult d = MessageBox.Show((IWin32Window)this, pregunta, "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, boton_por_defecto);
-
-            if (d == DialogResult.Yes)
-                return true;
-
-            return false;
+            return d == DialogResult.Yes;
         }
         #endregion
 
@@ -437,14 +448,17 @@ namespace ControlesPersonalizados
         protected bool frm_shown = false;
         public object CerrarConMensaje(string aviso = "")
         {
-            this.cerrar_con_mensaje = true;
-            this.razon_cierre = aviso;
+            cerrar_con_mensaje = true;
+            razon_cierre = aviso;
 
-            if (this.frm_shown)
+            if (frm_shown)
             {
-                if (this.razon_cierre != string.Empty)
-                    this.Aviso(this.razon_cierre);
-                this.Close();
+                if (razon_cierre != string.Empty)
+                {
+                    Aviso(razon_cierre);
+                }
+
+                Close();
             }
 
             return null;
@@ -457,25 +471,25 @@ namespace ControlesPersonalizados
         public void EjecutarAsyncBackgroudWorker(Action accion, Action accion_al_completar = null)
         {
 
-            this.Enabled = false;
-            
+            Enabled = false;
+
 
             bk = new BackgroundWorker();
             bk.DoWork += (sender, args) => accion();
 
-            if(accion_al_completar != null)
+            if (accion_al_completar != null)
             {
                 bk.RunWorkerCompleted += (sender, args) => accion_al_completar();
             }
 
-            bk.RunWorkerCompleted += (sender, args) => { this.Enabled = true; };
+            bk.RunWorkerCompleted += (sender, args) => { Enabled = true; };
 
             bk.RunWorkerAsync();
         }
 
         public async Task<Res> EjecutarAsyncAwait(Func<Res> p, string mensaje = "", Reportador rep = null, bool cerrar_al_terminar = true)
         {
-            this.Enabled = false;
+            Enabled = false;
 
 
             EsperaAsyncAwait i = new EsperaAsyncAwait(mensaje);
@@ -485,7 +499,7 @@ namespace ControlesPersonalizados
             {
                 rep.Reportando += (sender, e) =>
                 {
-                    ReportandorEventArgs re = (ReportandorEventArgs)e;
+                    ReportandorEventArgs re = e;
                     i.AñadirMensaje(re.Reporte, re.Salto_linea);
                 };
 
@@ -507,22 +521,26 @@ namespace ControlesPersonalizados
                     }
                     catch (Exception ex)
                     {
-                        new LogWriter(ex);
+                        _ = new LogWriter(ex);
                     }
                 };
             }
 
-            i.Show((IWin32Window)this);
+            i.Show(this);
 
             Res res = await Task<Res>.Factory.StartNew(p);
 
             if (cerrar_al_terminar)
+            {
                 i.Close();
+            }
             else
+            {
                 i.Cargado();
+            }
 
-            this.Enabled = true;
-            this.Focus();
+            Enabled = true;
+            _ = Focus();
 
             return res;
         }
@@ -535,19 +553,19 @@ namespace ControlesPersonalizados
             g.DrawRectangle(new Pen(Color.WhiteSmoke, Parametros.anchoBorde), 0, 0, Width - 0, Height - 0);
         }
 
-        private async Task<Res> EjecutarAsyncAwait2(Func< Res> p, string mensaje)
+        private async Task<Res> EjecutarAsyncAwait2(Func<Res> p, string mensaje)
         {
-            this.Enabled = false;
+            Enabled = false;
 
             EsperaAsyncAwait i = new EsperaAsyncAwait(mensaje);
             i.SetPadre(this);
-            i.Show((IWin32Window)this);
+            i.Show(this);
 
             Res res = await Task<Res>.Factory.StartNew(p);
 
             i.Close();
-            this.Enabled = true;
-            this.Focus();
+            Enabled = true;
+            _ = Focus();
 
             return res;
         }
