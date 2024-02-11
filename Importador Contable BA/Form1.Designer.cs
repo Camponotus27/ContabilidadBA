@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAsignarAplicacion = new System.Windows.Forms.Button();
             this.il = new System.Windows.Forms.ImageList(this.components);
             this.btnEliminar = new ControlesPersonalizados.ButtonPitagoras();
@@ -103,10 +103,9 @@
             // 
             this.btnAsignarAplicacion.ImageIndex = 0;
             this.btnAsignarAplicacion.ImageList = this.il;
-            this.btnAsignarAplicacion.Location = new System.Drawing.Point(997, 81);
-            this.btnAsignarAplicacion.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnAsignarAplicacion.Location = new System.Drawing.Point(374, 34);
             this.btnAsignarAplicacion.Name = "btnAsignarAplicacion";
-            this.btnAsignarAplicacion.Size = new System.Drawing.Size(80, 72);
+            this.btnAsignarAplicacion.Size = new System.Drawing.Size(30, 30);
             this.btnAsignarAplicacion.TabIndex = 1;
             this.btnAsignarAplicacion.UseVisualStyleBackColor = true;
             this.btnAsignarAplicacion.Click += new System.EventHandler(this.btnAsignarAplicacion_Click);
@@ -123,10 +122,9 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminar.Location = new System.Drawing.Point(645, 153);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnEliminar.Location = new System.Drawing.Point(242, 64);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(256, 55);
+            this.btnEliminar.Size = new System.Drawing.Size(96, 23);
             this.btnEliminar.TabIndex = 9;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -137,10 +135,9 @@
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(645, 83);
-            this.btnBuscar.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnBuscar.Location = new System.Drawing.Point(242, 35);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(256, 55);
+            this.btnBuscar.Size = new System.Drawing.Size(96, 23);
             this.btnBuscar.TabIndex = 8;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -153,36 +150,35 @@
             this.dgvExcels.AutoGenerateColumns = false;
             this.dgvExcels.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvExcels.CMSGridPitagotas = null;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvExcels.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvExcels.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvExcels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvExcels.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nombreDataGridViewTextBoxColumn1});
             this.dgvExcels.DataSource = this.bindingExcel;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvExcels.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvExcels.EnableHeadersVisualStyles = false;
             this.dgvExcels.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvExcels.Location = new System.Drawing.Point(32, 83);
+            this.dgvExcels.Location = new System.Drawing.Point(12, 35);
             this.dgvExcels.MantenerPorLoMenosUnaFila = false;
-            this.dgvExcels.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dgvExcels.Name = "dgvExcels";
             this.dgvExcels.RowHeadersVisible = false;
             this.dgvExcels.RowHeadersWidth = 102;
             this.dgvExcels.SePuedeCrearLieneaNuevaConEnter = true;
-            this.dgvExcels.Size = new System.Drawing.Size(597, 405);
+            this.dgvExcels.Size = new System.Drawing.Size(224, 170);
             this.dgvExcels.TabIndex = 7;
             // 
             // nombreDataGridViewTextBoxColumn1
@@ -205,14 +201,14 @@
             this.dgvComprobantes.AutoGenerateColumns = false;
             this.dgvComprobantes.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvComprobantes.CMSGridPitagotas = null;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvComprobantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvComprobantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvComprobantes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvComprobantes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.numerocuentaformateadaDataGridViewTextBoxColumn1,
@@ -224,24 +220,23 @@
             this.correlativoDataGridViewTextBoxColumn1,
             this.mesDataGridViewTextBoxColumn1});
             this.dgvComprobantes.DataSource = this.ComprobantesContables;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvComprobantes.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvComprobantes.EnableHeadersVisualStyles = false;
             this.dgvComprobantes.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvComprobantes.Location = new System.Drawing.Point(32, 711);
+            this.dgvComprobantes.Location = new System.Drawing.Point(12, 298);
             this.dgvComprobantes.MantenerPorLoMenosUnaFila = false;
-            this.dgvComprobantes.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dgvComprobantes.Name = "dgvComprobantes";
             this.dgvComprobantes.RowHeadersVisible = false;
             this.dgvComprobantes.RowHeadersWidth = 102;
             this.dgvComprobantes.SePuedeCrearLieneaNuevaConEnter = true;
-            this.dgvComprobantes.Size = new System.Drawing.Size(2069, 415);
+            this.dgvComprobantes.Size = new System.Drawing.Size(776, 174);
             this.dgvComprobantes.TabIndex = 14;
             // 
             // numerocuentaformateadaDataGridViewTextBoxColumn1
@@ -321,11 +316,9 @@
             // 
             this.grInsertarDatos.Controls.Add(this.btnInsertarDatos);
             this.grInsertarDatos.Enabled = false;
-            this.grInsertarDatos.Location = new System.Drawing.Point(963, 506);
-            this.grInsertarDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grInsertarDatos.Location = new System.Drawing.Point(361, 212);
             this.grInsertarDatos.Name = "grInsertarDatos";
-            this.grInsertarDatos.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grInsertarDatos.Size = new System.Drawing.Size(1093, 191);
+            this.grInsertarDatos.Size = new System.Drawing.Size(410, 80);
             this.grInsertarDatos.TabIndex = 20;
             this.grInsertarDatos.TabStop = false;
             this.grInsertarDatos.Text = "Insertar Datos";
@@ -335,10 +328,9 @@
             this.btnInsertarDatos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnInsertarDatos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnInsertarDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsertarDatos.Location = new System.Drawing.Point(821, 43);
-            this.btnInsertarDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnInsertarDatos.Location = new System.Drawing.Point(308, 18);
             this.btnInsertarDatos.Name = "btnInsertarDatos";
-            this.btnInsertarDatos.Size = new System.Drawing.Size(256, 112);
+            this.btnInsertarDatos.Size = new System.Drawing.Size(96, 47);
             this.btnInsertarDatos.TabIndex = 11;
             this.btnInsertarDatos.Text = "Insertar Datos";
             this.btnInsertarDatos.UseVisualStyleBackColor = true;
@@ -353,11 +345,9 @@
             this.grExtraerDatos.Controls.Add(this.cmbAnio);
             this.grExtraerDatos.Controls.Add(this.labelPitagoras1);
             this.grExtraerDatos.Controls.Add(this.txtNComprobante);
-            this.grExtraerDatos.Location = new System.Drawing.Point(32, 503);
-            this.grExtraerDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grExtraerDatos.Location = new System.Drawing.Point(12, 211);
             this.grExtraerDatos.Name = "grExtraerDatos";
-            this.grExtraerDatos.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grExtraerDatos.Size = new System.Drawing.Size(915, 191);
+            this.grExtraerDatos.Size = new System.Drawing.Size(343, 80);
             this.grExtraerDatos.TabIndex = 19;
             this.grExtraerDatos.TabStop = false;
             this.grExtraerDatos.Text = "Extraer Datos desde Excel";
@@ -366,10 +356,9 @@
             // 
             this.labelPitagoras2.AutoSize = true;
             this.labelPitagoras2.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras2.Location = new System.Drawing.Point(16, 62);
-            this.labelPitagoras2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.labelPitagoras2.Location = new System.Drawing.Point(6, 26);
             this.labelPitagoras2.Name = "labelPitagoras2";
-            this.labelPitagoras2.Size = new System.Drawing.Size(113, 32);
+            this.labelPitagoras2.Size = new System.Drawing.Size(43, 13);
             this.labelPitagoras2.TabIndex = 17;
             this.labelPitagoras2.Text = "Periodo";
             this.labelPitagoras2.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -378,10 +367,9 @@
             // 
             this.lbPrefijoNComprobante.AutoSize = true;
             this.lbPrefijoNComprobante.ForeColor = System.Drawing.Color.Black;
-            this.lbPrefijoNComprobante.Location = new System.Drawing.Point(384, 126);
-            this.lbPrefijoNComprobante.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbPrefijoNComprobante.Location = new System.Drawing.Point(144, 53);
             this.lbPrefijoNComprobante.Name = "lbPrefijoNComprobante";
-            this.lbPrefijoNComprobante.Size = new System.Drawing.Size(78, 32);
+            this.lbPrefijoNComprobante.Size = new System.Drawing.Size(31, 13);
             this.lbPrefijoNComprobante.TabIndex = 18;
             this.lbPrefijoNComprobante.Text = "0000";
             this.lbPrefijoNComprobante.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -392,10 +380,9 @@
             this.cmbMes.DisplayMember = "Nombre";
             this.cmbMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMes.FormattingEnabled = true;
-            this.cmbMes.Location = new System.Drawing.Point(205, 55);
-            this.cmbMes.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.cmbMes.Location = new System.Drawing.Point(77, 23);
             this.cmbMes.Name = "cmbMes";
-            this.cmbMes.Size = new System.Drawing.Size(169, 39);
+            this.cmbMes.Size = new System.Drawing.Size(66, 21);
             this.cmbMes.TabIndex = 11;
             this.cmbMes.Value = ((uint)(0u));
             this.cmbMes.ValueMember = "Id";
@@ -411,10 +398,9 @@
             this.btnExtraerDatos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExtraerDatos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnExtraerDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExtraerDatos.Location = new System.Drawing.Point(613, 55);
-            this.btnExtraerDatos.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnExtraerDatos.Location = new System.Drawing.Point(230, 23);
             this.btnExtraerDatos.Name = "btnExtraerDatos";
-            this.btnExtraerDatos.Size = new System.Drawing.Size(256, 112);
+            this.btnExtraerDatos.Size = new System.Drawing.Size(96, 47);
             this.btnExtraerDatos.TabIndex = 10;
             this.btnExtraerDatos.Text = "Extraer Datos";
             this.btnExtraerDatos.UseVisualStyleBackColor = true;
@@ -426,10 +412,9 @@
             this.cmbAnio.DisplayMember = "Anio";
             this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAnio.FormattingEnabled = true;
-            this.cmbAnio.Location = new System.Drawing.Point(397, 55);
-            this.cmbAnio.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.cmbAnio.Location = new System.Drawing.Point(149, 23);
             this.cmbAnio.Name = "cmbAnio";
-            this.cmbAnio.Size = new System.Drawing.Size(164, 39);
+            this.cmbAnio.Size = new System.Drawing.Size(64, 21);
             this.cmbAnio.TabIndex = 12;
             this.cmbAnio.Value = ((uint)(0u));
             this.cmbAnio.ValueMember = "Id";
@@ -443,10 +428,9 @@
             // 
             this.labelPitagoras1.AutoSize = true;
             this.labelPitagoras1.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras1.Location = new System.Drawing.Point(16, 126);
-            this.labelPitagoras1.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.labelPitagoras1.Location = new System.Drawing.Point(6, 53);
             this.labelPitagoras1.Name = "labelPitagoras1";
-            this.labelPitagoras1.Size = new System.Drawing.Size(305, 32);
+            this.labelPitagoras1.Size = new System.Drawing.Size(115, 13);
             this.labelPitagoras1.TabIndex = 16;
             this.labelPitagoras1.Text = "N° Comprobante Inicial";
             this.labelPitagoras1.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -460,12 +444,11 @@
             this.txtNComprobante.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtNComprobante.FormatoNumerico = false;
             this.txtNComprobante.IgnorarFlujo = false;
-            this.txtNComprobante.Location = new System.Drawing.Point(469, 119);
-            this.txtNComprobante.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.txtNComprobante.Location = new System.Drawing.Point(176, 50);
             this.txtNComprobante.MaxLength = 3;
             this.txtNComprobante.Name = "txtNComprobante";
             this.txtNComprobante.SeleccionaTodoConClick = true;
-            this.txtNComprobante.Size = new System.Drawing.Size(92, 38);
+            this.txtNComprobante.Size = new System.Drawing.Size(37, 20);
             this.txtNComprobante.StringVaciaSiEsCero = false;
             this.txtNComprobante.TabIndex = 15;
             this.txtNComprobante.Text = "0";
@@ -487,12 +470,12 @@
             this.cmsNumeroComprobante.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buscarSiguienteNDisponibleToolStripMenuItem});
             this.cmsNumeroComprobante.Name = "cmsNumeroComprobante";
-            this.cmsNumeroComprobante.Size = new System.Drawing.Size(500, 52);
+            this.cmsNumeroComprobante.Size = new System.Drawing.Size(236, 26);
             // 
             // buscarSiguienteNDisponibleToolStripMenuItem
             // 
             this.buscarSiguienteNDisponibleToolStripMenuItem.Name = "buscarSiguienteNDisponibleToolStripMenuItem";
-            this.buscarSiguienteNDisponibleToolStripMenuItem.Size = new System.Drawing.Size(499, 48);
+            this.buscarSiguienteNDisponibleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.buscarSiguienteNDisponibleToolStripMenuItem.Text = "Buscar siguiente N° disponible";
             this.buscarSiguienteNDisponibleToolStripMenuItem.Click += new System.EventHandler(this.buscarSiguienteNDisponibleToolStripMenuItem_Click);
             // 
@@ -587,11 +570,9 @@
             this.grDatosSistema.Controls.Add(this.labelPitagoras4);
             this.grDatosSistema.Controls.Add(this.txtRutEmpresa);
             this.grDatosSistema.Controls.Add(this.btnAsignarAplicacion);
-            this.grDatosSistema.Location = new System.Drawing.Point(963, 76);
-            this.grDatosSistema.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grDatosSistema.Location = new System.Drawing.Point(361, 32);
             this.grDatosSistema.Name = "grDatosSistema";
-            this.grDatosSistema.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grDatosSistema.Size = new System.Drawing.Size(1093, 415);
+            this.grDatosSistema.Size = new System.Drawing.Size(410, 174);
             this.grDatosSistema.TabIndex = 21;
             this.grDatosSistema.TabStop = false;
             this.grDatosSistema.Text = "Sistema";
@@ -600,40 +581,36 @@
             // 
             this.labelPitagoras5.AutoSize = true;
             this.labelPitagoras5.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras5.Location = new System.Drawing.Point(16, 55);
-            this.labelPitagoras5.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.labelPitagoras5.Location = new System.Drawing.Point(6, 23);
             this.labelPitagoras5.Name = "labelPitagoras5";
-            this.labelPitagoras5.Size = new System.Drawing.Size(335, 32);
+            this.labelPitagoras5.Size = new System.Drawing.Size(127, 13);
             this.labelPitagoras5.TabIndex = 11;
             this.labelPitagoras5.Text = "Ruta Aplicacion Contable";
             this.labelPitagoras5.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
             // 
             // txtPathMovSys
             // 
-            this.txtPathMovSys.Location = new System.Drawing.Point(24, 317);
-            this.txtPathMovSys.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.txtPathMovSys.Location = new System.Drawing.Point(9, 133);
             this.txtPathMovSys.Name = "txtPathMovSys";
             this.txtPathMovSys.ReadOnly = true;
-            this.txtPathMovSys.Size = new System.Drawing.Size(1047, 38);
+            this.txtPathMovSys.Size = new System.Drawing.Size(395, 20);
             this.txtPathMovSys.TabIndex = 10;
             // 
             // txtPathAplicacion
             // 
-            this.txtPathAplicacion.Location = new System.Drawing.Point(24, 93);
-            this.txtPathAplicacion.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.txtPathAplicacion.Location = new System.Drawing.Point(9, 39);
             this.txtPathAplicacion.Name = "txtPathAplicacion";
             this.txtPathAplicacion.ReadOnly = true;
-            this.txtPathAplicacion.Size = new System.Drawing.Size(959, 38);
+            this.txtPathAplicacion.Size = new System.Drawing.Size(362, 20);
             this.txtPathAplicacion.TabIndex = 9;
             // 
             // lbPathMovSys
             // 
             this.lbPathMovSys.AutoSize = true;
             this.lbPathMovSys.ForeColor = System.Drawing.Color.Black;
-            this.lbPathMovSys.Location = new System.Drawing.Point(16, 284);
-            this.lbPathMovSys.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbPathMovSys.Location = new System.Drawing.Point(6, 119);
             this.lbPathMovSys.Name = "lbPathMovSys";
-            this.lbPathMovSys.Size = new System.Drawing.Size(742, 32);
+            this.lbPathMovSys.Size = new System.Drawing.Size(280, 13);
             this.lbPathMovSys.TabIndex = 7;
             this.lbPathMovSys.Text = "Path MovSys (la ubicacion se calculará automaticamente)";
             this.lbPathMovSys.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -642,10 +619,9 @@
             // 
             this.btnSalvarRutEmpresa.ImageIndex = 1;
             this.btnSalvarRutEmpresa.ImageList = this.il;
-            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(275, 191);
-            this.btnSalvarRutEmpresa.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnSalvarRutEmpresa.Location = new System.Drawing.Point(103, 80);
             this.btnSalvarRutEmpresa.Name = "btnSalvarRutEmpresa";
-            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(80, 72);
+            this.btnSalvarRutEmpresa.Size = new System.Drawing.Size(30, 30);
             this.btnSalvarRutEmpresa.TabIndex = 6;
             this.btnSalvarRutEmpresa.UseVisualStyleBackColor = true;
             this.btnSalvarRutEmpresa.Click += new System.EventHandler(this.btnSalvarRutEmpresa_Click);
@@ -654,10 +630,9 @@
             // 
             this.labelPitagoras4.AutoSize = true;
             this.labelPitagoras4.ForeColor = System.Drawing.Color.Black;
-            this.labelPitagoras4.Location = new System.Drawing.Point(16, 167);
-            this.labelPitagoras4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.labelPitagoras4.Location = new System.Drawing.Point(6, 70);
             this.labelPitagoras4.Name = "labelPitagoras4";
-            this.labelPitagoras4.Size = new System.Drawing.Size(178, 32);
+            this.labelPitagoras4.Size = new System.Drawing.Size(68, 13);
             this.labelPitagoras4.TabIndex = 5;
             this.labelPitagoras4.Text = "Rut Empresa";
             this.labelPitagoras4.TipoLabel = ControlesPersonalizados.LabelTipo.Normal;
@@ -671,12 +646,11 @@
             this.txtRutEmpresa.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtRutEmpresa.FormatoNumerico = true;
             this.txtRutEmpresa.IgnorarFlujo = false;
-            this.txtRutEmpresa.Location = new System.Drawing.Point(24, 205);
-            this.txtRutEmpresa.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.txtRutEmpresa.Location = new System.Drawing.Point(9, 86);
             this.txtRutEmpresa.MaxLength = 11;
             this.txtRutEmpresa.Name = "txtRutEmpresa";
             this.txtRutEmpresa.SeleccionaTodoConClick = true;
-            this.txtRutEmpresa.Size = new System.Drawing.Size(241, 38);
+            this.txtRutEmpresa.Size = new System.Drawing.Size(93, 20);
             this.txtRutEmpresa.StringVaciaSiEsCero = true;
             this.txtRutEmpresa.TabIndex = 2;
             this.txtRutEmpresa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -694,37 +668,35 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tstbNuevaImportacion,
             this.tstbinstructivo});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(16, 5, 0, 5);
-            this.menuStrip1.Size = new System.Drawing.Size(2133, 55);
+            this.menuStrip1.Size = new System.Drawing.Size(801, 24);
             this.menuStrip1.TabIndex = 22;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // tstbNuevaImportacion
             // 
             this.tstbNuevaImportacion.Name = "tstbNuevaImportacion";
-            this.tstbNuevaImportacion.Size = new System.Drawing.Size(294, 48);
+            this.tstbNuevaImportacion.Size = new System.Drawing.Size(121, 20);
             this.tstbNuevaImportacion.Text = "Nueva importacion";
             this.tstbNuevaImportacion.Click += new System.EventHandler(this.tstbNuevaImportacion_Click);
             // 
             // tstbinstructivo
             // 
             this.tstbinstructivo.Name = "tstbinstructivo";
-            this.tstbinstructivo.Size = new System.Drawing.Size(180, 48);
+            this.tstbinstructivo.Size = new System.Drawing.Size(75, 20);
             this.tstbinstructivo.Text = "Instructivo";
             this.tstbinstructivo.Click += new System.EventHandler(this.tstbinstructivo_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2133, 1154);
+            this.ClientSize = new System.Drawing.Size(801, 481);
             this.Controls.Add(this.grDatosSistema);
             this.Controls.Add(this.grInsertarDatos);
             this.Controls.Add(this.grExtraerDatos);
@@ -736,7 +708,6 @@
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "Form1";
             this.Text = "Importador Contable Bosques Aculeo";
             this.Load += new System.EventHandler(this.Form1_Load);
