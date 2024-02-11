@@ -1,0 +1,48 @@
+<!-- boleta_template.html -->
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; }
+        .section { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        table, th, td { border: 1px solid black; }
+        th, td { padding: 5px; text-align: left; }
+        .total { text-align: right; }
+        .footer { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>COMPROBANTE DE PAGO</h2>
+        <p>PARCELACION BOSQUES DE ACULEO</p>
+    </div>
+    <div class="section">
+        <p>Nº {{numero_comprobante}}</p>
+        <p>Fecha: {{fecha}}</p>
+    </div>
+    <div class="section">
+        <p>Nombre Copropietario: {{nombre_cliente}}</p>
+        <p>Detalle de Pago: {{detalle_pago}}</p>
+        <p>Parcela Nº: {{numero_parcela}}</p>
+    </div>
+    <div class="section">
+        <table>
+            <tr>
+                <th>FORMA DE PAGO</th>
+                <th>NUMERO</th>
+                <th>MES</th>
+                <th>VALOR</th>
+            </tr>
+            {{items}}
+        </table>
+    </div>
+    <div class="section total">
+        <p>TOTAL ${{total}}</p>
+    </div>
+    <div class="footer">
+        <p>SON: {{monto_letras}}</p>
+        <p>p. Administrador</p>
+    </div>
+</body>
+</html>

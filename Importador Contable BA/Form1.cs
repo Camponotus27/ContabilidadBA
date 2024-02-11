@@ -821,7 +821,7 @@ namespace Importador_Contable_BA
                                         }
                                     }
 
-                                    // TODO: Agregar aqui la impresion del PDF
+                                    GenerarPDF();
                                 }
                                 else
                                 {
@@ -893,6 +893,37 @@ namespace Importador_Contable_BA
             */
 
             return res;
+        }
+
+        private void GenerarPDF()
+        {
+            var generator = new BoletaGenerator();
+
+            // Ruta a tu plantilla HTML
+            string templatePath = @"Plantillas HTML\PlantillaBoleta.html";
+            string templateHtml = generator.ReadTemplate(templatePath);
+
+            string numeroComprobante = "43983";
+            string fecha = DateTime.Today.ToString("dd/MM/yy"); // Asegúrate de formatear la fecha como desees
+            string nombreCliente = "Francisca Gutiérrez Ufman";
+            string detallePago = "Gastos comunes";
+            string numeroParcela = "11 Bolodos";
+            string itemsHtml = "<tr><td>Transferencia</td><td>Luz</td><td>Oct - Nov</td><td></td></tr>" +
+                               "<tr><td></td><td>Agua</td><td>Sep</td><td>9.321-</td></tr>" +
+                               "<tr><td></td><td>C.T.</td><td>Sep</td><td>14.730-</td></tr>" +
+                               "<tr><td></td><td>G.C.</td><td>Sep</td><td>368.559-</td></tr>" +
+                               "<tr><td></td><td>Multa</td><td>Sep</td><td>145.171-</td></tr>";
+            string total = "538.441";
+            string montoLetras = "Quinientos treinta y ocho mil cuatrocientos cuarenta y uno pesos.";
+
+            // Reemplazar variables en la plantilla
+            string finalHtml = generator.ReplaceVariables(templateHtml, numeroComprobante, fecha,
+                                                          nombreCliente, detallePago, numeroParcela,
+                                                          itemsHtml, total, montoLetras);
+
+            // Generar PDF
+            string outputPath = @"boleta.pdf";
+            generator.GeneratePDF(finalHtml, outputPath);
         }
 
         /// <summary>
