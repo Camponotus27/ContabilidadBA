@@ -1,48 +1,152 @@
-<!-- boleta_template.html -->
+<!DOCTYPE html>
 <html>
+
 <head>
+    <title>Title of the document</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .header { text-align: center; }
-        .section { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-        th, td { padding: 5px; text-align: left; }
-        .total { text-align: right; }
-        .footer { margin-top: 20px; }
+        table.border {
+            border-collapse: collapse;
+        }
+
+            table.border th {
+                padding: 5px;
+                border: 1px solid black;
+            }
+
+            table.border td {
+                padding: 5px;
+                border: 1px solid black;
+            }
     </style>
 </head>
+
 <body>
-    <div class="header">
-        <h2>COMPROBANTE DE PAGO</h2>
-        <p>PARCELACION BOSQUES DE ACULEO</p>
-    </div>
-    <div class="section">
-        <p>Nº {{numero_comprobante}}</p>
-        <p>Fecha: {{fecha}}</p>
-    </div>
-    <div class="section">
-        <p>Nombre Copropietario: {{nombre_cliente}}</p>
-        <p>Detalle de Pago: {{detalle_pago}}</p>
-        <p>Parcela Nº: {{numero_parcela}}</p>
-    </div>
-    <div class="section">
-        <table>
-            <tr>
-                <th>FORMA DE PAGO</th>
-                <th>NUMERO</th>
-                <th>MES</th>
-                <th>VALOR</th>
-            </tr>
-            {{items}}
-        </table>
-    </div>
-    <div class="section total">
-        <p>TOTAL ${{total}}</p>
-    </div>
-    <div class="footer">
-        <p>SON: {{monto_letras}}</p>
-        <p>p. Administrador</p>
-    </div>
+    <table style="width:100%">
+        <tr>
+            <td colspan="3">
+                <table  style="width:100%">
+                    <tr>
+                        <th style="width:20%">
+                            <table class="border">
+                                <tr>
+                                    <th>D</th>
+                                    <th>M</th>
+                                    <th>A</th>
+                                </tr>
+                                <tr>
+                                    <th>day</th>
+                                    <th>month</th>
+                                    <th>year</th>
+                                </tr>
+                            </table>
+                        </th>
+                        <th style="text-align: right">N° numero_comprobante</th>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:20%"></td>
+            <td style="width:60%" align="center" align="top">
+                <table>
+                    <tr>
+                        <td>
+                            <h3 style="margin:0px"><u>COMPROBANTE DE PAGO</u></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PARCELACION BOSQUES DE ACULEO</td>
+                    </tr>
+                    <tr>
+                        <td>R.U.T.:75.941.710-0</td>
+                    </tr>
+                    <tr>
+                        <td>SITIO 6 HIJUELA NORTE RANGE</td>
+                    </tr>
+                    <tr>
+                        <td>FONOS:22303 2204 - 959856232</td>
+                    </tr>
+                    <tr>
+                        <td>PAINE - SANTIAGO</td>
+                    </tr>
+                    <tr>
+                        <td>administrador@parcelacionaculeo.cl</td>
+                    </tr>
+
+                </table>
+            </td>
+            <td style="width:20%"></td>
+        </tr>
+
+        <tr>
+            <td colspan="3" height="20"></td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <table style="width:100%">
+                    <tr>
+                        <td colspan="1" style="width:35%">Nombre Copropietario:</td>
+                        <td colspan="3" style="width:80%;border-bottom:1px solid black">nombre_cliente</td>
+                    </tr>
+                </table>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:15%">DETALLE DE PAGO:</td>
+                        <td style="width:30%;border-bottom:1px solid black">detalle_pago</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="width:6%">Parcela N°:</td>
+                        <td style="width:40%;border-bottom:1px solid black">numero_parcela</td>
+                    </tr>
+                </table>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td colspan="3" height="30"></td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <table class="border" style="width:100%;">
+                    <thead>
+                        <tr style="background-color:#D8D8D8">
+                            <th>FORMA DE PAGO</th>
+                            <th>NUMERO</th>
+                            <th>MES</th>
+                            <th>VALOR $</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        items
+                        <tr>
+                            <td style="border: 0px !important"></td>
+                            <td style="border: 0px !important"></td>
+                            <td align="right">TOTAL$</td>
+                            <td>total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style="width:80%" valign="top">
+        <tr>
+            <td style="width:00%">SON:</td>
+            <td style="width:40%;border-bottom:1px solid black">monto_letras</td>
+        </tr>
+    </table>
+    <table style="width:30%" align="right">
+        <tr>
+            <td style="width:40%;border-bottom:1px solid black">@</td>
+        <tr></tr>
+        <td align="center" style="width:00%">p.Administrador</td>
+        </tr>
+    </table>
 </body>
+
 </html>

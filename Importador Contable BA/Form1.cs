@@ -14,6 +14,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Version = System.Version;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
 
 namespace Importador_Contable_BA
 {
@@ -56,6 +59,8 @@ namespace Importador_Contable_BA
 
             InicializarMeses();
             InicializarAnio();
+
+            GenerarPDF();
         }
 
         private void AsigarVersion()
@@ -897,14 +902,17 @@ namespace Importador_Contable_BA
 
         private void GenerarPDF()
         {
-            var generator = new BoletaGenerator();
-
             // Ruta a tu plantilla HTML
-            string templatePath = @"Plantillas HTML\PlantillaBoleta.html";
-            string templateHtml = generator.ReadTemplate(templatePath);
+            string templatePath = @"C:\Users\Seba\source\repos\Importador Contable BA\Importador Contable BA\Plantillas HTML\PlantillaBoleta.html";
+            string templateHtml = File.ReadAllText(templatePath);
+
 
             string numeroComprobante = "43983";
-            string fecha = DateTime.Today.ToString("dd/MM/yy"); // Asegúrate de formatear la fecha como desees
+            //fecha
+            string day = DateTime.Today.ToString("dd");
+            string month = DateTime.Today.ToString("MM");
+            string year = DateTime.Today.ToString("yy"); 
+
             string nombreCliente = "Francisca Gutiérrez Ufman";
             string detallePago = "Gastos comunes";
             string numeroParcela = "11 Bolodos";
@@ -917,13 +925,35 @@ namespace Importador_Contable_BA
             string montoLetras = "Quinientos treinta y ocho mil cuatrocientos cuarenta y uno pesos.";
 
             // Reemplazar variables en la plantilla
-            string finalHtml = generator.ReplaceVariables(templateHtml, numeroComprobante, fecha,
-                                                          nombreCliente, detallePago, numeroParcela,
-                                                          itemsHtml, total, montoLetras);
+            string finalHtml = templateHtml.Replace("numero_comprobante", numeroComprobante)
+                          .Replace("day", day)
+                          .Replace("month", month)
+                          .Replace("year", year)
+                          .Replace("nombre_cliente", nombreCliente)
+                          .Replace("detalle_pago", detallePago)
+                          .Replace("numero_parcela", numeroParcela)
+                          .Replace("items", itemsHtml)
+                          .Replace("total", total)
+                          .Replace("monto_letras", montoLetras);
+
 
             // Generar PDF
             string outputPath = @"boleta.pdf";
-            generator.GeneratePDF(finalHtml, outputPath);
+
+            Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+
+            using (FileStream stream = new FileStream(outputPath, FileMode.Create))
+            {
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+
+                pdfDoc.Open();
+                using (StringReader sr = new StringReader(finalHtml))
+                {
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                }
+                pdfDoc.Close();
+                stream.Close();
+            }
         }
 
         /// <summary>
