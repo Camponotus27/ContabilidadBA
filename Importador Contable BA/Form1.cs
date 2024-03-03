@@ -17,6 +17,7 @@ using Version = System.Version;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Importador_Contable_BA
 {
@@ -24,6 +25,9 @@ namespace Importador_Contable_BA
     {
         private string path_mov_sys = string.Empty;
         private readonly AppSettings Setting;
+
+        public bool excelDisponible = false;
+
         private void SetPathMovSys(string path)
         {
             if (File.Exists(path))
@@ -61,6 +65,20 @@ namespace Importador_Contable_BA
             InicializarAnio();
 
             GenerarPDF();
+        }
+
+        private bool iSExcelAvailable()
+        {
+            try
+            {
+                Excel.Application excelApp = new Excel.Application { Visible = false };
+                excelApp.Quit();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void AsigarVersion()
@@ -126,6 +144,8 @@ namespace Importador_Contable_BA
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ComprobarDisponibilidadExcel();
+            HabilitarControlesDePrueba(ComprobarActivacionControlesDePrueba());
 
             try
             {
@@ -146,6 +166,26 @@ namespace Importador_Contable_BA
             }
 
             BuscarActualizacionesDisponible();
+        }
+
+        private bool ComprobarActivacionControlesDePrueba()
+        {
+            return Environment.MachineName == "NOTESEBAHP";
+        }
+
+        private void HabilitarControlesDePrueba(bool habilitar)
+        {
+            optPruebaToolStripMenuItem.Visible = habilitar;
+        }
+
+        private void ComprobarDisponibilidadExcel()
+        {
+            excelDisponible = iSExcelAvailable();
+            if (!excelDisponible)
+            {
+                grExtraerDatos.Text += " (Excel NO disponible)";
+                grExtraerDatos.ForeColor = Color.Red;
+            }
         }
 
         /// <summary>
@@ -305,6 +345,11 @@ namespace Importador_Contable_BA
         private async void btnVerificarFormato_Click(object sender, EventArgs e)
         {
             string path_mov_sys = this.path_mov_sys;
+
+            if(!excelDisponible && !Pregunta("Excel no esta disponible, si intentar usarlo fallará, deseas continuar de todas meneras?"))
+            {
+                return;
+            }
 
             if (string.IsNullOrEmpty(path_mov_sys))
             {
@@ -909,9 +954,10 @@ namespace Importador_Contable_BA
 
             string numeroComprobante = "43983";
             //fecha
-            string day = DateTime.Today.ToString("dd");
-            string month = DateTime.Today.ToString("MM");
-            string year = DateTime.Today.ToString("yy"); 
+            DateTime today = DateTime.Today;
+            string day = today.ToString("dd");
+            string month = today.ToString("MM");
+            string year = today.ToString("yy"); 
 
             string nombreCliente = "Francisca Gutiérrez Ufman";
             string detallePago = "Gastos comunes";
