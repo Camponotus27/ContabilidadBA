@@ -448,8 +448,8 @@ namespace Importador_Contable_BA
 
 
                 // TODO: Esperar correccion de las cuentas contables
-                EComprobante comprobante_fondo_de_reserva = new EComprobante("FONDO DE RESERVA", nombre_mes, numero_comprobante_inicial + 8, fecha_ultimo_dia_mes, 1600114, 9100111);
-                EComprobante comprobante_mejoras = new EComprobante("MEJORAS", nombre_mes, numero_comprobante_inicial + 9, fecha_ultimo_dia_mes, 6100105, 9100111);
+                EComprobante comprobante_fondo_de_reserva = new EComprobante("FONDO DE RESERVA", nombre_mes, numero_comprobante_inicial + 8, fecha_ultimo_dia_mes, 1600107, 9100111);
+                EComprobante comprobante_mejoras = new EComprobante("MEJORAS", nombre_mes, numero_comprobante_inicial + 9, fecha_ultimo_dia_mes, 6100114, 9100111);
 
                 List<EComprobante> lista_comprobantes_reemplazo_otros = new List<EComprobante>()
                 {
