@@ -15,19 +15,22 @@ namespace Entidades
         int numero_comprobante;
         string glosa;
         string rut;
+        string parcela;
         int abono;
         int cargo;
         int correlativo;
 
-        public EComprobante_Detalle(string rut, string glosa, int abono)
+        public EComprobante_Detalle(string parcela, string rut, string glosa, int abono)
         {
+            this.Parcela = parcela;
             this.rut = rut;
             this.glosa = glosa;
             this.abono = abono;
         }
 
-        public EComprobante_Detalle(int numero_cuenta, string rut, string glosa, int abono)
+        public EComprobante_Detalle(string parcela, int numero_cuenta, string rut, string glosa, int abono)
         {
+            this.Parcela = parcela;
             this.numero_cuenta = numero_cuenta;
             this.rut = rut;
             this.glosa = glosa;
@@ -99,6 +102,7 @@ namespace Entidades
         public int Correlativo { get => correlativo; set => correlativo = value; }
         public string Mes { get => fecha.ToString("MM");}
         public string Rut { get => rut; set => rut = value; }
+        public string Parcela { get => parcela; set => parcela = value; }
 
         public override string ToString()
         {

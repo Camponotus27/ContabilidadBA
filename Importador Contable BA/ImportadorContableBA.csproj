@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="ComprobantePago.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -567,7 +567,7 @@ namespace Importador_Contable_BA
                                 // valores hoja
                                 string valor_parcela_value = Formateador.GetExcel<string>(hoja, "D1");
                                 string valor_sector_value = Formateador.GetExcel<string>(hoja, "D2");
-                                string valor_propietarior_value = Formateador.GetExcel<string>(hoja, "C3");
+                                string valor_propietario_value = Formateador.GetExcel<string>(hoja, "C3");
 
                                 string glosa_personalizada = Formateador.GetExcel<string>(hoja, "A2");
                                 string rut = Formateador.GetExcel<string>(hoja, "A3");
@@ -588,6 +588,7 @@ namespace Importador_Contable_BA
                                     valor_parcela_value = Formateador.GetExcel<string>(hoja, "M1");
                                     valor_sector_value = Formateador.GetExcel<string>(hoja, "M2");
                                 }
+
 
                                 /*
                                 if (valor_parcela != "PARCELA")
@@ -707,6 +708,7 @@ namespace Importador_Contable_BA
                                         if (hoja.Name != "LBA-P6")
                                         {
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                 valor_parcela_value,
                                                  comprobante_energia.Cuenta_abono,
                                                  rut,
                                                  glosa,
@@ -717,6 +719,7 @@ namespace Importador_Contable_BA
                                         if (hoja.Name != "LBA-P6 (2)")
                                         {
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                valor_parcela_value,
                                                 comprobante_gasto_comun.Cuenta_abono,
                                                 rut,
                                                 glosa,
@@ -724,18 +727,21 @@ namespace Importador_Contable_BA
                                             ));
 
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     comprobante_agua.Cuenta_abono,
                                                     rut,
                                                     glosa,
                                                     agua
                                                 ));
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     comprobante_cargo_fijo_agua.Cuenta_abono,
                                                     rut,
                                                     glosa,
                                                     cargo_fijo_agua
                                                 ));
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     comprobante_cuota_asoc.Cuenta_abono,
                                                     rut,
                                                     glosa,
@@ -748,6 +754,7 @@ namespace Importador_Contable_BA
                                                 if (nota_otros_ingresos.Contains("'" + comp_temp.Nombre_comprobante + "'"))
                                                 {
                                                     comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                        valor_parcela_value,
                                                         comp_temp.Cuenta_abono,
                                                         rut,
                                                         glosa,
@@ -762,6 +769,7 @@ namespace Importador_Contable_BA
                                             if (!se_intercambio_el_comprobante_otro)
                                             {
                                                 comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                        valor_parcela_value,
                                                         comprobante_otros_ingresos.Cuenta_abono,
                                                         rut,
                                                         glosa,
@@ -770,6 +778,7 @@ namespace Importador_Contable_BA
                                             }
 
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     comprobante_multa_e_intereses.Cuenta_abono,
                                                     rut,
                                                     glosa,
@@ -778,12 +787,14 @@ namespace Importador_Contable_BA
 
                                             // TODO: Validar si las nuevas columnas sumas o restan que pedo con la cobranza juducial
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     fondo_de_reserva
                                                 ));
 
                                             comprobante_cobranza_judicial.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     mejoras
@@ -795,6 +806,7 @@ namespace Importador_Contable_BA
                                         if (hoja.Name != "LBA-P6")
                                         {
                                             comprobante_energia.Add(new EComprobante_Detalle(
+                                                valor_parcela_value,
                                                 rut,
                                                 glosa,
                                                 energia
@@ -804,22 +816,26 @@ namespace Importador_Contable_BA
                                         if (hoja.Name != "LBA-P6 (2)")
                                         {
                                             comprobante_gasto_comun.Add(new EComprobante_Detalle(
+                                                valor_parcela_value,
                                                 rut,
                                                 glosa,
                                                 gastos_comunes
                                             ));
 
                                             comprobante_agua.Add(new EComprobante_Detalle(
+                                                valor_parcela_value,
                                                 rut,
                                                 glosa,
                                                 agua
                                             ));
                                             comprobante_cargo_fijo_agua.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     cargo_fijo_agua
                                                 ));
                                             comprobante_cuota_asoc.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     cuota_asoc
@@ -831,6 +847,7 @@ namespace Importador_Contable_BA
                                                 if (nota_otros_ingresos.Contains("'" + comp_temp.Nombre_comprobante + "'"))
                                                 {
                                                     comp_temp.Add(new EComprobante_Detalle(
+                                                        valor_parcela_value,
                                                         rut,
                                                         glosa,
                                                         otros_ingresos
@@ -844,6 +861,7 @@ namespace Importador_Contable_BA
                                             if (!se_intercambio_el_comprobante_otro)
                                             {
                                                 comprobante_otros_ingresos.Add(new EComprobante_Detalle(
+                                                       valor_parcela_value,
                                                        rut,
                                                        glosa,
                                                        otros_ingresos
@@ -852,24 +870,36 @@ namespace Importador_Contable_BA
 
 
                                             comprobante_multa_e_intereses.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     multa_e_intereses
                                                 ));
 
                                             comprobante_fondo_de_reserva.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     fondo_de_reserva
                                                 ));
 
                                             comprobante_mejoras.Add(new EComprobante_Detalle(
+                                                    valor_parcela_value,
                                                     rut,
                                                     glosa,
                                                     mejoras
                                                 ));
                                         }
                                     }
+
+
+                                    ComprobantePago comprobantePago = new ComprobantePago();
+                                    comprobantePago.Propietario = valor_propietario_value;
+                                    comprobantePago.DetalleDePago = "Gastos comunes";
+                                    comprobantePago.Parcela = valor_parcela_value;
+                                    comprobantePago.Numero = 23;
+
+                                    comprobantePago.Numero = 23;
 
                                     GenerarPDF();
                                 }
